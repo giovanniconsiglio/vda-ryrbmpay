@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f1c24">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Valle d'Aosta 8–15 agosto</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏔️</text></svg>">
+<style>
+:root{
+  --bg:#0f1c24; --card:#17282f; --card2:#1e343d; --line:#2b464f;
+  --tx:#eaf2f5; --tx2:#a8c0c9; --tx3:#7d99a3;
+  --ac:#5fc0d9; --gr:#6cc48a; --am:#e0a94a; --rd:#e07b6a;
+  --sh:0 2px 10px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{max-width:100%;overflow-x:clip}
+body{
+  font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  background:var(--bg);color:var(--tx);
+  padding:0 0 88px;
+}
+.wrap{max-width:560px;margin:0 auto;padding:0 14px}
+
+/* header */
+header{
+  position:sticky;top:0;z-index:20;background:#0f1c24;
+  border-bottom:1px solid var(--line);
+  padding:calc(env(safe-area-inset-top) + 10px) 0 0;
+}
+.htop{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 14px 8px;max-width:560px;margin:0 auto}
+.htitle{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ac);font-weight:700}
+.hnow{font-size:11px;color:var(--tx3)}
+.days{display:flex;gap:6px;overflow-x:auto;padding:0 14px 10px;max-width:560px;margin:0 auto;scrollbar-width:none}
+.days::-webkit-scrollbar{display:none}
+.dchip{
+  flex:none;min-width:46px;padding:6px 3px;border-radius:10px;text-align:center;
+  background:var(--card);border:1px solid var(--line);cursor:pointer;transition:.15s;
+}
+.dchip.on{background:var(--ac);border-color:var(--ac);color:#06222b}
+.dchip.today:not(.on){border-color:var(--am)}
+.dchip b{display:block;font-size:16px;line-height:1.1}
+.dchip span{font-size:10px;text-transform:uppercase;letter-spacing:.06em;opacity:.8}
+
+/* tabs */
+nav.tabs{
+  position:fixed;bottom:0;left:0;right:0;z-index:30;
+  display:flex;background:#17282f;
+  border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);
+}
+nav.tabs button{
+  flex:1;min-width:0;background:none;border:0;color:var(--tx3);font:inherit;font-size:10.5px;
+  padding:9px 2px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;
+}
+nav.tabs button.on{color:var(--ac)}
+nav.tabs svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+
+section{display:none;padding-top:14px}
+section.on{display:block}
+
+
+h2.dh{font-size:22px;line-height:1.15;letter-spacing:-.02em;margin:2px 0 3px}
+.dsub{font-size:12px;color:var(--tx3);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:12px}
+
+/* weather */
+.wx{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:14px;padding:13px 14px;margin-bottom:12px;border-left:3px solid var(--w)}
+.wx .ic{font-size:26px;line-height:1}
+.wx .t{flex:1;min-width:0}
+.wx .t b{display:block;font-size:14px}
+.wx .t span{font-size:12px;color:var(--tx2);display:block;margin-top:1px}
+.wx .tp{text-align:right;font-size:19px;font-weight:700;white-space:nowrap}
+.wx .tp small{display:block;font-size:9.5px;font-weight:400;color:var(--tx3);text-transform:uppercase;letter-spacing:.05em}
+
+/* meta pills */
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.pill{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:12px;color:var(--tx2)}
+.pill b{color:var(--tx);font-weight:600}
+
+/* timeline */
+.step{display:flex;gap:11px;padding-bottom:14px;position:relative}
+.step::before{content:"";position:absolute;left:5px;top:16px;bottom:0;width:2px;background:var(--line)}
+.step:last-child::before{display:none}
+.dot{width:12px;height:12px;border-radius:50%;flex:none;margin-top:4px;background:var(--bg);border:2px solid var(--ac);z-index:1}
+.step.key .dot{background:var(--ac)}
+.step.meal .dot{border-color:var(--gr);background:var(--gr)}
+.sb{flex:1;min-width:0}
+.hh{display:block;font-size:12px;font-weight:700;color:var(--ac);letter-spacing:.03em}
+.step.meal .hh{color:var(--gr)}
+.tx{display:block;font-size:14px;margin-top:3px;color:var(--tx);overflow-wrap:anywhere}
+.tx b{font-weight:600}
+.tx i{color:var(--tx2);font-style:italic}
+.nav{
+  display:inline-flex;align-items:center;gap:6px;margin-top:7px;
+  background:var(--card2);border:1px solid var(--line);border-radius:9px;
+  padding:7px 11px;font-size:12.5px;font-weight:600;color:var(--ac);text-decoration:none;
+}
+.nav svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2}
+.tel{color:var(--gr);text-decoration:none;font-weight:600;border-bottom:1px dotted var(--gr)}
+
+/* boxes */
+.box{background:var(--card);border-radius:14px;padding:13px 14px;margin:12px 0;border-left:3px solid var(--tx3)}
+.box.warn{border-left-color:var(--rd)}
+.box.tip{border-left-color:var(--gr)}
+.box.kit{border-left-color:var(--am)}
+.box h4{font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--tx3);margin-bottom:6px;font-weight:700}
+.box.warn h4{color:var(--rd)} .box.tip h4{color:var(--gr)} .box.kit h4{color:var(--am)}
+.box p{font-size:13.5px;color:var(--tx2)}
+.box p b{color:var(--tx)}
+.kitlist{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.kitlist span{background:var(--card2);border-radius:8px;padding:5px 9px;font-size:12.5px;color:var(--tx)}
+
+/* checklist */
+.chk{display:flex;align-items:flex-start;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.chk:last-child{border:0}
+.cbox{width:21px;height:21px;flex:none;border-radius:6px;border:2px solid var(--tx3);margin-top:1px;position:relative;transition:.15s}
+.chk.done .cbox{background:var(--gr);border-color:var(--gr)}
+.chk.done .cbox::after{content:"";position:absolute;left:6px;top:2px;width:5px;height:10px;border:solid #06222b;border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
+.chk .cl{flex:1;font-size:14px}
+.chk.done .cl{color:var(--tx3);text-decoration:line-through}
+.chk .cl small{display:block;color:var(--tx3);font-size:12px;margin-top:1px;text-decoration:none}
+
+h3.blk{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--ac);margin:22px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+h3.blk:first-child{margin-top:4px}
+
+.card{background:var(--card);border-radius:14px;padding:13px 14px;margin-bottom:9px}
+.card .ct{font-size:15px;font-weight:600;margin-bottom:3px}
+.card .cs{font-size:12.5px;color:var(--tx2)}
+.card .cact{display:flex;gap:8px;margin-top:9px;flex-wrap:wrap}
+.card .cact a{
+  display:inline-flex;align-items:center;gap:5px;background:var(--card2);
+  border:1px solid var(--line);border-radius:9px;padding:7px 11px;
+  font-size:12.5px;font-weight:600;text-decoration:none;color:var(--ac);
+}
+.card .cact a.g{color:var(--gr)}
+.card .cact svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2}
+
+.wkrow{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.wkrow:last-child{border:0}
+.wkrow .wd{width:52px;flex:none;font-weight:700;font-size:12.5px}
+.wkrow .wi{font-size:18px;width:24px;text-align:center;flex:none}
+.wkrow .wt{flex:1;color:var(--tx2);font-size:12.5px}
+.wkrow .wv{font-size:11px;font-weight:700;padding:3px 7px;border-radius:6px;white-space:nowrap}
+.wv.g{background:rgba(108,196,138,.16);color:var(--gr)}
+.wv.a{background:rgba(224,169,74,.16);color:var(--am)}
+.wv.r{background:rgba(224,123,106,.16);color:var(--rd)}
+
+.foot{text-align:center;color:var(--tx3);font-size:11.5px;padding:22px 0 4px;line-height:1.6}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="htop">
+    <span class="htitle">Valle d'Aosta 2026</span>
+    <span class="hnow" id="now"></span>
+  </div>
+  <div class="days" id="days"></div>
+</header>
+
+<div class="wrap">
+  <section id="s-oggi" class="on"></section>
+  <section id="s-meteo"></section>
+  <section id="s-info"></section>
+  <section id="s-kit"></section>
+</div>
+
+<nav class="tabs">
+  <button class="on" data-s="oggi"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Giorno</button>
+  <button data-s="meteo"><svg viewBox="0 0 24 24"><path d="M7 16a4 4 0 0 1 .5-8 5.5 5.5 0 0 1 10.4 1.5A3.3 3.3 0 0 1 17.5 16z"/><path d="M8.5 19l-1 2.5M12.5 19l-1 2.5M16.5 19l-1 2.5"/></svg>Meteo</button>
+  <button data-s="info"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>Utile</button>
+  <button data-s="kit"><svg viewBox="0 0 24 24"><path d="M6 8h12a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2z"/><path d="M9 8V5.5A2.5 2.5 0 0 1 11.5 3h1A2.5 2.5 0 0 1 15 5.5V8"/></svg>Valigia</button>
+</nav>
+
+<script>
+const P=[
+{d:"2026-08-08",dow:"Sab",n:8,t:"Arrivo e primo contatto",sub:"Giorno 1 · Milano → Antey",
+ w:{i:"☀️",b:"Sereno, 0 mm",s:"Il giorno più bello della settimana",t:"15°/27°",l:"Antey",c:"#6cc48a"},
+ p:["🚗 Auto · 185 km · 2h15","🛒 Balios","🍽️ Cena fuori"],
+ kit:["Documenti","Seggiolino auto","Borsa frigo per il viaggio","Cambio a portata di mano"],
+ s:[
+ {h:"13:00 – 14:30",x:"Arrivo all'<b>Agriturismo Au Jardin Fleuri</b>, check-in e sistemazione.",k:1,g:"45.8073,7.5928",gn:"Au Jardin Fleuri"},
+ {h:"14:30 – 15:30",x:"Disimballaggio bagagli con calma e relax post-viaggio."},
+ {h:"15:30 – 17:30",x:"Passeggiata col Balios verso la frazione <b>Filey</b>, tutto pianeggiante. Sosta al parco giochi vicino alla chiesa.",g:"45.8117,7.5878",gn:"Filey"},
+ {h:"17:30 – 18:30",x:"<b>Spesa d'emergenza</b> nei negozi di Antey: colazioni, acqua, latte, pappe della piccola."},
+ {h:"18:30 – 19:45",x:"Docce, relax e primo riordino della camera."},
+ {h:"20:00 – 21:30",x:"<b>Cena — Pan et Vin</b>, fraz. Filey (2 min). Osteria valdostana: polenta concia, taglieri, valpellinentze.<br><a class='tel' href='tel:+390166504487'>☎ 0166 504487</a>",m:1,g:"45.8117,7.5878",gn:"Pan et Vin"},
+ {h:"21:45 – 22:00",x:"Rientro e nanna."}],
+ box:[{t:"warn",h:"Prenotare oggi stesso",x:"Pan et Vin per stasera — è agosto pieno. Chiuso il mercoledì e il martedì sera."}]},
+
+{d:"2026-08-09",dow:"Dom",n:9,t:"Chamois, il borgo senza auto",sub:"Giorno 2 · Funivia da Buisson",
+ w:{i:"⛅",b:"Sole al mattino",s:"Rovesci in quota dal primo pomeriggio, 3,5 mm",t:"11°/22°",l:"Chamois",c:"#6cc48a"},
+ p:["🚡 Auto 5 min + funivia","🛒 Balios + marsupio","🍽️ Pranzo al lago"],
+ kit:["Pile o felpa per tutti","Giacca antivento","Marsupio per la seggiovia","Cappellini e crema solare","Acqua","Contanti per la funivia"],
+ s:[
+ {h:"08:00 – 08:45",x:"Sveglia e colazione."},
+ {h:"09:00 · Partenza",x:"In auto verso la funivia di <b>Buisson</b>. <i>Unico giorno in cui vale la pena stringere sull'orario.</i>",k:1,g:"45.8189,7.6100",gn:"Funivia Buisson"},
+ {h:"09:30 – 11:00",x:"Salita in funivia ed esplorazione a piedi di <b>Chamois</b>: niente auto, aria purissima, stradine perfette per il Balios.",g:"45.8433,7.6222",gn:"Chamois"},
+ {h:"11:00 – 13:00",x:"Seggiovia e <b>Lago di Lod</b> (la piccola nel marsupio, il passeggino si carica). Prato e relax."},
+ {h:"13:00 – 14:15",x:"<b>Pranzo — Baita Fontana Freida</b>, self-service veloce sul lago. <a class='tel' href='tel:+39016647139'>☎ 0166 47139</a><br><i>Da Bruna (☎ 338 1700170) è più bello ma vi porta oltre l'ora e mezza.</i>",m:1},
+ {h:"14:30 – 15:15",x:"<b>Discesa seggiovia e funivia entro le 15:15</b>, prima dei rovesci.",k:1},
+ {h:"15:30 – 16:45",x:"<b>Spesa grande al Conad di Châtillon</b> (10 min da Buisson), scorta per tutta la settimana.",g:"45.7480,7.6100",gn:"Conad Châtillon"},
+ {h:"17:00",x:"Rientro ad Antey, nanna della piccola in auto."},
+ {h:"20:00 · 22:00",x:"Cena in appartamento, poi nanna."}],
+ box:[{t:"tip",h:"Sono 10 gradi meno che a valle",x:"A Chamois si sta a <b>11–22°</b> mentre ad Antey ci sono 27°. La felpa per la piccola non è opzionale."}]},
+
+{d:"2026-08-10",dow:"Lun",n:10,t:"Gli animali del Gran Paradiso",sub:"Giorno 3 · Valsavarenche",
+ w:{i:"⛅",b:"Variabile, 0,3 mm",s:"Il giorno migliore per la quota dopo sabato",t:"12°/21°",l:"Pont",c:"#6cc48a"},
+ p:["🚗 Auto · 55 min","🎒 Zaino porta-bimbo","🍽️ Pranzo al rifugio"],
+ kit:["Zaino porta-bimbo","Scarponcini o scarpe da trekking","Binocolo per marmotte e stambecchi","Giacca a vento","Crema solare alta","Borraccia"],
+ s:[
+ {h:"08:30 – 09:20",x:"Sveglia e colazione energetica."},
+ {h:"09:30 · Partenza",x:"Direzione <b>Pont, Valsavarenche</b>. Antey → Châtillon → A5 → Villeneuve.",k:1,g:"45.5178,7.2033",gn:"Pont Valsavarenche"},
+ {h:"10:30 – 12:30",x:"Passeggiata pianeggiante sterrata verso il <b>Rifugio Tétras Lyre</b>, 15 min dal parcheggio. Il grande fa il detective a caccia di marmotte e stambecchi."},
+ {h:"12:30 – 14:00",x:"<b>Pranzo al Rifugio Tétras Lyre</b> (2000 m), il pasto forte della giornata. Nanna della piccola all'aperto. <a class='tel' href='tel:+390165905732'>☎ 0165 905732</a>",m:1},
+ {h:"14:00 – 14:45",x:"Relax nei prati."},
+ {h:"15:15 – 16:15",x:"Sulla via del ritorno, sosta a <b>Dégioz</b>: Centro Visitatori del Parco, molto amato dai bambini.",g:"45.5883,7.2072",gn:"Dégioz"},
+ {h:"17:15 · 20:00",x:"Rientro ad Antey. Cena in appartamento."}],
+ box:[{t:"tip",h:"Passeggino da trekking?",x:"È l'unica giornata che lo giustificherebbe. Per un giorno solo conviene lo <b>zaino porta-bimbo</b>: a 9 mesi sta seduta bene, costa meno del noleggio e sullo sterrato è superiore."}]},
+
+{d:"2026-08-11",dow:"Mar",n:11,t:"Parco Avventura e cavalli",sub:"Giorno 4 · Zero auto",
+ w:{i:"🌦️",b:"Rovesci sparsi, 3 h",s:"La giornata giusta per restare a 10 min da casa",t:"17°/26°",l:"Antey",c:"#e0a94a"},
+ p:["🚶 A piedi","🛒 Balios","🥪 Pranzo al sacco"],
+ kit:["Scarpe chiuse per il grande","Pantaloni lunghi sportivi","Cambio completo","Borsa frigo e telo per il picnic","K-way per tutti"],
+ s:[
+ {h:"08:30 – 09:20",x:"Sveglia e colazione. Scarpe chiuse e pantaloni sportivi per il grande. <b>Preparate il sacco del pranzo.</b>"},
+ {h:"09:30 · Partenza",x:"A piedi verso l'<b>Area Sportiva di Antey</b>, lungo il fiume.",k:1,g:"45.8064,7.5867",gn:"Area Sportiva Antey"},
+ {h:"10:00 – 13:00",x:"<b>Parco Avventura.</b> Un genitore segue il 6enne sui percorsi, l'altro all'ombra dei pini con la piccola nel Balios: la pineta è freschissima.",k:1},
+ {h:"13:00 – 14:00",x:"<b>Pranzo al sacco</b> all'area picnic.",m:1},
+ {h:"14:00 – 15:00",x:"Nanna dei bimbi all'ombra dei pini."},
+ {h:"15:00 – 16:30",x:"Passeggiata di 10 min fino al <b>Sunny Ranch</b>: cavalli e pony."},
+ {h:"17:00 – 19:45",x:"Rientro all'agriturismo, docce e relax."},
+ {h:"20:00 – 21:30",x:"<b>Cena — Pizzeria La Marmotta</b>, Filey (5 min). Dopo una giornata sugli alberi, la pizza è la mossa vincente col 6enne.",m:1,g:"45.8117,7.5878",gn:"La Marmotta Filey"}],
+ box:[{t:"tip",h:"Il vantaggio di oggi",x:"Ai primi tuoni si rientra in <b>15 minuti</b>. È per questo che il giorno più instabile della settimana è anche quello senza auto."}]},
+
+{d:"2026-08-12",dow:"Mer",n:12,t:"Il Cervino: Lago Blu e Lago di Maen",sub:"Giorno 5 · Riorganizzata",
+ w:{i:"⛈️",b:"Mattina utilizzabile",s:"Temporali in quota dal primo pomeriggio, 5,1 mm",t:"13°/18°",l:"Lago Blu",c:"#e0a94a"},
+ p:["🚗 Auto · 25 min","🛒 Balios","🍽️ Pranzo a Valtournenche"],
+ kit:["Felpa e giacca antipioggia","Scarpe comode chiuse","Macchina fotografica","Borsa termica per la Fontina"],
+ s:[
+ {h:"08:30 – 09:20",x:"Sveglia e colazione."},
+ {h:"09:30 · Partenza",x:"In auto verso Breuil-Cervinia.",k:1},
+ {h:"10:00 – 11:30",x:"<b>Lago Blu.</b> Unica visita della settimana ma la migliore: acqua ancora ferma, riflesso nitido del Cervino, luce piena. Giro del lago col Balios.",k:1,g:"45.9186,7.6367",gn:"Lago Blu"},
+ {h:"11:45 – 13:00",x:"Discesa in auto al <b>Lago di Maen</b>, giro ad anello del lago.",g:"45.8756,7.6203",gn:"Lago di Maen"},
+ {h:"13:00 – 14:30",x:"<b>Pranzo a Valtournenche</b> — Lo Gurfo (panoramico, sopra le grotte) o La Maison du Coq Rouge (familiare, in centro). Al chiuso: fuori intanto si copre.",m:1,g:"45.8783,7.6222",gn:"Valtournenche"},
+ {h:"14:30 – 15:15",x:"Centro di <b>Valtournenche</b>: Fontina DOP e souvenir."},
+ {h:"15:45 · 20:00",x:"Rientro ad Antey, pomeriggio in agriturismo mentre piove. Cena in appartamento."}],
+ box:[{t:"warn",h:"Parcheggio Lago Blu",x:"Alle 10:00 si trova ancora posto, <b>dalle 11:00 in agosto no</b>. Se uscite con più di mezz'ora di ritardo, invertite: prima il Lago di Maen, poi il Lago Blu verso mezzogiorno accettando la folla."}]},
+
+{d:"2026-08-13",dow:"Gio",n:13,t:"Castelli e Aosta romana",sub:"Giorno 6 · Fondovalle",
+ w:{i:"⛅",b:"Fondovalle asciutto",s:"Aosta 0 mm, ma in quota temporali forti: 11,7 mm",t:"19°/29°",l:"Aosta",c:"#e0a94a"},
+ p:["🚗 Auto · 20 min","🛒 Balios","🍽️ Pranzo in trattoria"],
+ kit:["Vestiti leggeri, oggi fa caldo","Cappellini e crema solare","Acqua abbondante","K-way in borsa comunque"],
+ s:[
+ {h:"08:30 – 09:20",x:"Sveglia e colazione."},
+ {h:"09:30 · Partenza",x:"In auto per <b>Fénis</b>.",k:1,g:"45.7383,7.4906",gn:"Castello di Fénis"},
+ {h:"10:00 – 12:00",x:"<b>Castello di Fénis</b>: torri medievali e prato pianeggiante intorno. Anche solo l'esterno vale la sosta."},
+ {h:"12:00 – 12:30",x:"Spostamento ad <b>Aosta</b> centro.",g:"45.7372,7.3206",gn:"Aosta centro"},
+ {h:"12:30 – 14:00",x:"<b>Pranzo in trattoria</b> — Trattoria degli Artisti (menu settimanale, zuppe valdostane) o Hostaria del Calvino (polenta e fontina, camoscio). Entrambe in centro storico, raggiungibili col Balios.",m:1},
+ {h:"14:00 – 15:45",x:"Vie pedonali romane: <b>Porta Pretoria</b> e <b>Teatro Romano</b>. Nanna della piccola in carrozzina. Eventuale rincalzo spesa."},
+ {h:"16:15 · 20:00",x:"Rientro ad Antey per evitare il caldo pomeridiano in città. Cena in appartamento."}],
+ box:[{t:"tip",h:"Oggi si sta in basso, ed è voluto",x:"In quota sono previsti <b>11,7 mm</b>: è il giorno peggiore della settimana sopra i 2000 m. Aosta invece resta asciutta."}]},
+
+{d:"2026-08-14",dow:"Ven",n:14,t:"Forte di Bard",sub:"Giorno 7 · Al coperto",
+ w:{i:"🌧️",b:"8,4 mm in 9 ore",s:"Il giorno peggiore: temporali anche a fondovalle",t:"15°/29°",l:"Antey",c:"#e07b6a"},
+ p:["🚗 Auto · 45 min","🛒 Balios","🍽️ Pranzo al Forte"],
+ kit:["Impermeabili e ombrello","Scarpe di ricambio","Felpa leggera: dentro il forte è fresco","Copertura per il passeggino"],
+ s:[
+ {h:"09:00 – 09:45",x:"Sveglia e colazione con calma: tanto piove."},
+ {h:"09:45 · Partenza",x:"In auto per il <b>Forte di Bard</b>. Antey → Châtillon → A5 → uscita Verrès.",k:1,g:"45.6053,7.7458",gn:"Forte di Bard"},
+ {h:"10:30 – 13:00",x:"<b>Forte di Bard</b>, tutto al coperto, ad agosto aperto ogni giorno 10–19. Salita con gli <b>ascensori panoramici vetrati</b>, già un'attrazione per il 6enne. Museo <b>Le Alpi dei Ragazzi</b>: turno delle 11:30.<br><a class='tel' href='tel:+390125833818'>☎ 0125 833818</a>",k:1},
+ {h:"13:00 – 14:30",x:"<b>Pranzo al ristorante interno</b> al Forte: non si esce sotto la pioggia.",m:1},
+ {h:"14:30 – 16:00",x:"Se il grande regge: seconda sezione del museo o borgo medievale di Bard ai piedi del forte."},
+ {h:"17:00 – 19:00",x:"<b>Valigie e carico auto</b>: smontare le ruote del Balios per farlo entrare nella Clio.",k:1},
+ {h:"20:00 · 22:00",x:"Ultima cena in appartamento, svuota-frigo. Nanna."}],
+ box:[{t:"warn",h:"Il carico auto stasera non è opzionale",x:"È l'unica cosa che rende possibile partire alle 11:30 domani senza correre con due bambini da vestire."}]},
+
+{d:"2026-08-15",dow:"Sab",n:15,t:"Saluti e partenza",sub:"Giorno 8 · Ferragosto",
+ w:{i:"🌧️",b:"9 mm in circa 15 ore",s:"Pioggia diffusa e prolungata su tutta la vallata",t:"16°/28°",l:"Antey",c:"#e07b6a"},
+ p:["🚗 Auto · 2h15","🛒 Balios smontato","🥪 Pranzo al sacco"],
+ kit:["Impermeabili a portata di mano","Snack e acqua per il viaggio","Caricabatterie in abitacolo"],
+ s:[
+ {h:"08:30 – 09:30",x:"Sveglia, colazione di Ferragosto, ultimi bagagli."},
+ {h:"09:30 – 10:30",x:"Passeggiata ridotta tra le frazioni di <b>Lillaz e Nuarsaz</b> — solo se c'è una tregua. Con 15 ore di pioggia previste, mettete in conto di saltarla."},
+ {h:"10:30 – 11:30",x:"Carico auto, saluti, check-out."},
+ {h:"11:30 – 12:00",x:"<b>Partenza definitiva.</b> Si evita sia il picco della pioggia sia il traffico di rientro di Ferragosto.",k:1},
+ {h:"~14:15",x:"Arrivo a Milano. Pranzo al sacco lungo il percorso.",m:1}]}
+];
+
+const WEEK=[
+ ["Sab 8","☀️","Sereno · 15–27° · quota asciutta","Ottimo","g"],
+ ["Dom 9","⛅","Variabile · 15–27° · 3,5 mm in quota dal pom.","Buono","g"],
+ ["Lun 10","⛅","Variabile · 16–27° · Gran Paradiso 0,3 mm","Buono","g"],
+ ["Mar 11","🌦️","Rovesci 3 h · 17–26° · 2,7 mm in quota","Stare bassi","a"],
+ ["Mer 12","⛈️","Nuvoloso · 17–25° · 5,1 mm dal pomeriggio","Solo mattina","a"],
+ ["Gio 13","⛅","Aosta 0 mm · 19–29° · in quota 11,7 mm","Fondovalle","a"],
+ ["Ven 14","🌧️","8,4 mm in 9 h · 15–29°","Al coperto","r"],
+ ["Sab 15","🌧️","9 mm in 15 h · 16–28°","Partire","r"]
+];
+
+const BOOK=[
+ {t:"Pan et Vin",s:"Antey, fraz. Filey · cena di sabato 8, ore 20:00",tel:"+390166504487",g:"45.8117,7.5878"},
+ {t:"Le Alpi dei Ragazzi — Forte di Bard",s:"Venerdì 14, turno delle 11:30 · va prenotato in anticipo",tel:"+390125833818",g:"45.6053,7.7458"},
+ {t:"Rifugio Tétras Lyre",s:"Pont, Valsavarenche · pranzo di lunedì 10",tel:"+390165905732",g:"45.5178,7.2033"}
+];
+
+const UTIL=[
+ {t:"Emergenza unica",s:"Ambulanza, soccorso alpino, carabinieri",tel:"112"},
+ {t:"Ospedale Parini",s:"Aosta · il pronto soccorso di riferimento della valle",g:"45.7397,7.3178"},
+ {t:"Au Jardin Fleuri",s:"La base · Antey-Saint-André, 1149 m",g:"45.8073,7.5928"},
+ {t:"Conad Châtillon",s:"La spesa grande · 10 min da Buisson",g:"45.7480,7.6100"}
+];
+
+const KIT=[
+ ["Prima di partire — da fare oggi","Prenotare Pan et Vin per sabato sera","Prenotare Le Alpi dei Ragazzi, venerdì 14 ore 11:30","Prenotare il Rifugio Tétras Lyre per lunedì","Scaricare le mappe offline della Valle d'Aosta","Controllo auto: gomme, olio, liquido lavavetri","Documenti e tessere sanitarie dei bimbi","Power bank carico","Salvare questa app sulla schermata home"],
+ ["Bimba 9 mesi","Pappe e omogeneizzati","Biberon e scaldabiberon","Sacco nanna","Crema solare alta protezione","Cappellino con visiera","Cambi abbondanti","Termometro"],
+ ["Bimbo 6 anni","Scarpe chiuse da ginnastica","Pantaloni lunghi sportivi","K-way","Costume e telo","Binocolo per gli animali","Qualcosa per l'auto"],
+ ["Trasporto","Seggiolino auto","Passeggino Cybex Balios","Marsupio da città","Zaino porta-bimbo (lunedì)","Chiave per smontare le ruote del Balios"],
+ ["Abbigliamento","Pile o felpa per tutti","Giacca antivento","Impermeabili o ombrelli","Scarponcini da trekking","Vestiti leggeri per Aosta"],
+ ["Farmacia","Paracetamolo pediatrico","Cerotti e disinfettante","Repellente zanzare","Crema doposole","Farmaci personali"],
+ ["Varie","Borsa frigo per i picnic","Telo da prato","Borracce","Contanti per funivia e rifugi","Caricabatterie e power bank"]
+];
+
+/* ---------- render ---------- */
+const el=s=>document.querySelector(s);
+const gmap=(c,n)=>`https://www.google.com/maps/dir/?api=1&destination=${c}&destination_name=${encodeURIComponent(n||'')}&travelmode=driving`;
+const NAVSVG=`<svg viewBox="0 0 24 24"><path d="M3 11l18-8-8 18-2-8z"/></svg>`;
+const TELSVG=`<svg viewBox="0 0 24 24"><path d="M21 16.5v2.6a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3 18.7 18.7 0 0 1-5.7-5.7 19 19 0 0 1-3-8.4A2 2 0 0 1 3.8 2h2.6a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.6a2 2 0 0 1-.5 2.1L7.5 9.6a15 15 0 0 0 5.7 5.7l1.2-1.1a2 2 0 0 1 2.1-.5c.8.3 1.7.6 2.6.7a2 2 0 0 1 1.7 2z"/></svg>`;
+
+const today=()=>{const t=new Date();return t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0')};
+let idx=Math.max(0,P.findIndex(d=>d.d===today()));if(idx<0)idx=0;
+
+function chips(){
+  el('#days').innerHTML=P.map((d,i)=>
+   `<div class="dchip${i===idx?' on':''}${d.d===today()?' today':''}" data-i="${i}"><b>${d.n}</b><span>${d.dow}</span></div>`).join('');
+  document.querySelectorAll('.dchip').forEach(c=>c.onclick=()=>{idx=+c.dataset.i;chips();day();window.scrollTo(0,0)});
+}
+
+function day(){
+  const d=P[idx];
+  el('#s-oggi').innerHTML=`
+   <h2 class="dh">${d.t}</h2><div class="dsub">${d.sub}</div>
+   <div class="wx" style="--w:${d.w.c}"><span class="ic">${d.w.i}</span>
+     <span class="t"><b>${d.w.b}</b><span>${d.w.s}</span></span>
+     <span class="tp">${d.w.t}<small>${d.w.l}</small></span></div>
+   <div class="pills">${d.p.map(x=>`<span class="pill">${x}</span>`).join('')}</div>
+   ${d.s.map(s=>`<div class="step${s.k?' key':''}${s.m?' meal':''}"><span class="dot"></span><span class="sb">
+      <span class="hh">${s.h}</span><span class="tx">${s.x}</span>
+      ${s.g?`<a class="nav" href="${gmap(s.g,s.gn)}" target="_blank" rel="noopener">${NAVSVG} ${s.gn}</a>`:''}
+     </span></div>`).join('')}
+   ${(d.box||[]).map(b=>`<div class="box ${b.t}"><h4>${b.h}</h4><p>${b.x}</p></div>`).join('')}
+   ${d.kit?`<div class="box kit"><h4>Cosa serve oggi</h4><div class="kitlist">${d.kit.map(k=>`<span>${k}</span>`).join('')}</div></div>`:''}
+   <div class="foot">Previsioni del 7 agosto · verificale in loco dall'11 in poi</div>`;
+}
+
+el('#s-meteo').innerHTML=`<h3 class="blk">La settimana</h3>
+ ${WEEK.map(w=>`<div class="wkrow"><span class="wd">${w[0]}</span><span class="wi">${w[1]}</span>
+   <span class="wt">${w[2]}</span><span class="wv ${w[4]}">${w[3]}</span></div>`).join('')}
+ <div class="box tip"><h4>La regola della settimana</h4><p>L'instabilità è tutta <b>pomeridiana</b>. Ogni gita in quota va chiusa entro le 15:00: non serve alzarsi all'alba, serve tagliare una tappa e rientrare presto.</p></div>
+ <div class="box"><h4>Aggiornare le previsioni</h4><p>I dati sono del 7 agosto. Da martedì 11 riverificateli: apri il meteo di Antey o chiedimi un aggiornamento da Telegram.</p>
+ <div class="card cact" style="background:none;padding:0;margin-top:10px"><a href="https://www.ilmeteo.it/meteo/Antey-Saint-Andr%C3%A9" target="_blank" rel="noopener">${NAVSVG} Meteo Antey</a>
+ <a href="https://www.ilmeteo.it/meteo/Breuil-Cervinia" target="_blank" rel="noopener">${NAVSVG} Meteo Cervinia</a></div></div>`;
+
+el('#s-info').innerHTML=`<h3 class="blk">Da prenotare</h3>
+ ${BOOK.map(b=>`<div class="card"><div class="ct">${b.t}</div><div class="cs">${b.s}</div><div class="cact">
+   ${b.tel?`<a class="g" href="tel:${b.tel}">${TELSVG} Chiama</a>`:''}
+   ${b.g?`<a href="${gmap(b.g,b.t)}" target="_blank" rel="noopener">${NAVSVG} Naviga</a>`:''}</div></div>`).join('')}
+ <h3 class="blk">Numeri e posti utili</h3>
+ ${UTIL.map(b=>`<div class="card"><div class="ct">${b.t}</div><div class="cs">${b.s}</div><div class="cact">
+   ${b.tel?`<a class="g" href="tel:${b.tel}">${TELSVG} ${b.tel}</a>`:''}
+   ${b.g?`<a href="${gmap(b.g,b.t)}" target="_blank" rel="noopener">${NAVSVG} Naviga</a>`:''}</div></div>`).join('')}
+ <h3 class="blk">Come funziona il programma</h3>
+ <div class="box"><h4>Le regole che lo tengono in piedi</h4><p>Uscita mai prima delle <b>9:30</b> · tutti a nanna alle <b>22:00</b> · massimo <b>1h30 a tavola</b>, pranzi e cene · un solo pasto fuori al giorno, quasi sempre a pranzo · le cene fuori solo in locali a meno di 5 minuti da casa.</p></div>
+ <div class="box tip"><h4>In riserva</h4><p><b>Torgnon: Petit Monde e Summer Park di Chantorné.</b> 15 min in auto, strada poderale ampia dove il Balios scorre bene. Recuperabile mercoledì pomeriggio se le nuvole non si chiudono, o martedì al posto del Parco Avventura.</p></div>`;
+
+el('#s-kit').innerHTML=`<h3 class="blk">Valigia e accessori</h3>
+ <div class="box"><h4>Spunta man mano</h4><p>Le spunte restano salvate su questo telefono, anche chiudendo l'app.</p></div>
+ <div class="box warn"><h4>Mappe offline: fallo prima di partire</h4><p>In <b>Valsavarenche</b> e a <b>Chamois</b> il segnale è scarso o assente. Su Google Maps: cerca "Valle d'Aosta" → menù → <b>Mappe offline</b> → scarica l'area. Senza, il navigatore si ferma proprio dove serve.</p></div>
+ ${KIT.map(g=>`<h3 class="blk">${g[0]}</h3>${g.slice(1).map(it=>{
+   const id='k_'+g[0].replace(/\W/g,'')+'_'+it.replace(/\W/g,'');
+   return `<div class="chk" data-k="${id}"><span class="cbox"></span><span class="cl">${it}</span></div>`}).join('')}`).join('')}
+ <div class="foot">Il passeggino da trekking serve solo lunedì:<br>meglio lo zaino porta-bimbo.</div>`;
+
+document.querySelectorAll('.chk').forEach(c=>{
+  if(localStorage.getItem(c.dataset.k)==='1')c.classList.add('done');
+  c.onclick=()=>{c.classList.toggle('done');
+    localStorage.setItem(c.dataset.k,c.classList.contains('done')?'1':'0')};
+});
+
+document.querySelectorAll('nav.tabs button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('nav.tabs button').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('section').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');el('#s-'+b.dataset.s).classList.add('on');
+  window.scrollTo(0,0);
+});
+
+(function(){
+  const t=new Date(),n=today(),d=P.find(x=>x.d===n);
+  el('#now').textContent=d?`Oggi · giorno ${P.indexOf(d)+1} di 8`
+    :(n<P[0].d?`Si parte l'8 agosto`:`Viaggio concluso`);
+})();
+
+chips();day();
+</script>
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+</html>

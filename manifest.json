@@ -1,0 +1,17 @@
+{
+  "name": "Valle d'Aosta 8–15 agosto",
+  "short_name": "Valle d'Aosta",
+  "description": "Programma di viaggio con navigazione, meteo e checklist",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f1c24",
+  "theme_color": "#0f1c24",
+  "lang": "it",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
