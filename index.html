@@ -487,13 +487,99 @@ function wireMaps(){
   });
 }
 
-el('#s-meteo').innerHTML=`<h3 class="blk">La settimana</h3>
+
+/* ---------- meteo che si aggiorna da solo ---------- */
+const WXPOS=[  // una coordinata per giorno: dove siete davvero
+ [45.808,7.593],[45.845,7.625],[45.518,7.203],[45.808,7.593],
+ [45.919,7.637],[45.737,7.320],[45.605,7.746],[45.808,7.593]];
+const WXLAB=["Antey","Chamois","Pont","Antey","Lago Blu","Aosta","Bard","Antey"];
+
+function wmo(c){
+ if(c===0)              return {i:"☀️",b:"Sereno"};
+ if(c===1||c===2)       return {i:"⛅",b:"Poco nuvoloso"};
+ if(c===3)              return {i:"☁️",b:"Nuvoloso"};
+ if(c===45||c===48)     return {i:"🌫️",b:"Nebbia"};
+ if(c>=51&&c<=57)       return {i:"🌦️",b:"Pioviggine"};
+ if(c>=61&&c<=67)       return {i:"🌧️",b:"Pioggia"};
+ if(c>=71&&c<=77)       return {i:"🌨️",b:"Neve"};
+ if(c>=80&&c<=82)       return {i:"🌦️",b:"Rovesci"};
+ if(c>=95)              return {i:"⛈️",b:"Temporali"};
+ return {i:"☁️",b:"Variabile"};
+}
+function wxColor(mm,pr){
+ if(mm>=5) return "var(--rd)";
+ if(mm>=1||pr>=55) return "var(--am)";
+ return "var(--gr)";
+}
+
+const WXURL=(()=>{
+ const la=WXPOS.map(p=>p[0]).join(','), lo=WXPOS.map(p=>p[1]).join(',');
+ return `https://api.open-meteo.com/v1/forecast?latitude=${la}&longitude=${lo}`
+  +`&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max`
+  +`&timezone=Europe%2FRome&start_date=2026-08-08&end_date=2026-08-15`;
+})();
+
+function applyWx(data,when){
+ const arr = Array.isArray(data) ? data : [data];
+ P.forEach((d,i)=>{
+   const loc = arr[i]; if(!loc||!loc.daily) return;
+   const k = loc.daily.time.indexOf(d.d); if(k<0) return;
+   const w = wmo(loc.daily.weather_code[k]);
+   const mx = Math.round(loc.daily.temperature_2m_max[k]);
+   const mn = Math.round(loc.daily.temperature_2m_min[k]);
+   const mm = loc.daily.precipitation_sum[k];
+   const pr = loc.daily.precipitation_probability_max[k];
+   d.w = {i:w.i, b:`${w.b}, ${mm.toFixed(1).replace('.',',')} mm`,
+          s:`Probabilità di pioggia ${pr}%`,
+          t:`${mn}°/${mx}°`, l:WXLAB[i], c:wxColor(mm,pr)};
+   d.wk = [w.i, `${w.b} · ${mn}–${mx}° · ${mm.toFixed(1).replace('.',',')} mm · ${pr}%`,
+           mm>=5?"Al coperto":(mm>=1||pr>=55?"Attenzione":"Buono"),
+           mm>=5?"r":(mm>=1||pr>=55?"a":"g")];
+ });
+ WXSTAMP = when;
+ day(); renderMeteo();
+}
+
+let WXSTAMP = null;
+
+function renderMeteo(){
+ const fresh = WXSTAMP
+   ? `Aggiornato ${new Date(WXSTAMP).toLocaleString('it-IT',{day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'})}`
+   : 'Dati del 7 agosto — non ancora aggiornati';
+ el('#s-meteo').innerHTML=`<h3 class="blk">La settimana</h3>
+  ${P.map((d,i)=>{const w=d.wk||WEEK[i];return `<div class="wkrow"><span class="wd">${d.dow} ${d.n}</span>
+    <span class="wi">${w[0]}</span><span class="wt">${w[1]}</span>
+    <span class="wv ${w[3]||w[4]}">${w[2]}</span></div>`}).join('')}
+  <div class="box ${WXSTAMP?'tip':''}"><h4>${WXSTAMP?'Previsioni fresche':'Previsioni da aggiornare'}</h4>
+   <p>${fresh}. L'app le riscarica da sola a ogni apertura con rete, per la località dove siete quel giorno — non per il fondovalle.</p>
+   <div style="margin-top:10px"><button class="mapbtn" id="wxnow">${MAPSVG} Aggiorna adesso</button></div></div>
+  <div class="box tip"><h4>La regola della settimana</h4><p>L'instabilità è tutta <b>pomeridiana</b>. Ogni gita in quota va chiusa entro le 15:00: non serve alzarsi all'alba, serve tagliare una tappa e rientrare presto.</p></div>`;
+ const b=el('#wxnow'); if(b) b.onclick=()=>loadWx(true);
+}
+
+function loadWx(force){
+ const cached = localStorage.getItem('wx');
+ if(cached && !force){
+   try{const c=JSON.parse(cached); applyWx(c.d,c.t);}catch(e){}
+ }
+ if(!navigator.onLine){ if(!cached) renderMeteo(); return; }
+ const b=el('#wxnow'); if(b) b.textContent='Aggiorno…';
+ fetch(WXURL).then(r=>r.json()).then(j=>{
+   const t=Date.now();
+   localStorage.setItem('wx',JSON.stringify({d:j,t:t}));
+   applyWx(j,t);
+ }).catch(()=>{ renderMeteo(); });
+}
+
+/* render statico sostituito da renderMeteo() */
+const _OLD_METEO=`
  ${WEEK.map(w=>`<div class="wkrow"><span class="wd">${w[0]}</span><span class="wi">${w[1]}</span>
    <span class="wt">${w[2]}</span><span class="wv ${w[4]}">${w[3]}</span></div>`).join('')}
  <div class="box tip"><h4>La regola della settimana</h4><p>L'instabilità è tutta <b>pomeridiana</b>. Ogni gita in quota va chiusa entro le 15:00: non serve alzarsi all'alba, serve tagliare una tappa e rientrare presto.</p></div>
  <div class="box"><h4>Aggiornare le previsioni</h4><p>I dati sono del 7 agosto. Da martedì 11 riverificateli: apri il meteo di Antey o chiedimi un aggiornamento da Telegram.</p>
  <div class="card cact" style="background:none;padding:0;margin-top:10px"><a href="https://www.ilmeteo.it/meteo/Antey-Saint-Andr%C3%A9" target="_blank" rel="noopener">${NAVSVG} Meteo Antey</a>
  <a href="https://www.ilmeteo.it/meteo/Breuil-Cervinia" target="_blank" rel="noopener">${NAVSVG} Meteo Cervinia</a></div></div>`;
+loadWx(false);
 
 
 const STAR=`<svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor;stroke:none"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.4-5.8-3-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z"/></svg>`;
