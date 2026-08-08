@@ -572,13 +572,6 @@ function loadWx(force){
 }
 
 /* render statico sostituito da renderMeteo() */
-const _OLD_METEO=`
- ${WEEK.map(w=>`<div class="wkrow"><span class="wd">${w[0]}</span><span class="wi">${w[1]}</span>
-   <span class="wt">${w[2]}</span><span class="wv ${w[4]}">${w[3]}</span></div>`).join('')}
- <div class="box tip"><h4>La regola della settimana</h4><p>L'instabilità è tutta <b>pomeridiana</b>. Ogni gita in quota va chiusa entro le 15:00: non serve alzarsi all'alba, serve tagliare una tappa e rientrare presto.</p></div>
- <div class="box"><h4>Aggiornare le previsioni</h4><p>I dati sono del 7 agosto. Da martedì 11 riverificateli: apri il meteo di Antey o chiedimi un aggiornamento da Telegram.</p>
- <div class="card cact" style="background:none;padding:0;margin-top:10px"><a href="https://www.ilmeteo.it/meteo/Antey-Saint-Andr%C3%A9" target="_blank" rel="noopener">${NAVSVG} Meteo Antey</a>
- <a href="https://www.ilmeteo.it/meteo/Breuil-Cervinia" target="_blank" rel="noopener">${NAVSVG} Meteo Cervinia</a></div></div>`;
 loadWx(false);
 
 
