@@ -54,7 +54,7 @@ nav.tabs{
   border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);
 }
 nav.tabs button{
-  flex:1;min-width:0;background:none;border:0;color:var(--tx3);font:inherit;font-size:10.5px;
+  flex:1;min-width:0;background:none;border:0;color:var(--tx3);font:inherit;font-size:9.8px;
   padding:9px 2px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;
 }
 nav.tabs button.on{color:var(--ac)}
@@ -101,6 +101,32 @@ h2.dh{font-size:22px;line-height:1.15;letter-spacing:-.02em;margin:2px 0 3px}
 }
 .nav svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2}
 .tel{color:var(--gr);text-decoration:none;font-weight:600;border-bottom:1px dotted var(--gr)}
+.acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:7px}
+.acts .nav{margin-top:0}
+.mapbtn{background:var(--card2);border:1px solid var(--line);border-radius:9px;padding:7px 11px;
+ font:inherit;font-size:12.5px;font-weight:600;color:var(--tx2);cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.mapbtn.on{color:var(--ac);border-color:var(--ac)}
+.mapbtn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2}
+.mapwrap{margin-top:8px}
+.mapwrap iframe{width:100%;height:210px;border:0;border-radius:12px;display:block;background:var(--card2)}
+.mapoff{background:var(--card2);border-radius:12px;padding:14px;font-size:12.5px;color:var(--tx3);text-align:center}
+/* tavola */
+.mrow{background:var(--card);border-radius:14px;padding:13px 14px;margin-bottom:9px;border-left:3px solid var(--line)}
+.mrow.pick{border-left-color:var(--gr)}
+.mhead{display:flex;align-items:baseline;gap:7px;flex-wrap:wrap;margin-bottom:4px}
+.mhead .mn{font-size:15px;font-weight:600}
+.mtag{font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+ padding:2px 6px;border-radius:5px;background:rgba(108,196,138,.16);color:var(--gr)}
+.mtag.alt{background:var(--card2);color:var(--tx3)}
+.mrow .md{font-size:13px;color:var(--tx2);line-height:1.4}
+.mrow .mw{font-size:12px;color:var(--am);margin-top:5px}
+.mlinks{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap}
+.mlinks a{display:inline-flex;align-items:center;gap:5px;background:var(--card2);border:1px solid var(--line);
+ border-radius:8px;padding:6px 10px;font-size:11.5px;font-weight:600;text-decoration:none;color:var(--tx2)}
+.mlinks a.g{color:var(--gr)} .mlinks a.b{color:var(--ac)}
+.mday{display:flex;align-items:baseline;gap:8px;margin:20px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.mday b{font-size:13px;color:var(--ac);text-transform:uppercase;letter-spacing:.08em}
+.mday span{font-size:12px;color:var(--tx3)}
 
 /* boxes */
 .box{background:var(--card);border-radius:14px;padding:13px 14px;margin:12px 0;border-left:3px solid var(--tx3)}
@@ -165,6 +191,7 @@ h3.blk:first-child{margin-top:4px}
 <div class="wrap">
   <section id="s-oggi" class="on"></section>
   <section id="s-meteo"></section>
+  <section id="s-tavola"></section>
   <section id="s-info"></section>
   <section id="s-kit"></section>
 </div>
@@ -172,6 +199,7 @@ h3.blk:first-child{margin-top:4px}
 <nav class="tabs">
   <button class="on" data-s="oggi"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Giorno</button>
   <button data-s="meteo"><svg viewBox="0 0 24 24"><path d="M7 16a4 4 0 0 1 .5-8 5.5 5.5 0 0 1 10.4 1.5A3.3 3.3 0 0 1 17.5 16z"/><path d="M8.5 19l-1 2.5M12.5 19l-1 2.5M16.5 19l-1 2.5"/></svg>Meteo</button>
+  <button data-s="tavola"><svg viewBox="0 0 24 24"><path d="M6 3v7a2.5 2.5 0 0 0 5 0V3M8.5 10v11"/><path d="M17.5 21V13c2 0 2.8-1.4 2.8-4.4C20.3 5.2 19.3 3 17.5 3s-2.8 2.2-2.8 5.6c0 3 .8 4.4 2.8 4.4z"/></svg>Tavola</button>
   <button data-s="info"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>Utile</button>
   <button data-s="kit"><svg viewBox="0 0 24 24"><path d="M6 8h12a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2z"/><path d="M9 8V5.5A2.5 2.5 0 0 1 11.5 3h1A2.5 2.5 0 0 1 15 5.5V8"/></svg>Valigia</button>
 </nav>
@@ -302,6 +330,71 @@ const WEEK=[
  ["Sab 15","🌧️","9 mm in 15 h · 16–28°","Partire","r"]
 ];
 
+
+const BASE_COORD="45.8073,7.5928";
+const TAVOLA=[
+ {d:"Sabato 8",m:"Cena",z:"Antey · 20:00",o:[
+  {n:"Pan et Vin",t:"La scelta",g:"45.8117,7.5878",tel:"+390166504487",q:"Osteria Pan et Vin Antey-Saint-André",
+   x:"Osteria in pietra e legno, fraz. Filey, 2 min in auto. Cucina contadina valdostana con prodotti a km 0: polenta concia, taglieri di salumi e formaggi, valpellinentze, lardo con castagne e miele. Quaranta coperti dentro, cinquanta fuori.",
+   w:"Chiuso il mercoledì e il martedì sera — domenica sera solo su prenotazione"},
+  {n:"La Grolla",t:"Se vince la pizza",q:"Hotel La Grolla Antey-Saint-André ristorante",
+   x:"Ristorante d'albergo a Filey. Valdostana, nazionale e pizze: la via di mezzo se il 6enne non vuole polenta. Sala con finestre affacciate sul Cervino."},
+  {n:"Locanda Monte Cervino",t:"Alternativa",q:"Locanda Monte Cervino Antey-Saint-André",
+   x:"Valdostana e nazionale in ambiente caldo e accogliente. Comoda se Pan et Vin è pieno — ad agosto succede."}]},
+
+ {d:"Domenica 9",m:"Pranzo",z:"Lago di Lod · 13:00",o:[
+  {n:"Baita Fontana Freida",t:"La scelta",tel:"+39016647139",q:"Baita Fontana Freida Chamois Lago di Lod",
+   x:"Self-service proprio sul lago: polenta concia e liscia, gnocchi di patate con fonduta. Oggi conta la velocità — dovete essere in funivia entro le 15:15 e qui si mangia in un'ora.",
+   w:"È l'unico giorno con l'orologio: non sforate"},
+  {n:"Da Bruna dal 1980",t:"Più bello, più lento",tel:"+393381700170",q:"Ristorante Da Bruna Chamois Lago di Lod",
+   x:"Accanto al self-service, con il lago come sfondo. Taglieri valdostani, polenta concia con spezzatino e salsiccia, grigliate, pasta fresca fatta in casa. Da sedersi con calma — ma vi porta oltre l'ora e mezza."},
+  {n:"Chez Pierina",t:"Se restate nel borgo",tel:"+39016647126",q:"Chez Pierina Chamois Corgnolaz",
+   x:"A Corgnolaz, nel paese, sul sentiero per La Magdeleine. A gestione familiare: zuppa di pane della nonna Pierina, pasta fatta in casa, crespelle alla valdostana. Se rinunciate alla seggiovia per il lago."}]},
+
+ {d:"Lunedì 10",m:"Pranzo",z:"Valsavarenche · 12:30",o:[
+  {n:"Rifugio Tétras Lyre",t:"La scelta",tel:"+390165905732",q:"Rifugio Tetras Lyre Valsavarenche",
+   x:"A 2000 m, quindici minuti a piedi dal parcheggio di Pont: è esattamente il punto d'arrivo della passeggiata. Cucina di montagna, tavoli all'aperto. Il pasto forte della giornata, con la piccola che dorme al sole.",
+   w:"Prenotate: ad agosto il rifugio si riempie"},
+  {n:"Hotel Gran Paradiso",t:"A Pont",q:"Hotel Gran Paradiso Pont Valsavarenche",
+   x:"Una delle poche strutture dentro il perimetro del Parco, a 2000 m sul pianoro di Pont. Comodo se la passeggiata la accorciate e restate vicino all'auto."},
+  {n:"Hostellerie du Paradis",t:"Sulla via del ritorno",q:"Hostellerie du Paradis Valsavarenche Degioz",
+   x:"A tre chilometri da Dégioz, familiare, specialità regionali. Da tenere se al rifugio non trovate posto: è sulla strada verso il Centro Visitatori."}]},
+
+ {d:"Martedì 11",m:"Cena",z:"Antey · 20:00",o:[
+  {n:"Pizzeria La Marmotta",t:"La scelta",q:"Ristorante Pizzeria La Marmotta Antey-Saint-André Filey",
+   x:"A Filey, cinque minuti da casa. Dopo una giornata passata sugli alberi del Parco Avventura, la pizza è la mossa che vince col bambino di 6 anni senza discussioni."},
+  {n:"Copapan",t:"Alternativa",q:"Copapan Antey-Saint-André Covalou pizzeria",
+   x:"A Covalou: pizze in molte varianti e piatti valdostani, ambiente familiare. Stessa logica della Marmotta, sull'altro versante del paese."},
+  {n:"La Grolla",t:"Se volete cucina",q:"Hotel La Grolla Antey-Saint-André ristorante",
+   x:"Se dopo il picnic di mezzogiorno preferite una cena vera invece della pizza, restando comunque a Filey."}]},
+
+ {d:"Mercoledì 12",m:"Pranzo",z:"Valtournenche · 13:00",o:[
+  {n:"Antica trattoria Lo Gurfo",t:"La scelta",q:"Antica trattoria Lo Gurfo Valtournenche",
+   x:"Incastonata nella roccia sopra le Marmitte dei Giganti, posizione notevole. Cucina tradizionale curata: polenta con i funghi, antipaldi caldi e freddi, dolci della casa. Circa 20-40 euro, giudizio molto alto sulle guide.",
+   w:"Pochi coperti: prenotate la mattina stessa"},
+  {n:"La Maison du Coq Rouge",t:"Familiare",q:"La Maison du Coq Rouge Valtournenche",
+   x:"Nel cuore del paese, gestione familiare. Piatti della tradizione savoiarda e valdostana con vini locali selezionati. Più semplice da gestire con la carrozzina rispetto a Lo Gurfo."},
+  {n:"Pizzeria La Grotta",t:"Il ripiego coi bambini",q:"Ristorante Pizzeria La Grotta Valtournenche",
+   x:"In centro, menu ampio: carne, pesce, vegetariano e piatti valdostani, più le pizze. La rete di sicurezza se piove forte e volete qualcosa di veloce per tutti."}]},
+
+ {d:"Giovedì 13",m:"Pranzo",z:"Aosta · 12:30",o:[
+  {n:"Trattoria degli Artisti",t:"La scelta",q:"Trattoria degli Artisti Aosta",
+   x:"Nel centro storico, menu che cambia ogni settimana con molti piatti valdostani: zuppe con funghi, cereali, farro e castagne. Raggiungibile col passeggino dalle vie pedonali."},
+  {n:"Hostaria del Calvino",t:"Più tipica",q:"Hostaria del Calvino Aosta",
+   x:"Centrale, molto regionale: polenta con la fontina, carne di camoscio, taglieri di formaggi valdostani, fonduta. La scelta se volete il piatto identitario."},
+  {n:"Osteria dell\u2019Oca",t:"Col 6enne",q:"Osteria dell Oca Aosta via Edouard Aubert",
+   x:"In via Edouard Aubert 15. Cucina tradizionale valdostana e vini del territorio, ma anche una buona scelta di pizze: mette d\u2019accordo adulti e bambini."}]},
+
+ {d:"Venerdì 14",m:"Pranzo",z:"Bard · 13:00",o:[
+  {n:"Ristorante interno al Forte",t:"La scelta",q:"Forte di Bard ristorante caffetteria",
+   x:"Dentro il Forte: oggi piovono 8,4 mm in nove ore e il punto è non uscire. Si mangia e si torna al museo senza mettere il naso fuori, col passeggino negli ascensori.",
+   w:"L\u2019unica scelta che non vi bagna"},
+  {n:"Casa Ciuca",t:"Nel borgo",q:"Casa Ciuca Bard tavola calda enoteca",
+   x:"Tavola calda ed enoteca nel borgo medievale, a pochi passi dal parcheggio del Forte. Vini valdostani e piatti caldi della tradizione. Breve tratto scoperto per arrivarci."},
+  {n:"Del Mulino",t:"A Hône",q:"Ristorante Del Mulino Hone Bard",
+   x:"Appena oltre il ponte, a Hône: pizze, panini, piatti freddi e specialità valdostane, parcheggio privato e terrazza con vista sulla fortezza. Aperto tutto il giorno, comodo se uscite dal Forte a orari strani."}]}
+];
+
 const BOOK=[
  {t:"Pan et Vin",s:"Antey, fraz. Filey · cena di sabato 8, ore 20:00",tel:"+390166504487",g:"45.8117,7.5878"},
  {t:"Le Alpi dei Ragazzi — Forte di Bard",s:"Venerdì 14, turno delle 11:30 · va prenotato in anticipo",tel:"+390125833818",g:"45.6053,7.7458"},
@@ -329,6 +422,12 @@ const KIT=[
 const el=s=>document.querySelector(s);
 const gmap=(c,n)=>`https://www.google.com/maps/dir/?api=1&destination=${c}&destination_name=${encodeURIComponent(n||'')}&travelmode=driving`;
 const NAVSVG=`<svg viewBox="0 0 24 24"><path d="M3 11l18-8-8 18-2-8z"/></svg>`;
+const MAPSVG=`<svg viewBox="0 0 24 24"><path d="M9 3L3 5.5v15L9 18l6 3 6-2.5v-15L15 6z"/><path d="M9 3v15M15 6v15"/></svg>`;
+// tragitto A->B: apre il navigatore con partenza già impostata
+const gdir=(from,to,name)=>`https://www.google.com/maps/dir/?api=1&origin=${from}&destination=${to}&destination_name=${encodeURIComponent(name||'')}&travelmode=driving`;
+// anteprima del tragitto dentro l'app (richiede rete)
+const gembed=(from,to)=>{const[a,b]=from.split(','),[c,d]=to.split(',');
+  return `https://www.google.com/maps/embed?origin=mfe&pb=!1m9!4m8!4m3!3m2!1d${a}!2d${b}!4m3!3m2!1d${c}!2d${d}`;};
 const TELSVG=`<svg viewBox="0 0 24 24"><path d="M21 16.5v2.6a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3 18.7 18.7 0 0 1-5.7-5.7 19 19 0 0 1-3-8.4A2 2 0 0 1 3.8 2h2.6a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.6a2 2 0 0 1-.5 2.1L7.5 9.6a15 15 0 0 0 5.7 5.7l1.2-1.1a2 2 0 0 1 2.1-.5c.8.3 1.7.6 2.6.7a2 2 0 0 1 1.7 2z"/></svg>`;
 
 const today=()=>{const t=new Date();return t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0')};
@@ -348,13 +447,39 @@ function day(){
      <span class="t"><b>${d.w.b}</b><span>${d.w.s}</span></span>
      <span class="tp">${d.w.t}<small>${d.w.l}</small></span></div>
    <div class="pills">${d.p.map(x=>`<span class="pill">${x}</span>`).join('')}</div>
-   ${d.s.map(s=>`<div class="step${s.k?' key':''}${s.m?' meal':''}"><span class="dot"></span><span class="sb">
-      <span class="hh">${s.h}</span><span class="tx">${s.x}</span>
-      ${s.g?`<a class="nav" href="${gmap(s.g,s.gn)}" target="_blank" rel="noopener">${NAVSVG} ${s.gn}</a>`:''}
-     </span></div>`).join('')}
+   ${(()=>{let prev=BASE_COORD,prevN="l'agriturismo";
+     return d.s.map((s,i)=>{
+       let acts='';
+       if(s.g){
+         const from=prev,fromN=prevN;
+         acts=`<div class="acts">
+            <a class="nav" href="${gdir(from,s.g,s.gn)}" target="_blank" rel="noopener">${NAVSVG} ${from===BASE_COORD&&i>0?'Percorso':'Percorso da '+fromN}</a>
+            <button class="mapbtn" data-from="${from}" data-to="${s.g}">${MAPSVG} Mappa</button>
+           </div><div class="mapwrap"></div>`;
+         prev=s.g;prevN=s.gn;
+       }
+       return `<div class="step${s.k?' key':''}${s.m?' meal':''}"><span class="dot"></span><span class="sb">
+        <span class="hh">${s.h}</span><span class="tx">${s.x}</span>${acts}</span></div>`;
+     }).join('')})()}
    ${(d.box||[]).map(b=>`<div class="box ${b.t}"><h4>${b.h}</h4><p>${b.x}</p></div>`).join('')}
    ${d.kit?`<div class="box kit"><h4>Cosa serve oggi</h4><div class="kitlist">${d.kit.map(k=>`<span>${k}</span>`).join('')}</div></div>`:''}
    <div class="foot">Previsioni del 7 agosto · verificale in loco dall'11 in poi</div>`;
+  wireMaps();
+}
+
+function wireMaps(){
+  document.querySelectorAll('.mapbtn').forEach(b=>{
+    b.onclick=()=>{
+      const w=b.parentElement.nextElementSibling;
+      if(b.classList.contains('on')){b.classList.remove('on');w.innerHTML='';return;}
+      b.classList.add('on');
+      if(!navigator.onLine){
+        w.innerHTML='<div class="mapoff">Serve la connessione per l\'anteprima.<br>Il pulsante <b>Percorso</b> funziona comunque: apre Maps con le mappe offline.</div>';
+        return;
+      }
+      w.innerHTML=`<iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="${gembed(b.dataset.from,b.dataset.to)}"></iframe>`;
+    };
+  });
 }
 
 el('#s-meteo').innerHTML=`<h3 class="blk">La settimana</h3>
@@ -364,6 +489,30 @@ el('#s-meteo').innerHTML=`<h3 class="blk">La settimana</h3>
  <div class="box"><h4>Aggiornare le previsioni</h4><p>I dati sono del 7 agosto. Da martedì 11 riverificateli: apri il meteo di Antey o chiedimi un aggiornamento da Telegram.</p>
  <div class="card cact" style="background:none;padding:0;margin-top:10px"><a href="https://www.ilmeteo.it/meteo/Antey-Saint-Andr%C3%A9" target="_blank" rel="noopener">${NAVSVG} Meteo Antey</a>
  <a href="https://www.ilmeteo.it/meteo/Breuil-Cervinia" target="_blank" rel="noopener">${NAVSVG} Meteo Cervinia</a></div></div>`;
+
+
+const TA_SVG=`<svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.3-4.3"/></svg>`;
+const gsearch=q=>`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+const tasearch=q=>`https://www.tripadvisor.it/Search?q=${encodeURIComponent(q)}`;
+
+el('#s-tavola').innerHTML=`<h3 class="blk">Dove mangiare — tre scelte per pasto</h3>
+ <div class="box"><h4>Come leggerle</h4><p>La prima è quella su cui è costruito il programma: orari, distanze e tempi tornano. Le altre due sono lì per quando è pieno, per quando piove, o per quando il grande non ne vuole sapere di polenta.</p></div>
+ ${TAVOLA.map(p=>`
+  <div class="mday"><b>${p.d} · ${p.m}</b><span>${p.z}</span></div>
+  ${p.o.map((o,i)=>`
+   <div class="mrow${i===0?' pick':''}">
+     <div class="mhead"><span class="mn">${o.n}</span><span class="mtag${i===0?'':' alt'}">${o.t}</span></div>
+     <div class="md">${o.x}</div>
+     ${o.w?`<div class="mw">${o.w}</div>`:''}
+     <div class="mlinks">
+       ${o.tel?`<a class="g" href="tel:${o.tel}">${TELSVG} Chiama</a>`:''}
+       <a class="b" href="${o.g?gmap(o.g,o.n):gsearch(o.q)}" target="_blank" rel="noopener">${NAVSVG} Naviga</a>
+       <a href="${gsearch(o.q)}" target="_blank" rel="noopener">${TA_SVG} Recensioni Google</a>
+       <a href="${tasearch(o.q)}" target="_blank" rel="noopener">${TA_SVG} TripAdvisor</a>
+     </div>
+   </div>`).join('')}
+ `).join('')}
+ <div class="foot">Un pasto fuori al giorno, massimo un'ora e mezza a tavola.<br>Le altre sere si cena in appartamento.</div>`;
 
 el('#s-info').innerHTML=`<h3 class="blk">Da prenotare</h3>
  ${BOOK.map(b=>`<div class="card"><div class="ct">${b.t}</div><div class="cs">${b.s}</div><div class="cact">
