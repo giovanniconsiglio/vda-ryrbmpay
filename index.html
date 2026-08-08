@@ -77,6 +77,13 @@ h2.dh{font-size:22px;line-height:1.15;letter-spacing:-.02em;margin:2px 0 3px}
 .wx .tp small{display:block;font-size:9.5px;font-weight:400;color:var(--tx3);text-transform:uppercase;letter-spacing:.05em}
 
 /* meta pills */
+.dry{font-size:12.5px;font-weight:600;padding:8px 11px;border-radius:10px;margin-bottom:8px}
+.dry.ok{background:rgba(108,196,138,.14);color:var(--gr)}
+.dry.no{background:rgba(224,169,74,.14);color:var(--am)}
+.hbar{margin-bottom:12px}
+.hb{display:inline-block;width:calc(6.25% - 1px);height:16px;margin-right:1px;border-radius:2px;vertical-align:top;background:var(--card2)}
+.hb.l1{background:rgba(224,169,74,.45)} .hb.l2{background:var(--am)} .hb.l3{background:var(--rd)}
+.hlab{display:flex;justify-content:space-between;font-size:9.5px;color:var(--tx3);margin-top:3px;padding:0 1px}
 .pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
 .pill{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:12px;color:var(--tx2)}
 .pill b{color:var(--tx);font-weight:600}
@@ -451,6 +458,11 @@ function day(){
    <div class="wx" style="--w:${d.w.c}"><span class="ic">${d.w.i}</span>
      <span class="t"><b>${d.w.b}</b><span>${d.w.s}</span></span>
      <span class="tp">${d.w.t}<small>${d.w.l}</small></span></div>
+   ${d.dry?`<div class="dry ${d.dry.ok?'ok':'no'}">${d.dry.txt}</div>`:''}
+   ${d.hh?`<div class="hbar">${d.hh.map(x=>{
+      const lv = x.mm>=1?3:(x.mm>=0.2?2:(x.p>=60?1:0));
+      return `<span class="hb l${lv}" title="${x.h}:00 · ${x.mm.toFixed(1)} mm · ${x.p}%"></span>`;
+     }).join('')}<div class="hlab"><span>7</span><span>12</span><span>17</span><span>22</span></div></div>`:''}
    <div class="pills">${d.p.map(x=>`<span class="pill">${x}</span>`).join('')}</div>
    ${(()=>{let prev=BASE_COORD,prevN="l'agriturismo";
      return d.s.map((s,i)=>{
@@ -493,6 +505,8 @@ const WXPOS=[  // una coordinata per giorno: dove siete davvero
  [45.808,7.593],[45.845,7.625],[45.518,7.203],[45.808,7.593],
  [45.919,7.637],[45.737,7.320],[45.605,7.746],[45.808,7.593]];
 const WXLAB=["Antey","Chamois","Pont","Antey","Lago Blu","Aosta","Bard","Antey"];
+// pagine 3B Meteo verificate (Antey non esiste sul loro sito: si usa Valtournenche, stessa valle)
+const WX3B=["valtournenche","chamois","valsavarenche","valtournenche","breuilcervinia","aosta","bard","valtournenche"];
 
 function wmo(c){
  if(c===0)              return {i:"☀️",b:"Sereno"};
@@ -516,9 +530,31 @@ const WXURL=(()=>{
  const la=WXPOS.map(p=>p[0]).join(','), lo=WXPOS.map(p=>p[1]).join(',');
  return `https://api.open-meteo.com/v1/forecast?latitude=${la}&longitude=${lo}`
   +`&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max`
+  +`&hourly=precipitation,precipitation_probability`
   +`&timezone=Europe%2FRome&start_date=2026-08-08&end_date=2026-08-15`;
 })();
 
+// dalle ore 7 alle 22: quando piove davvero
+function hourly(loc,date){
+ if(!loc.hourly||!loc.hourly.time) return null;
+ const out=[];
+ loc.hourly.time.forEach((t,i)=>{
+   if(t.slice(0,10)!==date) return;
+   const h=+t.slice(11,13);
+   if(h<7||h>22) return;
+   out.push({h:h, mm:loc.hourly.precipitation[i]||0, p:loc.hourly.precipitation_probability[i]||0});
+ });
+ return out.length?out:null;
+}
+function dryWindow(hh){
+ if(!hh) return null;
+ const wet=hh.filter(x=>x.mm>=0.2);
+ if(!wet.length) return {txt:"Asciutto tutto il giorno",ok:true};
+ const first=wet[0].h, last=wet[wet.length-1].h;
+ if(first>=18) return {txt:`Asciutto fino alle ${first}:00 — la pioggia arriva di sera`,ok:true};
+ if(last<=10)  return {txt:`Piove solo fino alle ${last+1}:00, poi migliora`,ok:true};
+ return {txt:`Pioggia dalle ${first}:00 alle ${last+1}:00`,ok:first>=15};
+}
 function applyWx(data,when){
  const arr = Array.isArray(data) ? data : [data];
  P.forEach((d,i)=>{
@@ -532,6 +568,8 @@ function applyWx(data,when){
    d.w = {i:w.i, b:`${w.b}, ${mm.toFixed(1).replace('.',',')} mm`,
           s:`Probabilità di pioggia ${pr}%`,
           t:`${mn}°/${mx}°`, l:WXLAB[i], c:wxColor(mm,pr)};
+   const hh=hourly(loc,d.d);
+   d.hh=hh; d.dry=dryWindow(hh);
    d.wk = [w.i, `${w.b} · ${mn}–${mx}° · ${mm.toFixed(1).replace('.',',')} mm · ${pr}%`,
            mm>=5?"Al coperto":(mm>=1||pr>=55?"Attenzione":"Buono"),
            mm>=5?"r":(mm>=1||pr>=55?"a":"g")];
@@ -553,7 +591,12 @@ function renderMeteo(){
   <div class="box ${WXSTAMP?'tip':''}"><h4>${WXSTAMP?'Previsioni fresche':'Previsioni da aggiornare'}</h4>
    <p>${fresh}. L'app le riscarica da sola a ogni apertura con rete, per la località dove siete quel giorno — non per il fondovalle.</p>
    <div style="margin-top:10px"><button class="mapbtn" id="wxnow">${MAPSVG} Aggiorna adesso</button></div></div>
-  <div class="box tip"><h4>La regola della settimana</h4><p>L'instabilità è tutta <b>pomeridiana</b>. Ogni gita in quota va chiusa entro le 15:00: non serve alzarsi all'alba, serve tagliare una tappa e rientrare presto.</p></div>`;
+  <div class="box"><h4>Verifica su un'altra fonte</h4>
+   <p>Questi numeri vengono dal modello <b>best-match</b> di open-meteo. Sull'entità della pioggia i modelli divergono parecchio: per domenica a Chamois vanno da 1,4 mm (ECMWF) a 14,1 mm (GFS). Sulla <b>collocazione oraria</b> invece concordano, ed è quella che decide se la gita si fa. Confrontate con 3B Meteo quando qualcosa non torna.</p>
+   <div class="mlinks" style="margin-top:10px">
+     ${P.map((d,i)=>`<a class="b" href="https://www.3bmeteo.com/meteo/${WX3B[i]}" target="_blank" rel="noopener">${d.dow} ${d.n} · ${WXLAB[i]}</a>`).join('')}
+   </div></div>
+  <div class="box tip"><h4>Come leggere la barra oraria</h4><p>Nella scheda del giorno, sotto il meteo, ogni tacca è un'ora dalle 7 alle 22. <b>Grigia</b>: asciutto. <b>Ambra chiara</b>: probabile ma senza accumulo. <b>Ambra</b>: pioggia debole. <b>Rossa</b>: sopra il millimetro. Il totale giornaliero da solo inganna — 33 mm che cadono alle 20 non toccano una gita che finisce alle 15.</p></div>`;
  const b=el('#wxnow'); if(b) b.onclick=()=>loadWx(true);
 }
 
