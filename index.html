@@ -137,6 +137,30 @@ h2.dh{font-size:22px;line-height:1.15;letter-spacing:-.02em;margin:2px 0 3px}
 .mday{display:flex;align-items:baseline;gap:8px;margin:20px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--line)}
 .mday b{font-size:13px;color:var(--ac);text-transform:uppercase;letter-spacing:.08em}
 .mday span{font-size:12px;color:var(--tx3)}
+/* spese */
+.bal{display:flex;gap:9px;margin-bottom:14px}
+.balc{flex:1;background:var(--card);border-radius:14px;padding:12px 13px;border-top:3px solid var(--bc)}
+.balc .bn{font-size:11px;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+.balc .bv{font-size:20px;font-weight:700;margin-top:3px}
+.balc .bs{font-size:11.5px;color:var(--tx3);margin-top:1px}
+.settle{background:var(--card);border-radius:14px;padding:14px;margin-bottom:14px;text-align:center;border-left:3px solid var(--gr)}
+.settle .sv{font-size:22px;font-weight:700;color:var(--gr);margin:4px 0}
+.settle .st{font-size:12.5px;color:var(--tx2)}
+.frm{background:var(--card);border-radius:14px;padding:13px;margin-bottom:14px}
+.frm input,.frm select{width:100%;background:var(--card2);border:1px solid var(--line);border-radius:9px;
+ padding:11px 12px;color:var(--tx);font:inherit;font-size:15px;margin-bottom:8px;-webkit-appearance:none}
+.frm input:focus,.frm select:focus{outline:none;border-color:var(--ac)}
+.frm .r2{display:flex;gap:8px}
+.frm .r2>*{flex:1}
+.frm button{width:100%;background:var(--ac);color:#06222b;border:0;border-radius:9px;padding:12px;
+ font:inherit;font-size:15px;font-weight:700;cursor:pointer}
+.exp{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}
+.exp .ed{flex:1;min-width:0}
+.exp .et{font-size:14px}
+.exp .em{font-size:11.5px;color:var(--tx3);margin-top:1px}
+.exp .ev{font-size:15px;font-weight:700;white-space:nowrap}
+.exp .ex{background:none;border:0;color:var(--tx3);font-size:20px;padding:0 2px;cursor:pointer;line-height:1}
+.tot{display:flex;justify-content:space-between;padding:13px 0;font-size:15px;font-weight:700;border-top:2px solid var(--line);margin-top:4px}
 
 /* boxes */
 .box{background:var(--card);border-radius:14px;padding:13px 14px;margin:12px 0;border-left:3px solid var(--tx3)}
@@ -203,6 +227,7 @@ h3.blk:first-child{margin-top:4px}
   <section id="s-meteo"></section>
   <section id="s-tavola"></section>
   <section id="s-info"></section>
+  <section id="s-spese"></section>
   <section id="s-kit"></section>
 </div>
 
@@ -211,6 +236,7 @@ h3.blk:first-child{margin-top:4px}
   <button data-s="meteo"><svg viewBox="0 0 24 24"><path d="M7 16a4 4 0 0 1 .5-8 5.5 5.5 0 0 1 10.4 1.5A3.3 3.3 0 0 1 17.5 16z"/><path d="M8.5 19l-1 2.5M12.5 19l-1 2.5M16.5 19l-1 2.5"/></svg>Meteo</button>
   <button data-s="tavola"><svg viewBox="0 0 24 24"><path d="M6 3v7a2.5 2.5 0 0 0 5 0V3M8.5 10v11"/><path d="M17.5 21V13c2 0 2.8-1.4 2.8-4.4C20.3 5.2 19.3 3 17.5 3s-2.8 2.2-2.8 5.6c0 3 .8 4.4 2.8 4.4z"/></svg>Tavola</button>
   <button data-s="info"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>Utile</button>
+  <button data-s="spese"><svg viewBox="0 0 24 24"><path d="M12 2v20M17 6.5c0-1.9-2.2-3-5-3s-5 1.1-5 3 2.2 2.6 5 3 5 1.1 5 3-2.2 3-5 3-5-1.1-5-3"/></svg>Spese</button>
   <button data-s="kit"><svg viewBox="0 0 24 24"><path d="M6 8h12a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2z"/><path d="M9 8V5.5A2.5 2.5 0 0 1 11.5 3h1A2.5 2.5 0 0 1 15 5.5V8"/></svg>Valigia</button>
 </nav>
 
@@ -733,6 +759,85 @@ el('#s-tavola').innerHTML=`<h3 class="blk">Dove mangiare — tre scelte per past
    </div>`).join('')}
  `).join('')}
  <div class="foot">Un pasto fuori al giorno, massimo un'ora e mezza a tavola.<br>Le altre sere si cena in appartamento.</div>`;
+
+
+/* ---------- spese ---------- */
+const NUCLEI={G:{n:"Giovanni, Tiziana e Bianca",s:"Noi",teste:3,c:"var(--ac)"},
+              P:{n:"Paola e Gabriele",s:"Paola",teste:2,c:"var(--am)"}};
+const SPLITS={meta:{n:"Metà e metà",G:.5,P:.5},
+              quote:{n:"A quote — 3 e 2",G:.6,P:.4},
+              solaG:{n:"Solo nostra",G:1,P:0},
+              solaP:{n:"Solo di Paola",G:0,P:1}};
+
+function loadSp(){try{return JSON.parse(localStorage.getItem('spese')||'[]')}catch(e){return[]}}
+function saveSp(a){localStorage.setItem('spese',JSON.stringify(a))}
+function eur(v){return v.toFixed(2).replace('.',',')+' €'}
+
+function renderSpese(){
+  const sp=loadSp();
+  let tot=0, pagG=0, pagP=0, dovG=0, dovP=0;
+  sp.forEach(e=>{
+    tot+=e.v;
+    if(e.by==='G') pagG+=e.v; else pagP+=e.v;
+    const q=SPLITS[e.sp]||SPLITS.meta;
+    dovG+=e.v*q.G; dovP+=e.v*q.P;
+  });
+  const saldo = pagG - dovG;   // >0: Paola deve a noi
+  const chi = saldo>=0 ? `<b>Paola</b> deve a noi` : `<b>Noi</b> dobbiamo a Paola`;
+
+  el('#s-spese').innerHTML=`<h3 class="blk">Spese del viaggio</h3>
+   <div class="settle">
+     <div class="st">${Math.abs(saldo)<0.01?'Siete in pari':chi}</div>
+     <div class="sv">${Math.abs(saldo)<0.01?'—':eur(Math.abs(saldo))}</div>
+     <div class="st">su ${eur(tot)} spesi in totale</div>
+   </div>
+   <div class="bal">
+     <div class="balc" style="--bc:var(--ac)"><div class="bn">Noi</div>
+       <div class="bv">${eur(pagG)}</div><div class="bs">anticipati · quota ${eur(dovG)}</div></div>
+     <div class="balc" style="--bc:var(--am)"><div class="bn">Paola</div>
+       <div class="bv">${eur(pagP)}</div><div class="bs">anticipati · quota ${eur(dovP)}</div></div>
+   </div>
+   <div class="frm">
+     <input id="sp-t" placeholder="Cosa — es. spesa Conad, funivia, cena">
+     <div class="r2">
+       <input id="sp-v" type="number" inputmode="decimal" step="0.01" placeholder="€">
+       <select id="sp-by">${Object.keys(NUCLEI).map(k=>`<option value="${k}">Paga ${NUCLEI[k].s}</option>`).join('')}</select>
+     </div>
+     <select id="sp-sp">${Object.keys(SPLITS).map(k=>`<option value="${k}">${SPLITS[k].n}</option>`).join('')}</select>
+     <button id="sp-add">Aggiungi spesa</button>
+   </div>
+   ${sp.length?`<h3 class="blk">Movimenti</h3>${sp.map((e,i)=>`
+     <div class="exp"><div class="ed"><div class="et">${e.t}</div>
+       <div class="em">${NUCLEI[e.by].s} · ${(SPLITS[e.sp]||SPLITS.meta).n}${e.d?' · '+e.d:''}</div></div>
+       <div class="ev">${eur(e.v)}</div><button class="ex" data-i="${i}">×</button></div>`).join('')}
+     <div class="tot"><span>Totale</span><span>${eur(tot)}</span></div>
+     <div class="frm" style="margin-top:14px"><button id="sp-share">Copia riepilogo per Paola</button></div>`
+    :'<div class="box"><h4>Ancora nessuna spesa</h4><p>Aggiungi la prima qui sopra: funivia, spesa al Conad, pranzo, benzina.</p></div>'}
+   <div class="box kit"><h4>Come si divide</h4><p><b>Metà e metà</b> per le spese di casa e auto. <b>A quote</b> divide 3 a 2, in proporzione alle teste — ha senso per la spesa alimentare e i pranzi. <b>Solo nostra</b> o <b>solo di Paola</b> per quello che riguarda un nucleo soltanto.</p></div>
+   <div class="box warn"><h4>I dati stanno su questo telefono</h4><p>Non si sincronizzano con quello di Paola. Registra tutto tu, e usa <b>Copia riepilogo</b> per mandarle il conto su WhatsApp quando volete pareggiare.</p></div>`;
+
+  const add=el('#sp-add');
+  if(add) add.onclick=()=>{
+    const t=el('#sp-t').value.trim(), v=parseFloat((el('#sp-v').value||'').replace(',','.'));
+    if(!t||!(v>0)){el('#sp-t').focus();return;}
+    const a=loadSp();
+    a.unshift({t:t,v:v,by:el('#sp-by').value,sp:el('#sp-sp').value,
+      d:new Date().toLocaleDateString('it-IT',{day:'numeric',month:'short'})});
+    saveSp(a); renderSpese();
+  };
+  document.querySelectorAll('.ex').forEach(b=>b.onclick=()=>{
+    const a=loadSp(); a.splice(+b.dataset.i,1); saveSp(a); renderSpese();
+  });
+  const sh=el('#sp-share');
+  if(sh) sh.onclick=()=>{
+    const txt='Spese Valle d\'Aosta\n\n'+sp.map(e=>`${e.d||''} ${e.t}: ${eur(e.v)} (${NUCLEI[e.by].s}, ${(SPLITS[e.sp]||SPLITS.meta).n})`).join('\n')
+      +`\n\nTotale ${eur(tot)}\nAnticipati noi ${eur(pagG)}, Paola ${eur(pagP)}\n`
+      +(Math.abs(saldo)<0.01?'Siamo in pari':(saldo>0?`Paola deve a noi ${eur(saldo)}`:`Noi dobbiamo a Paola ${eur(-saldo)}`));
+    if(navigator.share) navigator.share({text:txt}).catch(()=>{});
+    else if(navigator.clipboard){navigator.clipboard.writeText(txt);sh.textContent='Copiato';setTimeout(()=>sh.textContent='Copia riepilogo per Paola',1500);}
+  };
+}
+renderSpese();
 
 el('#s-info').innerHTML=`<h3 class="blk">Da prenotare</h3>
  ${BOOK.map(b=>`<div class="card"><div class="ct">${b.t}</div><div class="cs">${b.s}</div><div class="cact">
