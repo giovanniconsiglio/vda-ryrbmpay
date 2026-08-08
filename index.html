@@ -118,6 +118,9 @@ h2.dh{font-size:22px;line-height:1.15;letter-spacing:-.02em;margin:2px 0 3px}
 .mtag{font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
  padding:2px 6px;border-radius:5px;background:rgba(108,196,138,.16);color:var(--gr)}
 .mtag.alt{background:var(--card2);color:var(--tx3)}
+.mstar{display:inline-flex;align-items:center;gap:3px;font-size:12.5px;font-weight:700;color:var(--am);margin-left:auto}
+.mstar small{font-weight:400;font-size:10.5px;color:var(--tx3);margin-left:2px}
+.mstar.none{color:var(--tx3);font-weight:400;font-size:11px}
 .mrow .md{font-size:13px;color:var(--tx2);line-height:1.4}
 .mrow .mw{font-size:12px;color:var(--am);margin-top:5px}
 .mlinks{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap}
@@ -334,65 +337,67 @@ const WEEK=[
 const BASE_COORD="45.8073,7.5928";
 const TAVOLA=[
  {d:"Sabato 8",m:"Cena",z:"Antey · 20:00",o:[
-  {n:"Pan et Vin",t:"La scelta",g:"45.8117,7.5878",tel:"+390166504487",q:"Osteria Pan et Vin Antey-Saint-André",
-   x:"Osteria in pietra e legno, fraz. Filey, 2 min in auto. Cucina contadina valdostana con prodotti a km 0: polenta concia, taglieri di salumi e formaggi, valpellinentze, lardo con castagne e miele. Quaranta coperti dentro, cinquanta fuori.",
-   w:"Chiuso il mercoledì e il martedì sera — domenica sera solo su prenotazione"},
-  {n:"La Grolla",t:"Se vince la pizza",q:"Hotel La Grolla Antey-Saint-André ristorante",
-   x:"Ristorante d'albergo a Filey. Valdostana, nazionale e pizze: la via di mezzo se il 6enne non vuole polenta. Sala con finestre affacciate sul Cervino."},
-  {n:"Locanda Monte Cervino",t:"Alternativa",q:"Locanda Monte Cervino Antey-Saint-André",
-   x:"Valdostana e nazionale in ambiente caldo e accogliente. Comoda se Pan et Vin è pieno — ad agosto succede."}]},
+  {n:"Pan et Vin",t:"La scelta",r:"4.8",rn:"1.351",g:"45.8117,7.5878",tel:"+390166504487",q:"Osteria Pan et Vin Antey-Saint-André",
+   x:"Osteria in pietra e legno a Filey, 2 min in auto. Cucina contadina valdostana a km 0: polenta concia, taglieri, valpellinentze, lardo con castagne e miele. Il voto più solido del paese su oltre mille recensioni.",
+   w:"Chiuso mercoledì e martedì sera — domenica sera solo su prenotazione"},
+  {n:"St. André Cafè",t:"Alternativa forte",r:"4.8",rn:"794",q:"St André Cafè Restaurant Antey-Saint-André",
+   x:"Italiana e mediterranea, stesso voto di Pan et Vin su quasi 800 recensioni. La riserva naturale se stasera è pieno — ad agosto capita."},
+  {n:"Locanda Monte Cervino",t:"Più piccola",r:"4.8",rn:"80",q:"Locanda Monte Cervino Antey-Saint-André",
+   x:"Valdostana e nazionale in ambiente caldo. Voto altissimo ma su poche recensioni: meno collaudato, più intimo."}]},
 
  {d:"Domenica 9",m:"Pranzo",z:"Lago di Lod · 13:00",o:[
   {n:"Baita Fontana Freida",t:"La scelta",tel:"+39016647139",q:"Baita Fontana Freida Chamois Lago di Lod",
-   x:"Self-service proprio sul lago: polenta concia e liscia, gnocchi di patate con fonduta. Oggi conta la velocità — dovete essere in funivia entro le 15:15 e qui si mangia in un'ora.",
-   w:"È l'unico giorno con l'orologio: non sforate"},
-  {n:"Da Bruna dal 1980",t:"Più bello, più lento",tel:"+393381700170",q:"Ristorante Da Bruna Chamois Lago di Lod",
-   x:"Accanto al self-service, con il lago come sfondo. Taglieri valdostani, polenta concia con spezzatino e salsiccia, grigliate, pasta fresca fatta in casa. Da sedersi con calma — ma vi porta oltre l'ora e mezza."},
+   x:"Self-service sul lago: polenta concia e liscia, gnocchi di patate con fonduta. Oggi conta la velocità — dovete essere in funivia entro le 15:15 e qui si mangia in un'ora.",
+   w:"Voto non reperibile online: locale piccolo, poche recensioni"},
+  {n:"Da Bruna dal 1980",t:"Più bello, più lento",r:"4.0",rn:"Google",tel:"+393381700170",q:"Ristorante Da Bruna Chamois Lago di Lod",
+   x:"Accanto al self-service, con il lago come sfondo. Taglieri, polenta con spezzatino e salsiccia, gnocchi di castagne, pasta fresca. Le recensioni concordano: si mangia bene ma il servizio è lento. Vi porta oltre l'ora e mezza."},
   {n:"Chez Pierina",t:"Se restate nel borgo",tel:"+39016647126",q:"Chez Pierina Chamois Corgnolaz",
-   x:"A Corgnolaz, nel paese, sul sentiero per La Magdeleine. A gestione familiare: zuppa di pane della nonna Pierina, pasta fatta in casa, crespelle alla valdostana. Se rinunciate alla seggiovia per il lago."}]},
+   x:"A Corgnolaz, nel paese. Familiare: zuppa di pane della nonna Pierina, pasta fatta in casa, crespelle alla valdostana. Da scegliere solo se rinunciate alla seggiovia per il lago."}]},
 
  {d:"Lunedì 10",m:"Pranzo",z:"Valsavarenche · 12:30",o:[
   {n:"Rifugio Tétras Lyre",t:"La scelta",tel:"+390165905732",q:"Rifugio Tetras Lyre Valsavarenche",
-   x:"A 2000 m, quindici minuti a piedi dal parcheggio di Pont: è esattamente il punto d'arrivo della passeggiata. Cucina di montagna, tavoli all'aperto. Il pasto forte della giornata, con la piccola che dorme al sole.",
-   w:"Prenotate: ad agosto il rifugio si riempie"},
+   x:"A 2000 m, quindici minuti a piedi dal parcheggio di Pont: è il punto d'arrivo della passeggiata, non una deviazione. Cucina di montagna, tavoli all'aperto, la piccola che dorme al sole.",
+   w:"Prenotate — ad agosto i rifugi si riempiono"},
   {n:"Hotel Gran Paradiso",t:"A Pont",q:"Hotel Gran Paradiso Pont Valsavarenche",
-   x:"Una delle poche strutture dentro il perimetro del Parco, a 2000 m sul pianoro di Pont. Comodo se la passeggiata la accorciate e restate vicino all'auto."},
+   x:"Una delle poche strutture dentro il perimetro del Parco, sul pianoro di Pont. Comodo se accorciate la passeggiata e restate vicino all'auto."},
   {n:"Hostellerie du Paradis",t:"Sulla via del ritorno",q:"Hostellerie du Paradis Valsavarenche Degioz",
-   x:"A tre chilometri da Dégioz, familiare, specialità regionali. Da tenere se al rifugio non trovate posto: è sulla strada verso il Centro Visitatori."}]},
+   x:"A tre chilometri da Dégioz, familiare, specialità regionali. Da tenere se al rifugio non c'è posto: è sulla strada verso il Centro Visitatori."}]},
 
  {d:"Martedì 11",m:"Cena",z:"Antey · 20:00",o:[
-  {n:"Pizzeria La Marmotta",t:"La scelta",q:"Ristorante Pizzeria La Marmotta Antey-Saint-André Filey",
-   x:"A Filey, cinque minuti da casa. Dopo una giornata passata sugli alberi del Parco Avventura, la pizza è la mossa che vince col bambino di 6 anni senza discussioni."},
-  {n:"Copapan",t:"Alternativa",q:"Copapan Antey-Saint-André Covalou pizzeria",
-   x:"A Covalou: pizze in molte varianti e piatti valdostani, ambiente familiare. Stessa logica della Marmotta, sull'altro versante del paese."},
-  {n:"La Grolla",t:"Se volete cucina",q:"Hotel La Grolla Antey-Saint-André ristorante",
-   x:"Se dopo il picnic di mezzogiorno preferite una cena vera invece della pizza, restando comunque a Filey."}]},
+  {n:"Pizza & Steak",t:"La scelta",r:"4.8",rn:"510",q:"Pizza e Steak Antey-Saint-André",
+   x:"Pizzeria e griglieria: dopo una giornata sugli alberi copre sia la voglia di pizza del 6enne sia una cena vera per voi. Cinquecento recensioni concordi.",
+   w:"Ho cambiato scelta: La Marmotta, che avevo indicato prima, si ferma a 3,8"},
+  {n:"Copapan",t:"Alternativa",r:"4.4",rn:"668",q:"Copapan Antey-Saint-André Covalou pizzeria",
+   x:"A Covalou: pizze in molte varianti e piatti valdostani, ambiente familiare. Voto solido su quasi settecento recensioni."},
+  {n:"La Marmotta",t:"Solo se le altre sono piene",r:"3.8",rn:"296",q:"Ristorante Pizzeria La Marmotta Antey-Saint-André Filey",
+   x:"A Filey, la più vicina a casa. Ma il voto è nettamente sotto le altre due: tenetela come terza opzione, non come prima."}]},
 
  {d:"Mercoledì 12",m:"Pranzo",z:"Valtournenche · 13:00",o:[
-  {n:"Antica trattoria Lo Gurfo",t:"La scelta",q:"Antica trattoria Lo Gurfo Valtournenche",
-   x:"Incastonata nella roccia sopra le Marmitte dei Giganti, posizione notevole. Cucina tradizionale curata: polenta con i funghi, antipaldi caldi e freddi, dolci della casa. Circa 20-40 euro, giudizio molto alto sulle guide.",
-   w:"Pochi coperti: prenotate la mattina stessa"},
-  {n:"La Maison du Coq Rouge",t:"Familiare",q:"La Maison du Coq Rouge Valtournenche",
-   x:"Nel cuore del paese, gestione familiare. Piatti della tradizione savoiarda e valdostana con vini locali selezionati. Più semplice da gestire con la carrozzina rispetto a Lo Gurfo."},
-  {n:"Pizzeria La Grotta",t:"Il ripiego coi bambini",q:"Ristorante Pizzeria La Grotta Valtournenche",
-   x:"In centro, menu ampio: carne, pesce, vegetariano e piatti valdostani, più le pizze. La rete di sicurezza se piove forte e volete qualcosa di veloce per tutti."}]},
+  {n:"Antica trattoria Lo Gurfo",t:"La scelta",r:"3.9",rn:"Sluurpy, 423",q:"Antica trattoria Lo Gurfo Valtournenche",
+   x:"Incastonata nella roccia sopra le Marmitte dei Giganti: la posizione vale il pranzo. Polenta con i funghi, antipasti caldi e freddi, dolci della casa. Circa 20-40 euro.",
+   w:"Pochi coperti, prenotate la mattina stessa. Voto da Sluurpy, non da Google"},
+  {n:"La Maison du Coq Rouge",t:"Più semplice",q:"La Maison du Coq Rouge Valtournenche",
+   x:"Nel cuore del paese, gestione familiare, tradizione savoiarda e valdostana con vini locali. Più facile da gestire con la carrozzina rispetto a Lo Gurfo."},
+  {n:"Pizzeria La Grotta",t:"Il ripiego",q:"Ristorante Pizzeria La Grotta Valtournenche",
+   x:"In centro, menu ampio fra carne, pesce, vegetariano, piatti valdostani e pizze. La rete di sicurezza se piove forte e serve qualcosa di veloce per tutti e cinque."}]},
 
  {d:"Giovedì 13",m:"Pranzo",z:"Aosta · 12:30",o:[
-  {n:"Trattoria degli Artisti",t:"La scelta",q:"Trattoria degli Artisti Aosta",
-   x:"Nel centro storico, menu che cambia ogni settimana con molti piatti valdostani: zuppe con funghi, cereali, farro e castagne. Raggiungibile col passeggino dalle vie pedonali."},
-  {n:"Hostaria del Calvino",t:"Più tipica",q:"Hostaria del Calvino Aosta",
-   x:"Centrale, molto regionale: polenta con la fontina, carne di camoscio, taglieri di formaggi valdostani, fonduta. La scelta se volete il piatto identitario."},
-  {n:"Osteria dell\u2019Oca",t:"Col 6enne",q:"Osteria dell Oca Aosta via Edouard Aubert",
-   x:"In via Edouard Aubert 15. Cucina tradizionale valdostana e vini del territorio, ma anche una buona scelta di pizze: mette d\u2019accordo adulti e bambini."}]},
+  {n:"Osteria dell'Oca",t:"La scelta",r:"4.9",rn:"6.555",q:"Osteria dell Oca Aosta via Edouard Aubert",
+   x:"Via Edouard Aubert 15. Il voto più alto di Aosta su oltre seimila recensioni, e ha sia cucina valdostana sia pizze: mette d'accordo voi e il 6enne senza compromessi.",
+   w:"Ho cambiato scelta: la Trattoria degli Artisti non compare nemmeno in classifica"},
+  {n:"Hostaria del Calvino",t:"La più tipica",r:"4.8",rn:"3.806",q:"Hostaria del Calvino Aosta",
+   x:"Centrale e molto regionale: polenta con la fontina, camoscio, taglieri di formaggi, fonduta. La scelta se volete il piatto identitario e non la pizza."},
+  {n:"Aldente",t:"Alternativa",r:"4.8",rn:"6.102",q:"Aldente Ristorante Aosta centro storico",
+   x:"Volte in pietra nel centro storico, pasta e pane fatti in casa. Stesso voto del Calvino su numeri altissimi."}]},
 
  {d:"Venerdì 14",m:"Pranzo",z:"Bard · 13:00",o:[
   {n:"Ristorante interno al Forte",t:"La scelta",q:"Forte di Bard ristorante caffetteria",
-   x:"Dentro il Forte: oggi piovono 8,4 mm in nove ore e il punto è non uscire. Si mangia e si torna al museo senza mettere il naso fuori, col passeggino negli ascensori.",
-   w:"L\u2019unica scelta che non vi bagna"},
-  {n:"Casa Ciuca",t:"Nel borgo",q:"Casa Ciuca Bard tavola calda enoteca",
-   x:"Tavola calda ed enoteca nel borgo medievale, a pochi passi dal parcheggio del Forte. Vini valdostani e piatti caldi della tradizione. Breve tratto scoperto per arrivarci."},
-  {n:"Del Mulino",t:"A Hône",q:"Ristorante Del Mulino Hone Bard",
-   x:"Appena oltre il ponte, a Hône: pizze, panini, piatti freddi e specialità valdostane, parcheggio privato e terrazza con vista sulla fortezza. Aperto tutto il giorno, comodo se uscite dal Forte a orari strani."}]}
+   x:"Oggi cadono 8,4 mm in nove ore e il punto è non uscire. Si mangia e si torna al museo senza mettere il naso fuori, col passeggino negli ascensori.",
+   w:"L'unica che non vi bagna — le altre due valgono se smette"},
+  {n:"Casa Ciuca",t:"Nel borgo",r:"4.8",rn:"1.111",q:"Casa Ciuca Bard tavola calda enoteca",
+   x:"Tavola calda ed enoteca nel borgo medievale, a pochi passi dal parcheggio del Forte. Vini valdostani e piatti caldi della tradizione. Voto ottimo su oltre mille recensioni."},
+  {n:"Del Mulino",t:"A Hône",r:"4.8",rn:"749",q:"Ristorante Pizzeria del Mulino Hone Bard",
+   x:"Dieci minuti a piedi dalla fortezza, oltre il ponte. Pizze, panini e specialità valdostane, parcheggio privato e terrazza con vista sul forte. Aperto tutto il giorno."}]}
 ];
 
 const BOOK=[
@@ -491,17 +496,20 @@ el('#s-meteo').innerHTML=`<h3 class="blk">La settimana</h3>
  <a href="https://www.ilmeteo.it/meteo/Breuil-Cervinia" target="_blank" rel="noopener">${NAVSVG} Meteo Cervinia</a></div></div>`;
 
 
+const STAR=`<svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor;stroke:none"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.4-5.8-3-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z"/></svg>`;
 const TA_SVG=`<svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.3-4.3"/></svg>`;
 const gsearch=q=>`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
 const tasearch=q=>`https://www.tripadvisor.it/Search?q=${encodeURIComponent(q)}`;
 
 el('#s-tavola').innerHTML=`<h3 class="blk">Dove mangiare — tre scelte per pasto</h3>
  <div class="box"><h4>Come leggerle</h4><p>La prima è quella su cui è costruito il programma: orari, distanze e tempi tornano. Le altre due sono lì per quando è pieno, per quando piove, o per quando il grande non ne vuole sapere di polenta.</p></div>
+ <div class="box kit"><h4>Sui voti</h4><p>Stelle e numero di recensioni raccolti l'<b>8 agosto 2026</b> da Restaurant Guru, che aggrega Google. Sono <b>fissi</b>, non si aggiornano da soli: i link qui sotto aprono le schede vere. Dove manca il voto, il locale è troppo piccolo per averne uno attendibile — non è un brutto segno.</p></div>
  ${TAVOLA.map(p=>`
   <div class="mday"><b>${p.d} · ${p.m}</b><span>${p.z}</span></div>
   ${p.o.map((o,i)=>`
    <div class="mrow${i===0?' pick':''}">
-     <div class="mhead"><span class="mn">${o.n}</span><span class="mtag${i===0?'':' alt'}">${o.t}</span></div>
+     <div class="mhead"><span class="mn">${o.n}</span><span class="mtag${i===0?'':' alt'}">${o.t}</span>
+       ${o.r?`<span class="mstar">${STAR} ${o.r}<small>${o.rn}</small></span>`:'<span class="mstar none">voto n.d.</span>'}</div>
      <div class="md">${o.x}</div>
      ${o.w?`<div class="mw">${o.w}</div>`:''}
      <div class="mlinks">
