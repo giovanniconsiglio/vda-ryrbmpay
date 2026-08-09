@@ -766,6 +766,7 @@ const NUCLEI={G:{n:"Giovanni, Tiziana e Bianca",s:"Noi",teste:3,c:"var(--ac)"},
               P:{n:"Paola e Gabriele",s:"Paola",teste:2,c:"var(--am)"}};
 const SPLITS={meta:{n:"Metà e metà",G:.5,P:.5},
               quote:{n:"A quote — 3 e 2",G:.6,P:.4},
+              adulti:{n:"Solo adulti — 2 e 1",G:2/3,P:1/3},
               solaG:{n:"Solo nostra",G:1,P:0},
               solaP:{n:"Solo di Paola",G:0,P:1}};
 
@@ -813,7 +814,7 @@ function renderSpese(){
      <div class="tot"><span>Totale</span><span>${eur(tot)}</span></div>
      <div class="frm" style="margin-top:14px"><button id="sp-share">Copia riepilogo per Paola</button></div>`
     :'<div class="box"><h4>Ancora nessuna spesa</h4><p>Aggiungi la prima qui sopra: funivia, spesa al Conad, pranzo, benzina.</p></div>'}
-   <div class="box kit"><h4>Come si divide</h4><p><b>Metà e metà</b> per le spese di casa e auto. <b>A quote</b> divide 3 a 2, in proporzione alle teste — ha senso per la spesa alimentare e i pranzi. <b>Solo nostra</b> o <b>solo di Paola</b> per quello che riguarda un nucleo soltanto.</p></div>
+   <div class="box kit"><h4>Come si divide</h4><p><b>Metà e metà</b> per le spese di casa e auto.<br><b>A quote, 3 a 2</b>, in proporzione alle teste: spesa alimentare e pranzi.<br><b>Solo adulti, 2 a 1</b> — voi due contro Paola: cene al ristorante, impianti e ingressi dove Bianca non paga e Gabriele è ridotto.<br><b>Solo nostra</b> o <b>solo di Paola</b> per quello che riguarda un nucleo soltanto.</p></div>
    <div class="box warn"><h4>I dati stanno su questo telefono</h4><p>Non si sincronizzano con quello di Paola. Registra tutto tu, e usa <b>Copia riepilogo</b> per mandarle il conto su WhatsApp quando volete pareggiare.</p></div>`;
 
   const add=el('#sp-add');
