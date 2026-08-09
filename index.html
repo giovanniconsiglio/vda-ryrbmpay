@@ -159,6 +159,8 @@ h2.dh{font-size:22px;line-height:1.15;letter-spacing:-.02em;margin:2px 0 3px}
 .exp .et{font-size:14px}
 .exp .em{font-size:11.5px;color:var(--tx3);margin-top:1px}
 .exp .ev{font-size:15px;font-weight:700;white-space:nowrap}
+.exp.rimb .ev{color:var(--gr)}
+.exp.rimb .et{color:var(--gr)}
 .exp .ex{background:none;border:0;color:var(--tx3);font-size:20px;padding:0 2px;cursor:pointer;line-height:1}
 .tot{display:flex;justify-content:space-between;padding:13px 0;font-size:15px;font-weight:700;border-top:2px solid var(--line);margin-top:4px}
 
@@ -776,21 +778,25 @@ function eur(v){return v.toFixed(2).replace('.',',')+' €'}
 
 function renderSpese(){
   const sp=loadSp();
-  let tot=0, pagG=0, pagP=0, dovG=0, dovP=0;
+  let tot=0, pagG=0, pagP=0, dovG=0, dovP=0, rimb=0;
   sp.forEach(e=>{
+    if(e.k==='rimb'){            // trasferimento fra i nuclei: non è una spesa
+      rimb += (e.by==='P' ? e.v : -e.v);
+      return;
+    }
     tot+=e.v;
     if(e.by==='G') pagG+=e.v; else pagP+=e.v;
     const q=SPLITS[e.sp]||SPLITS.meta;
     dovG+=e.v*q.G; dovP+=e.v*q.P;
   });
-  const saldo = pagG - dovG;   // >0: Paola deve a noi
+  const saldo = (pagG - dovG) - rimb;   // >0: Paola deve a noi
   const chi = saldo>=0 ? `<b>Paola</b> deve a noi` : `<b>Noi</b> dobbiamo a Paola`;
 
   el('#s-spese').innerHTML=`<h3 class="blk">Spese del viaggio</h3>
    <div class="settle">
      <div class="st">${Math.abs(saldo)<0.01?'Siete in pari':chi}</div>
      <div class="sv">${Math.abs(saldo)<0.01?'—':eur(Math.abs(saldo))}</div>
-     <div class="st">su ${eur(tot)} spesi in totale</div>
+     <div class="st">su ${eur(tot)} spesi in totale${rimb?`<br>${eur(Math.abs(rimb))} già ${rimb>0?'restituiti da Paola':'restituiti a Paola'}`:''}</div>
    </div>
    <div class="bal">
      <div class="balc" style="--bc:var(--ac)"><div class="bn">Noi</div>
@@ -804,17 +810,24 @@ function renderSpese(){
        <input id="sp-v" type="number" inputmode="decimal" step="0.01" placeholder="€">
        <select id="sp-by">${Object.keys(NUCLEI).map(k=>`<option value="${k}">Paga ${NUCLEI[k].s}</option>`).join('')}</select>
      </div>
+     <select id="sp-k">
+       <option value="sp">Spesa da dividere</option>
+       <option value="rimb">Restituzione di denaro</option>
+     </select>
      <select id="sp-sp">${Object.keys(SPLITS).map(k=>`<option value="${k}">${SPLITS[k].n}</option>`).join('')}</select>
-     <button id="sp-add">Aggiungi spesa</button>
+     <button id="sp-add">Aggiungi</button>
    </div>
    ${sp.length?`<h3 class="blk">Movimenti</h3>${sp.map((e,i)=>`
-     <div class="exp"><div class="ed"><div class="et">${e.t}</div>
-       <div class="em">${NUCLEI[e.by].s} · ${(SPLITS[e.sp]||SPLITS.meta).n}${e.d?' · '+e.d:''}</div></div>
+     <div class="exp${e.k==='rimb'?' rimb':''}"><div class="ed"><div class="et">${e.k==='rimb'?'↩ ':''}${e.t}</div>
+       <div class="em">${e.k==='rimb'
+          ? `${NUCLEI[e.by].s} ${e.by==='P'?'ha restituito a noi':'ha restituito a Paola'}${e.d?' · '+e.d:''}`
+          : `${NUCLEI[e.by].s} · ${(SPLITS[e.sp]||SPLITS.meta).n}${e.d?' · '+e.d:''}`}</div></div>
        <div class="ev">${eur(e.v)}</div><button class="ex" data-i="${i}">×</button></div>`).join('')}
      <div class="tot"><span>Totale</span><span>${eur(tot)}</span></div>
      <div class="frm" style="margin-top:14px"><button id="sp-share">Copia riepilogo per Paola</button></div>`
     :'<div class="box"><h4>Ancora nessuna spesa</h4><p>Aggiungi la prima qui sopra: funivia, spesa al Conad, pranzo, benzina.</p></div>'}
    <div class="box kit"><h4>Come si divide</h4><p><b>Metà e metà</b> per le spese di casa e auto.<br><b>A quote, 3 a 2</b>, in proporzione alle teste: spesa alimentare e pranzi.<br><b>Solo adulti, 2 a 1</b> — voi due contro Paola: cene al ristorante, impianti e ingressi dove Bianca non paga e Gabriele è ridotto.<br><b>Solo nostra</b> o <b>solo di Paola</b> per quello che riguarda un nucleo soltanto.</p></div>
+   <div class="box tip"><h4>Le restituzioni</h4><p>Scegli <b>Restituzione di denaro</b> quando qualcuno salda, in tutto o in parte. Non entra nel totale speso: abbassa soltanto il debito.<br>Perché i conti tornino, la spesa originale va registrata comunque — se Paola vi ha già dato 840 € per l'alloggio, servono <b>due movimenti</b>: l'alloggio come spesa divisa, e i 840 € come restituzione.</p></div>
    <div class="box warn"><h4>I dati stanno su questo telefono</h4><p>Non si sincronizzano con quello di Paola. Registra tutto tu, e usa <b>Copia riepilogo</b> per mandarle il conto su WhatsApp quando volete pareggiare.</p></div>`;
 
   const add=el('#sp-add');
@@ -822,9 +835,18 @@ function renderSpese(){
     const t=el('#sp-t').value.trim(), v=parseFloat((el('#sp-v').value||'').replace(',','.'));
     if(!t||!(v>0)){el('#sp-t').focus();return;}
     const a=loadSp();
-    a.unshift({t:t,v:v,by:el('#sp-by').value,sp:el('#sp-sp').value,
+    a.unshift({t:t,v:v,k:el('#sp-k').value,by:el('#sp-by').value,sp:el('#sp-sp').value,
       d:new Date().toLocaleDateString('it-IT',{day:'numeric',month:'short'})});
     saveSp(a); renderSpese();
+  };
+  const kind=el('#sp-k');
+  if(kind) kind.onchange=()=>{
+    const rim = kind.value==='rimb';
+    el('#sp-sp').style.display = rim ? 'none' : '';
+    el('#sp-t').placeholder = rim ? 'Per cosa — es. quota alloggio' : 'Cosa — es. spesa Conad, funivia, cena';
+    el('#sp-by').innerHTML = Object.keys(NUCLEI).map(k=>
+      `<option value="${k}">${rim ? 'Ha dato '+NUCLEI[k].s : 'Paga '+NUCLEI[k].s}</option>`).join('');
+    el('#sp-add').textContent = rim ? 'Registra restituzione' : 'Aggiungi';
   };
   document.querySelectorAll('.ex').forEach(b=>b.onclick=()=>{
     const a=loadSp(); a.splice(+b.dataset.i,1); saveSp(a); renderSpese();
@@ -851,7 +873,7 @@ el('#s-info').innerHTML=`<h3 class="blk">Da prenotare</h3>
  <h3 class="blk">Come funziona il programma</h3>
  <div class="box"><h4>Le regole che lo tengono in piedi</h4><p>Uscita mai prima delle <b>9:30</b> · tutti a nanna alle <b>22:00</b> · massimo <b>1h30 a tavola</b>, pranzi e cene · un solo pasto fuori al giorno, quasi sempre a pranzo · le cene fuori solo in locali a meno di 5 minuti da casa.</p></div>
  <div class="box"><h4>Versione dell'app</h4>
-   <p>Stai usando la <b id="appver">v13</b> — <span id="verwhat">divisione per soli adulti, con questo pulsante di aggiornamento</span>.<br>
+   <p>Stai usando la <b id="appver">v14</b> — <span id="verwhat">restituzioni di denaro e divisione per soli adulti</span>.<br>
    Se una novità non compare, l'app sta ancora mostrando la copia salvata sul telefono: premi qui sotto.</p>
    <div class="card cact" style="background:none;padding:0;margin-top:10px">
      <a id="forceupd" href="#" style="border-color:var(--ac);color:var(--ac)">Scarica l'ultima versione</a>
