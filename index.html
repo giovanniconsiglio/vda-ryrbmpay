@@ -850,6 +850,12 @@ el('#s-info').innerHTML=`<h3 class="blk">Da prenotare</h3>
    ${b.g?`<a href="${gmap(b.g,b.t)}" target="_blank" rel="noopener">${NAVSVG} Naviga</a>`:''}</div></div>`).join('')}
  <h3 class="blk">Come funziona il programma</h3>
  <div class="box"><h4>Le regole che lo tengono in piedi</h4><p>Uscita mai prima delle <b>9:30</b> · tutti a nanna alle <b>22:00</b> · massimo <b>1h30 a tavola</b>, pranzi e cene · un solo pasto fuori al giorno, quasi sempre a pranzo · le cene fuori solo in locali a meno di 5 minuti da casa.</p></div>
+ <div class="box"><h4>Versione dell'app</h4>
+   <p>Stai usando la <b id="appver">v13</b> — <span id="verwhat">divisione per soli adulti, con questo pulsante di aggiornamento</span>.<br>
+   Se una novità non compare, l'app sta ancora mostrando la copia salvata sul telefono: premi qui sotto.</p>
+   <div class="card cact" style="background:none;padding:0;margin-top:10px">
+     <a id="forceupd" href="#" style="border-color:var(--ac);color:var(--ac)">Scarica l'ultima versione</a>
+   </div></div>
  <div class="box tip"><h4>In riserva</h4><p><b>Torgnon: Petit Monde e Summer Park di Chantorné.</b> 15 min in auto, strada poderale ampia dove il Balios scorre bene. Recuperabile mercoledì pomeriggio se le nuvole non si chiudono, o martedì al posto del Parco Avventura.</p></div>`;
 
 el('#s-kit').innerHTML=`<h3 class="blk">Valigia e accessori</h3>
@@ -867,6 +873,20 @@ document.querySelectorAll('.chk').forEach(c=>{
     localStorage.setItem(c.dataset.k,c.classList.contains('done')?'1':'0')};
 });
 
+(function(){
+  const b=el('#forceupd'); if(!b) return;
+  b.onclick=async ev=>{
+    ev.preventDefault();
+    b.textContent='Aggiorno…';
+    try{
+      if('caches' in window){ const ks=await caches.keys(); await Promise.all(ks.map(k=>caches.delete(k))); }
+      if(navigator.serviceWorker){ const rs=await navigator.serviceWorker.getRegistrations();
+        await Promise.all(rs.map(r=>r.unregister())); }
+    }catch(e){}
+    location.reload(true);
+  };
+})();
+
 document.querySelectorAll('nav.tabs button').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('nav.tabs button').forEach(x=>x.classList.remove('on'));
   document.querySelectorAll('section').forEach(x=>x.classList.remove('on'));
@@ -881,9 +901,6 @@ document.querySelectorAll('nav.tabs button').forEach(b=>b.onclick=()=>{
 })();
 
 chips();day();
-</script>
-<script>
-if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}
 </script>
 </body>
 </html>
