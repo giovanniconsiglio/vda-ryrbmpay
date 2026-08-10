@@ -802,7 +802,8 @@ function renderMeteo(){
    ? `Aggiornato ${new Date(WXSTAMP).toLocaleString('it-IT',{day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'})}`
    : 'Dati del 7 agosto — non ancora aggiornati';
  el('#s-meteo').innerHTML=`<h3 class="blk">La settimana</h3>
-  ${P.map((d,i)=>{const w=d.wk||WEEK[i];return `<div class="wkrow"><span class="wd">${d.dow} ${d.n}</span>
+  ${P.map((d,i)=>{const w=d.wk||[WEEK[i][0],`${(LUOGHI[d.L0]||{}).n||'Antey'} · ${WEEK[i][1]}`,WEEK[i][2],WEEK[i][3]];
+    return `<div class="wkrow"><span class="wd">${d.dow} ${d.n}</span>
     <span class="wi">${w[0]}</span><span class="wt">${w[1]}</span>
     <span class="wv ${w[3]||w[4]}">${w[2]}</span></div>`}).join('')}
   <div class="box ${WXSTAMP?'tip':''}"><h4>${WXSTAMP?'Previsioni fresche':'Previsioni da aggiornare'}</h4>
@@ -819,6 +820,7 @@ function renderMeteo(){
 }
 
 function loadWx(force){
+ renderMeteo();               // disegna subito, coi dati che ci sono
  const cached = localStorage.getItem('wx');
  if(cached && !force){
    try{const c=JSON.parse(cached); applyWx(c.d,c.t);}catch(e){}
@@ -1008,7 +1010,7 @@ el('#s-info').innerHTML=`<h3 class="blk">Da prenotare</h3>
  <h3 class="blk">Come funziona il programma</h3>
  <div class="box"><h4>Le regole che lo tengono in piedi</h4><p>Uscita mai prima delle <b>9:30</b> · tutti a nanna alle <b>22:00</b> · massimo <b>1h30 a tavola</b>, pranzi e cene · un solo pasto fuori al giorno, quasi sempre a pranzo · le cene fuori solo in locali a meno di 5 minuti da casa.</p></div>
  <div class="box"><h4>Versione dell'app</h4>
-   <p>Stai usando la <b id="appver">v22</b> — <span id="verwhat">meteo per località e fascia oraria</span>.<br>
+   <p>Stai usando la <b id="appver">v23</b> — <span id="verwhat">meteo per località e fascia oraria</span>.<br>
    Se una novità non compare, l'app sta ancora mostrando la copia salvata sul telefono: premi qui sotto.</p>
    <div class="card cact" style="background:none;padding:0;margin-top:10px">
      <a id="forceupd" href="#" style="border-color:var(--ac);color:var(--ac)">Scarica l'ultima versione</a>
