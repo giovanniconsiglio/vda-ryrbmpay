@@ -677,6 +677,9 @@ const LUOGHI={
  milano: {n:"verso Milano",    c:[45.600,7.750]}
 };
 const LKEYS=Object.keys(LUOGHI);
+// pagine 3B Meteo per il confronto, una per giornata
+const WX3B=["valtournenche","chamois","valsavarenche","breuilcervinia",
+            "valtournenche","aosta","valtournenche","valtournenche"];
 
 function wmo(c){
  if(c===0)              return {i:"☀️",b:"Sereno"};
@@ -802,7 +805,7 @@ function renderMeteo(){
    ? `Aggiornato ${new Date(WXSTAMP).toLocaleString('it-IT',{day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'})}`
    : 'Dati del 7 agosto — non ancora aggiornati';
  el('#s-meteo').innerHTML=`<h3 class="blk">La settimana</h3>
-  ${P.map((d,i)=>{const w=d.wk||[WEEK[i][0],`${(LUOGHI[d.L0]||{}).n||'Antey'} · ${WEEK[i][1]}`,WEEK[i][2],WEEK[i][3]];
+  ${P.map((d,i)=>{const w=d.wk||[WEEK[i][1],`${(LUOGHI[d.L0]||{}).n||'Antey'} · ${WEEK[i][2]}`,WEEK[i][3],WEEK[i][4]];
     return `<div class="wkrow"><span class="wd">${d.dow} ${d.n}</span>
     <span class="wi">${w[0]}</span><span class="wt">${w[1]}</span>
     <span class="wv ${w[3]||w[4]}">${w[2]}</span></div>`}).join('')}
@@ -813,7 +816,7 @@ function renderMeteo(){
   <div class="box"><h4>Verifica su un'altra fonte</h4>
    <p>Questi numeri vengono dal modello <b>best-match</b> di open-meteo. Sull'entità della pioggia i modelli divergono parecchio: per domenica a Chamois vanno da 1,4 mm (ECMWF) a 14,1 mm (GFS). Sulla <b>collocazione oraria</b> invece concordano, ed è quella che decide se la gita si fa. Confrontate con 3B Meteo quando qualcosa non torna.</p>
    <div class="mlinks" style="margin-top:10px">
-     ${P.map((d,i)=>`<a class="b" href="https://www.3bmeteo.com/meteo/${WX3B[i]}" target="_blank" rel="noopener">${d.dow} ${d.n} · ${WXLAB[i]}</a>`).join('')}
+     ${P.map((d,i)=>`<a class="b" href="https://www.3bmeteo.com/meteo/${WX3B[i]}" target="_blank" rel="noopener">${d.dow} ${d.n} · ${(LUOGHI[d.L0]||{}).n||"Antey"}</a>`).join('')}
    </div></div>
   <div class="box tip"><h4>Come leggere la barra oraria</h4><p>Nella scheda del giorno, sotto il meteo, ogni tacca è un'ora dalle 7 alle 22. <b>Grigia</b>: asciutto. <b>Ambra chiara</b>: probabile ma senza accumulo. <b>Ambra</b>: pioggia debole. <b>Rossa</b>: sopra il millimetro. Il totale giornaliero da solo inganna — 33 mm che cadono alle 20 non toccano una gita che finisce alle 15.</p></div>`;
  const b=el('#wxnow'); if(b) b.onclick=()=>loadWx(true);
@@ -1010,7 +1013,7 @@ el('#s-info').innerHTML=`<h3 class="blk">Da prenotare</h3>
  <h3 class="blk">Come funziona il programma</h3>
  <div class="box"><h4>Le regole che lo tengono in piedi</h4><p>Uscita mai prima delle <b>9:30</b> · tutti a nanna alle <b>22:00</b> · massimo <b>1h30 a tavola</b>, pranzi e cene · un solo pasto fuori al giorno, quasi sempre a pranzo · le cene fuori solo in locali a meno di 5 minuti da casa.</p></div>
  <div class="box"><h4>Versione dell'app</h4>
-   <p>Stai usando la <b id="appver">v23</b> — <span id="verwhat">meteo per località e fascia oraria</span>.<br>
+   <p>Stai usando la <b id="appver">v24</b> — <span id="verwhat">meteo per località e fascia oraria</span>.<br>
    Se una novità non compare, l'app sta ancora mostrando la copia salvata sul telefono: premi qui sotto.</p>
    <div class="card cact" style="background:none;padding:0;margin-top:10px">
      <a id="forceupd" href="#" style="border-color:var(--ac);color:var(--ac)">Scarica l'ultima versione</a>
