@@ -84,6 +84,18 @@ h2.dh{font-size:22px;line-height:1.15;letter-spacing:-.02em;margin:2px 0 3px}
 .hb{display:inline-block;width:calc(6.25% - 1px);height:16px;margin-right:1px;border-radius:2px;vertical-align:top;background:var(--card2)}
 .hb.l1{background:rgba(224,169,74,.45)} .hb.l2{background:var(--am)} .hb.l3{background:var(--rd)}
 .hlab{display:flex;justify-content:space-between;font-size:9.5px;color:var(--tx3);margin-top:3px;padding:0 1px}
+.lbox{background:var(--card);border-radius:14px;padding:12px 13px;margin-bottom:12px}
+.lbox h4{font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--tx3);margin-bottom:8px;font-weight:700}
+.lrow{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--line)}
+.lrow:last-child{border:0;padding-bottom:0}
+.lrow .li{font-size:17px;width:22px;text-align:center;flex:none}
+.lrow .ln{flex:1;min-width:0;font-size:13.5px}
+.lrow .ln b{display:block;color:var(--lc)}
+.lrow .ln span{font-size:11.5px;color:var(--tx3)}
+.lrow .lt{font-size:13.5px;font-weight:700;white-space:nowrap}
+.wtag{display:inline-block;margin-left:7px;font-size:10px;font-weight:600;letter-spacing:0;
+ text-transform:none;background:var(--card2);color:var(--tx3);border-radius:5px;padding:2px 6px;vertical-align:1px}
+.wtag.wet{color:var(--am)}
 .pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
 .pill{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:12px;color:var(--tx2)}
 .pill b{color:var(--tx);font-weight:600}
@@ -246,7 +258,7 @@ h3.blk:first-child{margin-top:4px}
 
 <script>
 const P=[
-{d:"2026-08-08",dow:"Sab",n:8,t:"Arrivo e primo contatto",sub:"Giorno 1 · Milano → Antey",
+{d:"2026-08-08",dow:"Sab",n:8,t:"Arrivo e primo contatto",sub:"Giorno 1 · Milano → Antey",loc:[["antey",13,22]],L0:"antey",
  w:{i:"☀️",b:"Sereno, 0 mm",s:"Il giorno più bello della settimana",t:"15°/27°",l:"Antey",c:"#6cc48a"},
  p:["🚗 Auto · 185 km · 2h15","🛒 Balios","🍽️ Cena fuori"],
  kit:["Documenti","Seggiolino auto","Borsa frigo per il viaggio","Cambio a portata di mano"],
@@ -259,7 +271,7 @@ const P=[
  {h:"20:00 – 21:30",x:"<b>Cena fuori</b>, un'ora e mezza. <a class='tel' href='tel:+390166504487'>☎ Pan et Vin 0166 504487</a>",m:1,g:"45.8117,7.5878",gn:"Filey"},
  {h:"21:45 – 22:00",x:"Rientro e nanna."}]},
 
-{d:"2026-08-09",dow:"Dom",n:9,t:"Chamois, il borgo senza auto",sub:"Giorno 2 · Funivia da Buisson",
+{d:"2026-08-09",dow:"Dom",n:9,t:"Chamois, il borgo senza auto",sub:"Giorno 2 · Funivia da Buisson",loc:[["antey",8,9],["chamois",9,17],["antey",17,22]],L0:"chamois",
  w:{i:"⛅",b:"Asciutto fino a sera",s:"La pioggia arriva dopo le 21, quando siete già rientrati",t:"14°/22°",l:"Chamois",c:"#6cc48a"},
  p:["🚡 Auto 5 min + funivia","🛒 Balios + marsupio","🍽️ Pranzo al lago"],
  kit:["Pile per tutti","Giacca antivento","Marsupio per la seggiovia","Cappellini e crema solare","Contanti per gli impianti"],
@@ -274,7 +286,7 @@ const P=[
  {h:"17:00 – 18:15",x:"<b>Spesa grande al Conad di Châtillon</b>, 10 min da Buisson. Scorta per la settimana.",g:"45.7480,7.6100",gn:"Conad Châtillon"},
  {h:"20:00 · 22:00",x:"Cena in appartamento, poi nanna."}]},
 
-{d:"2026-08-10",dow:"Lun",n:10,t:"Gli animali del Gran Paradiso",sub:"Giorno 3 · Valsavarenche",
+{d:"2026-08-10",dow:"Lun",n:10,t:"Gli animali del Gran Paradiso",sub:"Giorno 3 · Valsavarenche",loc:[["antey",8,10],["valsav",10,17],["antey",17,22]],L0:"valsav",
  w:{i:"☀️",b:"Il giorno più asciutto",s:"0,1 mm fra le 9 e le 18: la finestra migliore della settimana in quota",t:"17°/22°",l:"Pont",c:"#6cc48a"},
  p:["🚗 Auto · 55 min","🛒 Balios · zaino di riserva","🍽️ Pranzo al rifugio"],
  kit:["Balios — il sentiero è accessibile ai passeggini","Zaino porta-bimbo in auto, come piano B","Scarponcini bassi e calze da trekking","Binocolo","Giacca a vento","Crema solare alta"],
@@ -288,7 +300,7 @@ const P=[
  {h:"15:30 – 16:30",x:"Sosta a <b>Dégioz</b>: Centro Visitatori del Parco, <b>circa un'ora</b>. Diorami e animali imbalsamati a misura di bambino.",g:"45.5883,7.2072",gn:"Dégioz"},
  {h:"17:30 · 20:00",x:"Rientro ad Antey, 55 minuti. Cena in appartamento."}]},
 
-{d:"2026-08-11",dow:"Mar",n:11,t:"Il Cervino: Lago Blu e Lago di Maen",sub:"Giorno 4 · Spostata qui dal meteo",
+{d:"2026-08-11",dow:"Mar",n:11,t:"Il Cervino: Lago Blu e Lago di Maen",sub:"Giorno 4 · Spostata qui dal meteo",loc:[["antey",8,10],["lagoblu",10,12],["valtour",12,16],["antey",16,22]],L0:"lagoblu",
  w:{i:"⛅",b:"1,4 mm in 2 ore",s:"La finestra migliore della settimana per i laghi",t:"15°/18°",l:"Lago Blu",c:"#6cc48a"},
  p:["🚗 Auto · 25 min","🛒 Balios","🍽️ Pranzo a Valtournenche"],
  kit:["Pile e giacca antipioggia","Macchina fotografica","Borsa termica per la Fontina"],
@@ -301,7 +313,7 @@ const P=[
  {h:"14:30 – 15:30",x:"Centro di <b>Valtournenche</b>, <b>un'ora</b>: Fontina DOP e souvenir. Portate la borsa termica."},
  {h:"16:00 · 20:00",x:"Rientro ad Antey. Cena in appartamento."}]},
 
-{d:"2026-08-12",dow:"Mer",n:12,t:"Parco Avventura e cavalli",sub:"Giorno 5 · Zero auto",
+{d:"2026-08-12",dow:"Mer",n:12,t:"Parco Avventura e cavalli",sub:"Giorno 5 · Zero auto",loc:[["antey",8,22]],L0:"antey",
  w:{i:"☀️",b:"0,1 mm fra le 9 e le 18",s:"Ad Antey oggi è asciutto: la giornata giusta per stare fuori tutto il giorno",t:"21°/25°",l:"Antey",c:"#6cc48a"},
  p:["🚶 A piedi","🛒 Balios","🥪 Pranzo al sacco"],
  kit:["Scarpe chiuse e pantaloni lunghi per Gabriele","Cambio completo nello zaino","Borsa frigo e telo per il picnic","Zucchero o carote per i pony, se al ranch lo permettono"],
@@ -315,7 +327,7 @@ const P=[
  {h:"17:00 – 19:45",x:"Rientro, docce e <b>bucato</b>: è il pomeriggio giusto, asciuga in tempo per il resto della settimana."},
  {h:"20:00 – 21:30",x:"<b>Cena fuori</b> — Pizza & Steak, 4,8 su 510 recensioni. Dopo una giornata sugli alberi la pizza è la mossa che vince.",m:1}]},
 
-{d:"2026-08-13",dow:"Gio",n:13,t:"Castelli e Aosta romana",sub:"Giorno 6 · Fondovalle",
+{d:"2026-08-13",dow:"Gio",n:13,t:"Castelli e Aosta romana",sub:"Giorno 6 · Fondovalle",loc:[["antey",8,10],["fenis",10,11],["aosta",11,15],["antey",15,22]],L0:"aosta",
  w:{i:"⛅",b:"0,5 mm in tutta la giornata",s:"Fondovalle asciutto, ma caldo: ad Aosta si toccano 33°",t:"23°/33°",l:"Aosta",c:"#e0a94a"},
  p:["🚗 Auto · 20 min","🛒 Balios","🍽️ Pranzo in trattoria"],
  kit:["Vestiti leggeri","Cappellini e crema","Acqua abbondante","K-way in borsa"],
@@ -330,7 +342,7 @@ const P=[
  {h:"16:30 – 19:00",x:"<b>Pomeriggio libero in agriturismo.</b> È il sesto giorno e la mattina è stata piena: prati, ombra e niente auto. Se resta voglia di muoversi, la passeggiata lungo il fiume verso l'area sportiva è dieci minuti."},
  {h:"20:00 · 22:00",x:"Cena in appartamento."}]},
 
-{d:"2026-08-14",dow:"Ven",n:14,t:"Torgnon: Petit Monde e Summer Park",sub:"Giorno 7 · Sostituisce il Forte di Bard",
+{d:"2026-08-14",dow:"Ven",n:14,t:"Torgnon: Petit Monde e Summer Park",sub:"Giorno 7 · Sostituisce il Forte di Bard",loc:[["antey",8,10],["torgnon",10,15],["antey",15,22]],L0:"torgnon",
  w:{i:"⛅",b:"Mattina asciutta",s:"0,7 mm, ma solo dalle 15 in poi: rientro prima e non vi tocca",t:"18°/24°",l:"Torgnon",c:"#6cc48a"},
  p:["🚗 Auto · 15 min","🛒 Balios","🍽️ Pranzo a Chantorné"],
  kit:["Pile e giacca antivento","Scarpe comode","Cappellini e crema","Cambio per Gabriele: il tubing è su tappeto, ma si rotola","Borsa termica per la Fontina"],
@@ -347,7 +359,7 @@ const P=[
  {h:"20:00 · 22:00",x:"Ultima cena in appartamento, svuota-frigo."}],
  box:[{t:"tip",h:"Perché non più il Forte di Bard",x:"Era stato scelto per una pioggia che non ci sarà: a Bard venerdì è asciutto. E <b>Le Alpi dei Ragazzi</b> è tarato sulla primaria dalla terza in su — a 6 anni Gabriele ci sarebbe stato sotto. <b>Ricordatevi di disdire</b> allo 0125 833818."}]},
 
-{d:"2026-08-15",dow:"Sab",n:15,t:"Saluti e partenza",sub:"Giorno 8 · Ferragosto",
+{d:"2026-08-15",dow:"Sab",n:15,t:"Saluti e partenza",sub:"Giorno 8 · Ferragosto",loc:[["antey",8,12],["milano",12,15]],L0:"antey",
  w:{i:"⛅",b:"0,5 mm fino alle 18",s:"La mattina regge: la passeggiata si può fare",t:"19°/27°",l:"Antey",c:"#e0a94a"},
  p:["🚗 Auto · 2h15","🛒 Balios smontato","🥪 Pranzo al sacco"],
  kit:["Impermeabili a portata","Snack e acqua per il viaggio","Caricabatterie in abitacolo"],
@@ -585,7 +597,22 @@ function day(){
    <div class="wx" style="--w:${d.w.c}"><span class="ic">${d.w.i}</span>
      <span class="t"><b>${d.w.b}</b><span>${d.w.s}</span></span>
      <span class="tp">${d.w.t}<small>${d.w.l}</small></span></div>
-   ${d.dry?`<div class="dry ${d.dry.ok?'ok':'no'}">${d.dry.txt}</div>`:''}
+   ${(()=>{
+     if(!d.loc||!Object.keys(WX).length) return '';
+     const righe=d.loc.map(([k,da,a])=>{
+       const f=fascia(k,d.d,da,a); if(!f) return '';
+       const ic = f.mm>=1?'🌧️' : (f.piove.length?'🌦️' : (f.tmax>=28?'☀️':'⛅'));
+       const col = f.mm>=1?'var(--rd)' : (f.piove.length?'var(--am)':'var(--gr)');
+       const q = f.piove.length
+          ? `${f.mm.toFixed(1).replace('.',',')} mm · piove alle ${f.piove.slice(0,3).join(', ')}`
+          : 'asciutto';
+       return `<div class="lrow" style="--lc:${col}">
+         <span class="li">${ic}</span>
+         <span class="ln"><b>${(LUOGHI[k]||{}).n||k}</b><span>${String(da).padStart(2,'0')}–${String(a).padStart(2,'0')} · ${q}</span></span>
+         <span class="lt">${Math.round(f.tmin)}°–${Math.round(f.tmax)}°</span></div>`;
+     }).filter(Boolean).join('');
+     return righe ? `<div class="lbox"><h4>Dove sarete, e che tempo fa</h4>${righe}</div>` : '';
+   })()}
    ${d.hh?`<div class="hbar">${d.hh.map(x=>{
       const lv = x.mm>=1?3:(x.mm>=0.2?2:(x.p>=60?1:0));
       return `<span class="hb l${lv}" title="${x.h}:00 · ${x.mm.toFixed(1)} mm · ${x.p}%"></span>`;
@@ -602,8 +629,17 @@ function day(){
            </div><div class="mapwrap"></div>`;
          prev=s.g;prevN=s.gn;
        }
+       let wxtag='';
+       const h0=oraDi(s.h);
+       if(d.loc && h0!==null && Object.keys(WX).length){
+         const fa=d.loc.find(([k,da,a])=>h0>=da && h0<a);
+         if(fa){
+           const f=fascia(fa[0],d.d,h0,Math.min(h0+2,fa[2]));
+           if(f) wxtag=`<span class="wtag${f.piove.length?' wet':''}">${(LUOGHI[fa[0]]||{}).n} · ${Math.round(f.tmax)}° · ${f.piove.length?f.mm.toFixed(1).replace('.',',')+' mm':'asciutto'}</span>`;
+         }
+       }
        return `<div class="step${s.k?' key':''}${s.m?' meal':''}"><span class="dot"></span><span class="sb">
-        <span class="hh">${s.h}</span><span class="tx">${s.x}</span>${acts}</span></div>`;
+        <span class="hh">${s.h}${wxtag}</span><span class="tx">${s.x}</span>${acts}</span></div>`;
      }).join('')})()}
    ${(d.box||[]).map(b=>`<div class="box ${b.t}"><h4>${b.h}</h4><p>${b.x}</p></div>`).join('')}
    ${d.kit?`<div class="box kit"><h4>Cosa serve oggi</h4><div class="kitlist">${d.kit.map(k=>`<span>${k}</span>`).join('')}</div></div>`:''}
@@ -628,12 +664,19 @@ function wireMaps(){
 
 
 /* ---------- meteo che si aggiorna da solo ---------- */
-const WXPOS=[  // una coordinata per giorno: dove siete davvero
- [45.808,7.593],[45.845,7.625],[45.518,7.203],[45.808,7.593],
- [45.919,7.637],[45.737,7.320],[45.605,7.746],[45.808,7.593]];
-const WXLAB=["Antey","Chamois","Pont","Antey","Lago Blu","Aosta","Bard","Antey"];
-// pagine 3B Meteo verificate (Antey non esiste sul loro sito: si usa Valtournenche, stessa valle)
-const WX3B=["valtournenche","chamois","valsavarenche","valtournenche","breuilcervinia","aosta","bard","valtournenche"];
+/* ---------- meteo agganciato ai luoghi del programma ---------- */
+const LUOGHI={
+ antey:  {n:"Antey",           c:[45.808,7.593]},
+ chamois:{n:"Chamois",         c:[45.845,7.625]},
+ valsav: {n:"Valsavarenche",   c:[45.518,7.203]},
+ lagoblu:{n:"Lago Blu",        c:[45.919,7.637]},
+ valtour:{n:"Valtournenche",   c:[45.878,7.620]},
+ fenis:  {n:"Fénis",           c:[45.738,7.491]},
+ aosta:  {n:"Aosta",           c:[45.737,7.320]},
+ torgnon:{n:"Torgnon",         c:[45.840,7.566]},
+ milano: {n:"verso Milano",    c:[45.600,7.750]}
+};
+const LKEYS=Object.keys(LUOGHI);
 
 function wmo(c){
  if(c===0)              return {i:"☀️",b:"Sereno"};
@@ -654,7 +697,7 @@ function wxColor(mm,pr){
 }
 
 const WXURL=(()=>{
- const la=WXPOS.map(p=>p[0]).join(','), lo=WXPOS.map(p=>p[1]).join(',');
+ const la=LKEYS.map(k=>LUOGHI[k].c[0]).join(','), lo=LKEYS.map(k=>LUOGHI[k].c[1]).join(',');
  return `https://api.open-meteo.com/v1/forecast?latitude=${la}&longitude=${lo}`
   +`&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max`
   +`&hourly=precipitation,precipitation_probability`
@@ -682,10 +725,57 @@ function dryWindow(hh){
  if(last<=10)  return {txt:`Piove solo fino alle ${last+1}:00, poi migliora`,ok:true};
  return {txt:`Pioggia dalle ${first}:00 alle ${last+1}:00`,ok:first>=15};
 }
+let WX={};   // WX[luogo][data] = {ore:{h:{mm,t}}, max, min, mm}
+
+function indicizza(data){
+ const arr = Array.isArray(data) ? data : [data];
+ WX={};
+ LKEYS.forEach((k,i)=>{
+   const loc=arr[i]; if(!loc) return;
+   WX[k]={};
+   if(loc.hourly){
+     loc.hourly.time.forEach((t,j)=>{
+       const g=t.slice(0,10), h=+t.slice(11,13);
+       (WX[k][g] = WX[k][g] || {ore:{}}).ore[h] =
+         {mm: loc.hourly.precipitation[j]||0, t: loc.hourly.temperature_2m[j]};
+     });
+   }
+   if(loc.daily){
+     loc.daily.time.forEach((g,j)=>{
+       WX[k][g]=WX[k][g]||{ore:{}};
+       WX[k][g].code=loc.daily.weather_code[j];
+       WX[k][g].max=loc.daily.temperature_2m_max[j];
+       WX[k][g].min=loc.daily.temperature_2m_min[j];
+       WX[k][g].mm=loc.daily.precipitation_sum[j];
+     });
+   }
+ });
+}
+
+// meteo di un luogo in una fascia oraria: [da, a)
+function fascia(luogo,data,da,a){
+ const g=(WX[luogo]||{})[data]; if(!g||!g.ore) return null;
+ let mm=0, tmin=99, tmax=-99, ore=0, piove=[];
+ for(let h=da; h<a; h++){
+   const o=g.ore[h]; if(!o) continue;
+   ore++; mm+=o.mm;
+   if(o.mm>=0.2) piove.push(h);
+   if(o.t<tmin) tmin=o.t; if(o.t>tmax) tmax=o.t;
+ }
+ if(!ore) return null;
+ return {mm:mm, tmin:tmin, tmax:tmax, piove:piove,
+         asciutto:piove.length===0, da:da, a:a};
+}
+
+// ora d'inizio scritta nella tappa: "10:00 – 11:30" oppure "09:30 · Partenza"
+function oraDi(h){ const m=/(\d{1,2}):(\d{2})/.exec(h||''); return m? +m[1] : null; }
+function oraFine(h){ const m=h&&h.match(/(\d{1,2}):(\d{2})/g); return m&&m[1]? +m[1].split(':')[0] : null; }
+
 function applyWx(data,when){
+ indicizza(data);
  const arr = Array.isArray(data) ? data : [data];
  P.forEach((d,i)=>{
-   const loc = arr[i]; if(!loc||!loc.daily) return;
+   const loc = arr[LKEYS.indexOf(d.L0||'antey')]; if(!loc||!loc.daily) return;
    const k = loc.daily.time.indexOf(d.d); if(k<0) return;
    const w = wmo(loc.daily.weather_code[k]);
    const mx = Math.round(loc.daily.temperature_2m_max[k]);
@@ -694,10 +784,10 @@ function applyWx(data,when){
    const pr = loc.daily.precipitation_probability_max[k];
    d.w = {i:w.i, b:`${w.b}, ${mm.toFixed(1).replace('.',',')} mm`,
           s:`Probabilità di pioggia ${pr}%`,
-          t:`${mn}°/${mx}°`, l:WXLAB[i], c:wxColor(mm,pr)};
+          t:`${mn}°/${mx}°`, l:(LUOGHI[d.L0]||{}).n||'Antey', c:wxColor(mm,pr)};
    const hh=hourly(loc,d.d);
    d.hh=hh; d.dry=dryWindow(hh);
-   d.wk = [w.i, `${w.b} · ${mn}–${mx}° · ${mm.toFixed(1).replace('.',',')} mm · ${pr}%`,
+   d.wk = [w.i, `${(LUOGHI[d.L0]||{}).n||'Antey'} · ${mn}–${mx}° · ${mm.toFixed(1).replace('.',',')} mm`,
            mm>=5?"Al coperto":(mm>=1||pr>=55?"Attenzione":"Buono"),
            mm>=5?"r":(mm>=1||pr>=55?"a":"g")];
  });
@@ -718,6 +808,7 @@ function renderMeteo(){
   <div class="box ${WXSTAMP?'tip':''}"><h4>${WXSTAMP?'Previsioni fresche':'Previsioni da aggiornare'}</h4>
    <p>${fresh}. L'app le riscarica da sola a ogni apertura con rete, per la località dove siete quel giorno — non per il fondovalle.</p>
    <div style="margin-top:10px"><button class="mapbtn" id="wxnow">${MAPSVG} Aggiorna adesso</button></div></div>
+  <div class="box kit"><h4>A quale posto si riferisce</h4><p>Ogni riga qui sopra è la <b>località principale di quel giorno</b>, non il fondovalle: Chamois domenica, Valsavarenche lunedì, il Lago Blu martedì, Torgnon venerdì. Nella scheda del giorno trovi il dettaglio <b>per singola tappa e fascia oraria</b>, che è quello che serve per decidere.</p></div>
   <div class="box"><h4>Verifica su un'altra fonte</h4>
    <p>Questi numeri vengono dal modello <b>best-match</b> di open-meteo. Sull'entità della pioggia i modelli divergono parecchio: per domenica a Chamois vanno da 1,4 mm (ECMWF) a 14,1 mm (GFS). Sulla <b>collocazione oraria</b> invece concordano, ed è quella che decide se la gita si fa. Confrontate con 3B Meteo quando qualcosa non torna.</p>
    <div class="mlinks" style="margin-top:10px">
@@ -917,7 +1008,7 @@ el('#s-info').innerHTML=`<h3 class="blk">Da prenotare</h3>
  <h3 class="blk">Come funziona il programma</h3>
  <div class="box"><h4>Le regole che lo tengono in piedi</h4><p>Uscita mai prima delle <b>9:30</b> · tutti a nanna alle <b>22:00</b> · massimo <b>1h30 a tavola</b>, pranzi e cene · un solo pasto fuori al giorno, quasi sempre a pranzo · le cene fuori solo in locali a meno di 5 minuti da casa.</p></div>
  <div class="box"><h4>Versione dell'app</h4>
-   <p>Stai usando la <b id="appver">v21</b> — <span id="verwhat">niente musei né piscina: Sunny Ranch e pomeriggi liberi</span>.<br>
+   <p>Stai usando la <b id="appver">v22</b> — <span id="verwhat">meteo per località e fascia oraria</span>.<br>
    Se una novità non compare, l'app sta ancora mostrando la copia salvata sul telefono: premi qui sotto.</p>
    <div class="card cact" style="background:none;padding:0;margin-top:10px">
      <a id="forceupd" href="#" style="border-color:var(--ac);color:var(--ac)">Scarica l'ultima versione</a>
