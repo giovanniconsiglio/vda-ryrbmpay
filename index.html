@@ -304,14 +304,14 @@ const P=[
 {d:"2026-08-12",dow:"Mer",n:12,t:"Parco Avventura e cavalli",sub:"Giorno 5 · Zero auto",
  w:{i:"☀️",b:"0,1 mm fra le 9 e le 18",s:"Ad Antey oggi è asciutto: la giornata giusta per stare fuori tutto il giorno",t:"21°/25°",l:"Antey",c:"#6cc48a"},
  p:["🚶 A piedi","🛒 Balios","🥪 Pranzo al sacco"],
- kit:["Scarpe chiuse e pantaloni lunghi per Gabriele","Cambio completo nello zaino","Borsa frigo e telo","Costume"],
+ kit:["Scarpe chiuse e pantaloni lunghi per Gabriele","Cambio completo nello zaino","Borsa frigo e telo","Costumi per tutti — c'è la piscina","Pannolini da acqua per Bianca","Ciabatte e asciugamani"],
  s:[
  {h:"08:30 – 09:20",x:"Sveglia e colazione. <b>Preparate il sacco del pranzo</b> e il cambio di Gabriele."},
  {h:"09:30 · Partenza",x:"A piedi verso l'<b>Area Sportiva di Antey</b>, <b>circa 20 minuti</b> lungo il fiume, tutto pianeggiante.",k:1,g:"45.8064,7.5867",gn:"Area Sportiva Antey"},
  {h:"10:00 – 13:00",x:"<b>Parco Avventura, tre ore piene.</b> Gabriele sui percorsi con un adulto — a 6 anni si fanno i tracciati bassi, quelli verdi e blu, con imbrago e linea vita continua. L'altro adulto all'ombra dei pini con Bianca: la pineta resta fresca anche a 25 gradi.",k:1},
  {h:"13:00 – 14:00",x:"<b>Pranzo al sacco</b> all'area picnic.",m:1},
  {h:"14:00 – 15:00",x:"Nanna dei bimbi all'ombra."},
- {h:"15:00 – 16:30",x:"<b>10 minuti a piedi</b> fino al <b>Sunny Ranch</b>: cavalli e pony. Un'ora abbondante lì, poi rientro lento."},
+ {h:"15:00 – 16:30",x:"<b>Il bagno.</b> La stessa area sportiva ha la <b>piscina scoperta</b>: è l'unico posto della settimana dove si nuota davvero, e oggi ad Antey ci sono 28° con zero pioggia. In alternativa, <b>10 minuti a piedi</b> fino al <b>Sunny Ranch</b> per cavalli e pony.",k:1},
  {h:"17:00 – 19:45",x:"Rientro, docce e <b>bucato</b>: è il pomeriggio giusto, asciuga in tempo per il resto della settimana."},
  {h:"20:00 – 21:30",x:"<b>Cena fuori</b> — Pizza & Steak, 4,8 su 510 recensioni. Dopo una giornata sugli alberi la pizza è la mossa che vince.",m:1}]},
 
@@ -470,7 +470,7 @@ const KIT=[
   "Sneakers per tutti gli altri giorni",
   "Ciabatte per l'agriturismo",
   "Cappellino con visiera e occhiali da sole",
-  "Costume, opzionale"],
+  "Costume — la piscina di Antey è nell'area sportiva"],
 
  ["Tiziana",
   "1 pile leggero",
@@ -484,6 +484,7 @@ const KIT=[
   "1 pigiama: maglia manica corta e pantalone lungo — di notte in camera 19-21°, ma con la finestra aperta scende",
   "Scarpe comode chiuse da camminata, sneakers, ciabatte",
   "Cappellino e occhiali da sole",
+  "Costume — la piscina di Antey è nell'area sportiva",
   "Capi comodi per l'allattamento, se serve ancora"],
 
  ["Paola",
@@ -497,7 +498,8 @@ const KIT=[
   "4 paia di calze + 1 da trekking per lunedì",
   "1 pigiama: maglia manica corta e pantalone lungo — di notte in camera 19-21°, ma con la finestra aperta scende",
   "Scarpe comode chiuse da camminata, sneakers, ciabatte",
-  "Cappellino e occhiali da sole"],
+  "Cappellino e occhiali da sole",
+  "Costume — la piscina di Antey è nell'area sportiva"],
 
  ["Gabriele — 6 anni",
   "5 magliette",
@@ -512,7 +514,7 @@ const KIT=[
   "Ciabatte",
   "Cambio completo in più per martedì, da tenere nello zaino",
   "Cappellino con visiera",
-  "Costume",
+  "Costume e braccioli",
   "Binocolo — lunedì è a caccia di marmotte e stambecchi",
   "Due o tre giochi o libri per i trasferimenti in auto"],
 
@@ -531,7 +533,8 @@ const KIT=[
   "Pappe e omogeneizzati per i primi due giorni — poi c'è il Conad",
   "Biberon e scaldabiberon",
   "Crema solare alta protezione",
-  "Copertina leggera per il passeggino"],
+  "Copertina leggera per il passeggino",
+  "Costumino e pannolini da acqua — in piscina servono quelli contenitivi"],
 
  ["In comune",
   "Seggiolino auto",
@@ -910,7 +913,7 @@ el('#s-info').innerHTML=`<h3 class="blk">Da prenotare</h3>
  <h3 class="blk">Come funziona il programma</h3>
  <div class="box"><h4>Le regole che lo tengono in piedi</h4><p>Uscita mai prima delle <b>9:30</b> · tutti a nanna alle <b>22:00</b> · massimo <b>1h30 a tavola</b>, pranzi e cene · un solo pasto fuori al giorno, quasi sempre a pranzo · le cene fuori solo in locali a meno di 5 minuti da casa.</p></div>
  <div class="box"><h4>Versione dell'app</h4>
-   <p>Stai usando la <b id="appver">v16</b> — <span id="verwhat">quote su misura nelle spese</span>.<br>
+   <p>Stai usando la <b id="appver">v17</b> — <span id="verwhat">il bagno in piscina mercoledì, costumi per tutti</span>.<br>
    Se una novità non compare, l'app sta ancora mostrando la copia salvata sul telefono: premi qui sotto.</p>
    <div class="card cact" style="background:none;padding:0;margin-top:10px">
      <a id="forceupd" href="#" style="border-color:var(--ac);color:var(--ac)">Scarica l'ultima versione</a>
