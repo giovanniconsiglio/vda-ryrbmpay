@@ -84,6 +84,13 @@ h2.dh{font-size:22px;line-height:1.15;letter-spacing:-.02em;margin:2px 0 3px}
 .hb{display:inline-block;width:calc(6.25% - 1px);height:16px;margin-right:1px;border-radius:2px;vertical-align:top;background:var(--card2)}
 .hb.l1{background:rgba(224,169,74,.45)} .hb.l2{background:var(--am)} .hb.l3{background:var(--rd)}
 .hlab{display:flex;justify-content:space-between;font-size:9.5px;color:var(--tx3);margin-top:3px;padding:0 1px}
+.alts{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.altb{background:var(--card);border:1px solid var(--line);border-radius:999px;
+ padding:7px 13px;font:inherit;font-size:12.5px;font-weight:600;color:var(--tx2);cursor:pointer}
+.altb.on{background:var(--ac);border-color:var(--ac);color:#06222b}
+.dchip.multi::after{content:"";display:block;width:4px;height:4px;border-radius:50%;
+ background:var(--am);margin:2px auto 0}
+.dchip.on.multi::after{background:#06222b}
 .lbox{background:var(--card);border-radius:14px;padding:12px 13px;margin-bottom:12px}
 .lbox h4{font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--tx3);margin-bottom:8px;font-weight:700}
 .lrow{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--line)}
@@ -313,19 +320,55 @@ const P=[
  {h:"14:30 – 15:30",x:"Centro di <b>Valtournenche</b>, <b>un'ora</b>: Fontina DOP e souvenir. Portate la borsa termica."},
  {h:"16:00 · 20:00",x:"Rientro ad Antey. Cena in appartamento."}]},
 
-{d:"2026-08-12",dow:"Mer",n:12,t:"Parco Avventura e cavalli",sub:"Giorno 5 · Zero auto",loc:[["antey",8,22]],L0:"antey",
- w:{i:"☀️",b:"0,1 mm fra le 9 e le 18",s:"Ad Antey oggi è asciutto: la giornata giusta per stare fuori tutto il giorno",t:"21°/25°",l:"Antey",c:"#6cc48a"},
- p:["🚶 A piedi","🛒 Balios","🥪 Pranzo al sacco"],
- kit:["Scarpe chiuse e pantaloni lunghi per Gabriele","Cambio completo nello zaino","Borsa frigo e telo per il picnic","Zucchero o carote per i pony, se al ranch lo permettono"],
- s:[
- {h:"08:30 – 09:20",x:"Sveglia e colazione. <b>Preparate il sacco del pranzo</b> e il cambio di Gabriele."},
- {h:"09:30 · Partenza",x:"A piedi verso l'<b>Area Sportiva di Antey</b>, <b>circa 20 minuti</b> lungo il fiume, tutto pianeggiante.",k:1,g:"45.8064,7.5867",gn:"Area Sportiva Antey"},
- {h:"10:00 – 13:00",x:"<b>Parco Avventura, tre ore piene.</b> Gabriele sui percorsi con un adulto — a 6 anni si fanno i tracciati bassi, quelli verdi e blu, con imbrago e linea vita continua. L'altro adulto all'ombra dei pini con Bianca: la pineta resta fresca anche a 25 gradi.",k:1},
- {h:"13:00 – 14:00",x:"<b>Pranzo al sacco</b> all'area picnic.",m:1},
- {h:"14:00 – 15:00",x:"Nanna dei bimbi all'ombra."},
- {h:"15:00 – 16:45",x:"<b>Sunny Ranch</b>, <b>10 minuti a piedi</b>: cavalli e pony da vedere e accarezzare. È il pezzo della giornata che a Bianca piace quanto a Gabriele — gli animali grandi visti da vicino funzionano a qualsiasi età.",k:1},
- {h:"17:00 – 19:45",x:"Rientro, docce e <b>bucato</b>: è il pomeriggio giusto, asciuga in tempo per il resto della settimana."},
- {h:"20:00 – 21:30",x:"<b>Cena fuori</b> — Pizza & Steak, 4,8 su 510 recensioni. Dopo una giornata sugli alberi la pizza è la mossa che vince.",m:1}]},
+{d:"2026-08-12",dow:"Mer",n:12,t:"Tre modi di passare la giornata",sub:"Giorno 5",
+ alts:[
+ {n:"Senza auto",t:"Parco Avventura e cavalli",sub:"Giorno 5 · Tutto a piedi da casa",
+  w:{i:"☀️",b:"Asciutto tutto il giorno",s:"0,0 mm ad Antey: la giornata più sicura della settimana",t:"21°/28°",l:"Antey",c:"#6cc48a"},
+  loc:[["antey",8,22]],L0:"antey",
+  p:["🚶 A piedi","🛒 Balios","🥪 Pranzo al sacco"],
+  kit:["Scarpe chiuse e pantaloni lunghi per Gabriele","Cambio completo nello zaino","Borsa frigo e telo per il picnic","Zucchero o carote per i pony, se al ranch lo permettono"],
+  s:[
+  {h:"08:30 – 09:20",x:"Sveglia e colazione. <b>Preparate il sacco del pranzo</b> e il cambio di Gabriele."},
+  {h:"09:30 · Partenza",x:"A piedi verso l'<b>Area Sportiva di Antey</b>, <b>circa 20 minuti</b> lungo il fiume, tutto pianeggiante.",k:1,g:"45.8064,7.5867",gn:"Area Sportiva Antey"},
+  {h:"10:00 – 13:00",x:"<b>Parco Avventura, tre ore piene.</b> Gabriele sui percorsi con un adulto — a 6 anni si fanno i tracciati verdi e blu, con imbrago e linea vita continua. L'altro adulto all'ombra dei pini con Bianca.",k:1},
+  {h:"13:00 – 14:00",x:"<b>Pranzo al sacco</b> all'area picnic.",m:1},
+  {h:"14:00 – 15:00",x:"Nanna dei bimbi all'ombra."},
+  {h:"15:00 – 16:45",x:"<b>Sunny Ranch</b>, <b>10 minuti a piedi</b>: cavalli e pony da vedere e accarezzare.",k:1},
+  {h:"17:00 – 19:45",x:"Rientro, docce e riposo."},
+  {h:"20:00 – 21:30",x:"<b>Cena fuori</b> — Pizza & Steak, 4,8 su 510 recensioni.",m:1}],
+  box:[{t:"tip",h:"Quando conviene",x:"Se volete una giornata senza auto e senza orari, o se Bianca ha dormito male. Ai primi tuoni si rientra in 15 minuti."}]},
+
+ {n:"Val d'Ayas",t:"Champoluc e la funivia del Crest",sub:"Giorno 5 · Una valle nuova",
+  w:{i:"⛅",b:"0,1 mm in tutta la giornata",s:"Dati affidabili: qui la griglia del modello cade vicino alla quota vera",t:"18°/23°",l:"Champoluc",c:"#6cc48a"},
+  loc:[["antey",8,10],["ayas",10,17],["antey",17,22]],L0:"ayas",
+  p:["🚗 Auto · 55 min","🚡 Funivia · 10 € A/R","🛒 Balios","🍽️ Pranzo in quota"],
+  kit:["Pile per tutti — in quota 18-20°","Giacca antivento","Marsupio per la funivia","Contanti per gli impianti","Cappellini e crema"],
+  s:[
+  {h:"08:30 – 09:20",x:"Sveglia e colazione."},
+  {h:"09:30 · Partenza",x:"Verso <b>Champoluc</b>, in Val d'Ayas: <b>55 minuti</b> — si scende a Châtillon, si prende la valle centrale e si risale a Brusson.",k:1,g:"45.8320,7.7270",gn:"Champoluc"},
+  {h:"10:30 – 11:00",x:"<b>Funivia per il Crest</b>, 10 € andata e ritorno. Stessa formula di Chamois: l'impianto fa la salita e voi arrivate direttamente sui prati.",k:1},
+  {h:"11:00 – 13:00",x:"<b>I prati del Crest.</b> Distese aperte dove stare senza un programma, con il <b>Monte Rosa</b> davanti invece del Cervino. Intorno i <b>villaggi Walser</b>, case di legno scuro diverse da tutto quello che avete visto."},
+  {h:"13:00 – 14:30",x:"<b>Pranzo in quota</b>, in uno dei rifugi del Crest. Chiedete alla partenza della funivia quali sono aperti.",m:1},
+  {h:"14:30 – 16:00",x:"Seconda passeggiata sui prati o discesa lenta. <i>In alternativa, dal fondovalle: <b>Antagnod → Barmasc</b>, strada sterrata larga fra i prati, pensata per i passeggini.</i>"},
+  {h:"16:30 – 17:30",x:"Discesa e rientro ad Antey, 55 minuti."},
+  {h:"20:00 – 21:30",x:"<b>Cena fuori</b> — Pizza & Steak, 4,8 su 510 recensioni.",m:1}],
+  box:[{t:"tip",h:"Quando conviene",x:"Se volete una valle nuova e la formula che ha funzionato domenica: funivia, prati, niente fatica. È l'unica alternativa che vi porta davanti al <b>Monte Rosa</b>."}]},
+
+ {n:"Misto",t:"Parco Avventura e i mulini",sub:"Giorno 5 · Mezza giornata ciascuno",
+  w:{i:"☀️",b:"Asciutto sia sotto sia sopra",s:"0,0 mm ad Antey, 0,1 a La Magdeleine",t:"19°/28°",l:"Antey e Magdeleine",c:"#6cc48a"},
+  loc:[["antey",8,13],["magdal",13,18],["antey",18,22]],L0:"antey",
+  p:["🚶 A piedi + 🚗 10 min","🛒 Balios + marsupio","🥪 Pranzo al sacco"],
+  kit:["Scarpe chiuse e pantaloni lunghi per Gabriele","Cambio completo","Borsa frigo e telo","Marsupio: il sentiero dei mulini potrebbe non reggere il passeggino"],
+  s:[
+  {h:"08:30 – 09:20",x:"Sveglia e colazione, sacco del pranzo pronto."},
+  {h:"09:30 – 12:30",x:"<b>Parco Avventura</b>, ma mezza dose: <b>tre ore invece di una giornata</b>. Gabriele fa i percorsi verdi e blu senza arrivare alla noia — l'ha appena fatto vicino a Milano, quindi meglio lasciarlo con la voglia.",k:1,g:"45.8064,7.5867",gn:"Area Sportiva Antey"},
+  {h:"12:30 – 13:30",x:"<b>Pranzo al sacco</b> all'area picnic, poi si rientra a prendere l'auto.",m:1},
+  {h:"14:00 – 14:15",x:"In auto a <b>La Magdeleine</b>, <b>10 minuti</b>: il comune più piccolo della valle del Cervino, 1644 m.",k:1,g:"45.8500,7.5900",gn:"La Magdeleine"},
+  {h:"14:15 – 16:30",x:"<b>Il percorso degli otto mulini.</b> Parte dal municipio e segue un torrente fra le frazioni di <b>Brengon, Clou e Messelod</b>: alcuni mulini <b>macinano ancora davvero</b>, e ci sono i forni di villaggio. Per un bambino un mulino che gira vale più di un panorama.<br><i>Gli interni si visitano su prenotazione: <a class='tel' href='tel:+393337762807'>☎ 333 776 2807</a></i>"},
+  {h:"17:00 – 19:45",x:"Rientro ad Antey, docce e riposo."},
+  {h:"20:00 – 21:30",x:"<b>Cena fuori</b> — Pizza & Steak.",m:1}],
+  box:[{t:"tip",h:"Quando conviene",x:"Se volete il parco avventura ma senza farne una giornata intera, aggiungendo un posto nuovo a dieci minuti da casa. È il compromesso fra le altre due."}]}
+ ]},
 
 {d:"2026-08-13",dow:"Gio",n:13,t:"Castelli e Aosta romana",sub:"Giorno 6 · Fondovalle",loc:[["antey",8,10],["fenis",10,11],["aosta",11,15],["antey",15,22]],L0:"aosta",
  w:{i:"⛅",b:"0,5 mm in tutta la giornata",s:"Fondovalle asciutto, ma caldo: ad Aosta si toccano 33°",t:"23°/33°",l:"Aosta",c:"#e0a94a"},
@@ -586,14 +629,24 @@ let idx=Math.max(0,P.findIndex(d=>d.d===today()));if(idx<0)idx=0;
 
 function chips(){
   el('#days').innerHTML=P.map((d,i)=>
-   `<div class="dchip${i===idx?' on':''}${d.d===today()?' today':''}" data-i="${i}"><b>${d.n}</b><span>${d.dow}</span></div>`).join('');
+   `<div class="dchip${i===idx?' on':''}${d.d===today()?' today':''}${d.alts?' multi':''}" data-i="${i}"><b>${d.n}</b><span>${d.dow}</span></div>`).join('');
   document.querySelectorAll('.dchip').forEach(c=>c.onclick=()=>{idx=+c.dataset.i;chips();day();window.scrollTo(0,0)});
 }
 
+function altIdx(d){
+  if(!d.alts) return 0;
+  const v=+localStorage.getItem('alt_'+d.d);
+  return (v>=0 && v<d.alts.length) ? v : 0;
+}
+function setAlt(d,i){ localStorage.setItem('alt_'+d.d, i); day(); window.scrollTo(0,0); }
+
 function day(){
-  const d=P[idx];
+  const D=P[idx];
+  const d=D.alts ? Object.assign({}, D, D.alts[altIdx(D)]) : D;
   el('#s-oggi').innerHTML=`
    <h2 class="dh">${d.t}</h2><div class="dsub">${d.sub}</div>
+   ${D.alts?`<div class="alts">${D.alts.map((a,i)=>
+      `<button class="altb${i===altIdx(D)?' on':''}" data-a="${i}">${a.n}</button>`).join('')}</div>`:''}
    <div class="wx" style="--w:${d.w.c}"><span class="ic">${d.w.i}</span>
      <span class="t"><b>${d.w.b}</b><span>${d.w.s}</span></span>
      <span class="tp">${d.w.t}<small>${d.w.l}</small></span></div>
@@ -644,6 +697,7 @@ function day(){
    ${(d.box||[]).map(b=>`<div class="box ${b.t}"><h4>${b.h}</h4><p>${b.x}</p></div>`).join('')}
    ${d.kit?`<div class="box kit"><h4>Cosa serve oggi</h4><div class="kitlist">${d.kit.map(k=>`<span>${k}</span>`).join('')}</div></div>`:''}
    <div class="foot">Previsioni del 7 agosto · verificale in loco dall'11 in poi</div>`;
+  document.querySelectorAll('.altb').forEach(b=>b.onclick=()=>setAlt(D,+b.dataset.a));
   wireMaps();
 }
 
@@ -674,6 +728,8 @@ const LUOGHI={
  fenis:  {n:"Fénis",           c:[45.738,7.491]},
  aosta:  {n:"Aosta",           c:[45.737,7.320]},
  torgnon:{n:"Torgnon",         c:[45.840,7.566]},
+ ayas:   {n:"Champoluc",        c:[45.832,7.727]},
+ magdal: {n:"La Magdeleine",    c:[45.850,7.590]},
  milano: {n:"verso Milano",    c:[45.600,7.750]}
 };
 const LKEYS=Object.keys(LUOGHI);
@@ -777,10 +833,11 @@ function oraFine(h){ const m=h&&h.match(/(\d{1,2}):(\d{2})/g); return m&&m[1]? +
 function applyWx(data,when){
  indicizza(data);
  const arr = Array.isArray(data) ? data : [data];
- P.forEach((d,i)=>{
+ P.forEach((D,i)=>{
+   const d = D.alts ? D.alts[altIdx(D)] : D;
    const li = LKEYS.indexOf(d.L0||'antey');
    const loc = arr[li>=0?li:0]; if(!loc||!loc.daily) return;
-   const k = loc.daily.time.indexOf(d.d); if(k<0) return;
+   const k = loc.daily.time.indexOf(D.d); if(k<0) return;
    const w = wmo(loc.daily.weather_code[k]);
    const mx = Math.round(loc.daily.temperature_2m_max[k]);
    const mn = Math.round(loc.daily.temperature_2m_min[k]);
@@ -806,8 +863,8 @@ function renderMeteo(){
    ? `Aggiornato ${new Date(WXSTAMP).toLocaleString('it-IT',{day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'})}`
    : 'Dati del 7 agosto — non ancora aggiornati';
  el('#s-meteo').innerHTML=`<h3 class="blk">La settimana</h3>
-  ${P.map((d,i)=>{const w=d.wk||[WEEK[i][1],`${(LUOGHI[d.L0]||{}).n||'Antey'} · ${WEEK[i][2]}`,WEEK[i][3],WEEK[i][4]];
-    return `<div class="wkrow"><span class="wd">${d.dow} ${d.n}</span>
+  ${P.map((D,i)=>{const d=D.alts?Object.assign({},D,D.alts[altIdx(D)]):D; const w=d.wk||[WEEK[i][1],`${(LUOGHI[d.L0]||{}).n||'Antey'} · ${WEEK[i][2]}`,WEEK[i][3],WEEK[i][4]];
+    return `<div class="wkrow"><span class="wd">${D.dow} ${D.n}</span>
     <span class="wi">${w[0]}</span><span class="wt">${w[1]}</span>
     <span class="wv ${w[3]||w[4]}">${w[2]}</span></div>`}).join('')}
   <div class="box ${WXSTAMP?'tip':''}"><h4>${WXSTAMP?'Previsioni fresche':'Previsioni da aggiornare'}</h4>
@@ -1024,7 +1081,7 @@ el('#s-info').innerHTML=`<h3 class="blk">Da prenotare</h3>
  <h3 class="blk">Come funziona il programma</h3>
  <div class="box"><h4>Le regole che lo tengono in piedi</h4><p>Uscita mai prima delle <b>9:30</b> · tutti a nanna alle <b>22:00</b> · massimo <b>1h30 a tavola</b>, pranzi e cene · un solo pasto fuori al giorno, quasi sempre a pranzo · le cene fuori solo in locali a meno di 5 minuti da casa.</p></div>
  <div class="box"><h4>Versione dell'app</h4>
-   <p>Stai usando la <b id="appver">v26</b> — <span id="verwhat">meteo per località e fascia oraria</span>.<br>
+   <p>Stai usando la <b id="appver">v27</b> — <span id="verwhat">alternative per giornata, tre opzioni mercoledì</span>.<br>
    Se una novità non compare, l'app sta ancora mostrando la copia salvata sul telefono: premi qui sotto.</p>
    <div class="card cact" style="background:none;padding:0;margin-top:10px">
      <a id="forceupd" href="#" style="border-color:var(--ac);color:var(--ac)">Scarica l'ultima versione</a>
