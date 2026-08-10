@@ -703,7 +703,7 @@ const WXURL=(()=>{
  const la=LKEYS.map(k=>LUOGHI[k].c[0]).join(','), lo=LKEYS.map(k=>LUOGHI[k].c[1]).join(',');
  return `https://api.open-meteo.com/v1/forecast?latitude=${la}&longitude=${lo}`
   +`&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max`
-  +`&hourly=precipitation,precipitation_probability`
+  +`&hourly=precipitation,precipitation_probability,temperature_2m`
   +`&timezone=Europe%2FRome&start_date=2026-08-08&end_date=2026-08-15`;
 })();
 
@@ -1024,7 +1024,7 @@ el('#s-info').innerHTML=`<h3 class="blk">Da prenotare</h3>
  <h3 class="blk">Come funziona il programma</h3>
  <div class="box"><h4>Le regole che lo tengono in piedi</h4><p>Uscita mai prima delle <b>9:30</b> · tutti a nanna alle <b>22:00</b> · massimo <b>1h30 a tavola</b>, pranzi e cene · un solo pasto fuori al giorno, quasi sempre a pranzo · le cene fuori solo in locali a meno di 5 minuti da casa.</p></div>
  <div class="box"><h4>Versione dell'app</h4>
-   <p>Stai usando la <b id="appver">v25</b> — <span id="verwhat">meteo per località e fascia oraria</span>.<br>
+   <p>Stai usando la <b id="appver">v26</b> — <span id="verwhat">meteo per località e fascia oraria</span>.<br>
    Se una novità non compare, l'app sta ancora mostrando la copia salvata sul telefono: premi qui sotto.</p>
    <div class="card cact" style="background:none;padding:0;margin-top:10px">
      <a id="forceupd" href="#" style="border-color:var(--ac);color:var(--ac)">Scarica l'ultima versione</a>

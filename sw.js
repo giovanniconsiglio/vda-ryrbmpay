@@ -1,4 +1,4 @@
-const CACHE = 'vda-v25';
+const CACHE = 'vda-v26';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {
@@ -15,6 +15,8 @@ self.addEventListener('activate', e => {
 // Rete con timeout 3s, poi cache. Offline: sempre cache.
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
+  // le API esterne (meteo) devono sempre andare in rete: niente cache, niente timeout
+  if (new URL(e.request.url).origin !== self.location.origin) return;
   e.respondWith(
     Promise.race([
       fetch(e.request).then(r => {
