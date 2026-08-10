@@ -152,6 +152,8 @@ h2.dh{font-size:22px;line-height:1.15;letter-spacing:-.02em;margin:2px 0 3px}
 .frm input:focus,.frm select:focus{outline:none;border-color:var(--ac)}
 .frm .r2{display:flex;gap:8px}
 .frm .r2>*{flex:1}
+.cwarn{background:rgba(224,169,74,.14);color:var(--am);border-radius:9px;padding:9px 11px;
+ font-size:12.5px;margin-bottom:8px;line-height:1.35}
 .frm button{width:100%;background:var(--ac);color:#06222b;border:0;border-radius:9px;padding:12px;
  font:inherit;font-size:15px;font-weight:700;cursor:pointer}
 .exp{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}
@@ -770,7 +772,8 @@ const SPLITS={meta:{n:"Metà e metà",G:.5,P:.5},
               quote:{n:"A quote — 3 e 2",G:.6,P:.4},
               adulti:{n:"Solo adulti — 2 e 1",G:2/3,P:1/3},
               solaG:{n:"Solo nostra",G:1,P:0},
-              solaP:{n:"Solo di Paola",G:0,P:1}};
+              solaP:{n:"Solo di Paola",G:0,P:1},
+              custom:{n:"Quote su misura — in euro",custom:true}};
 
 function loadSp(){try{return JSON.parse(localStorage.getItem('spese')||'[]')}catch(e){return[]}}
 function saveSp(a){localStorage.setItem('spese',JSON.stringify(a))}
@@ -786,8 +789,8 @@ function renderSpese(){
     }
     tot+=e.v;
     if(e.by==='G') pagG+=e.v; else pagP+=e.v;
-    const q=SPLITS[e.sp]||SPLITS.meta;
-    dovG+=e.v*q.G; dovP+=e.v*q.P;
+    if(e.sp==='custom'){ dovG+=(e.cG||0); dovP+=(e.cP||0); }
+    else { const q=SPLITS[e.sp]||SPLITS.meta; dovG+=e.v*q.G; dovP+=e.v*q.P; }
   });
   const saldo = (pagG - dovG) - rimb;   // >0: Paola deve a noi
   const chi = saldo>=0 ? `<b>Paola</b> deve a noi` : `<b>Noi</b> dobbiamo a Paola`;
@@ -815,30 +818,63 @@ function renderSpese(){
        <option value="rimb">Restituzione di denaro</option>
      </select>
      <select id="sp-sp">${Object.keys(SPLITS).map(k=>`<option value="${k}">${SPLITS[k].n}</option>`).join('')}</select>
+     <div class="r2" id="sp-cust" style="display:none">
+       <input id="sp-cg" type="number" inputmode="decimal" step="0.01" placeholder="€ nostri">
+       <input id="sp-cp" type="number" inputmode="decimal" step="0.01" placeholder="€ di Paola">
+     </div>
+     <div id="sp-warn" class="cwarn" style="display:none"></div>
      <button id="sp-add">Aggiungi</button>
    </div>
    ${sp.length?`<h3 class="blk">Movimenti</h3>${sp.map((e,i)=>`
      <div class="exp${e.k==='rimb'?' rimb':''}"><div class="ed"><div class="et">${e.k==='rimb'?'↩ ':''}${e.t}</div>
        <div class="em">${e.k==='rimb'
           ? `${NUCLEI[e.by].s} ${e.by==='P'?'ha restituito a noi':'ha restituito a Paola'}${e.d?' · '+e.d:''}`
-          : `${NUCLEI[e.by].s} · ${(SPLITS[e.sp]||SPLITS.meta).n}${e.d?' · '+e.d:''}`}</div></div>
+          : `${NUCLEI[e.by].s} · ${e.sp==='custom'
+               ? `noi ${eur(e.cG||0)} · Paola ${eur(e.cP||0)}`
+               : (SPLITS[e.sp]||SPLITS.meta).n}${e.d?' · '+e.d:''}`}</div></div>
        <div class="ev">${eur(e.v)}</div><button class="ex" data-i="${i}">×</button></div>`).join('')}
      <div class="tot"><span>Totale</span><span>${eur(tot)}</span></div>
      <div class="frm" style="margin-top:14px"><button id="sp-share">Copia riepilogo per Paola</button></div>`
     :'<div class="box"><h4>Ancora nessuna spesa</h4><p>Aggiungi la prima qui sopra: funivia, spesa al Conad, pranzo, benzina.</p></div>'}
-   <div class="box kit"><h4>Come si divide</h4><p><b>Metà e metà</b> per le spese di casa e auto.<br><b>A quote, 3 a 2</b>, in proporzione alle teste: spesa alimentare e pranzi.<br><b>Solo adulti, 2 a 1</b> — voi due contro Paola: cene al ristorante, impianti e ingressi dove Bianca non paga e Gabriele è ridotto.<br><b>Solo nostra</b> o <b>solo di Paola</b> per quello che riguarda un nucleo soltanto.</p></div>
+   <div class="box kit"><h4>Come si divide</h4><p><b>Metà e metà</b> per le spese di casa e auto.<br><b>A quote, 3 a 2</b>, in proporzione alle teste: spesa alimentare e pranzi.<br><b>Solo adulti, 2 a 1</b> — voi due contro Paola: cene al ristorante, impianti e ingressi dove Bianca non paga e Gabriele è ridotto.<br><b>Solo nostra</b> o <b>solo di Paola</b> per quello che riguarda un nucleo soltanto.<br><b>Quote su misura</b> quando nessuna proporzione va bene: scrivi quanto tocca a ciascuno in euro. Basta compilarne una, l'altra la calcolo con il resto.</p></div>
    <div class="box tip"><h4>Le restituzioni</h4><p>Scegli <b>Restituzione di denaro</b> quando qualcuno salda, in tutto o in parte. Non entra nel totale speso: abbassa soltanto il debito.<br>Perché i conti tornino, la spesa originale va registrata comunque — se Paola vi ha già dato 840 € per l'alloggio, servono <b>due movimenti</b>: l'alloggio come spesa divisa, e i 840 € come restituzione.</p></div>
    <div class="box warn"><h4>I dati stanno su questo telefono</h4><p>Non si sincronizzano con quello di Paola. Registra tutto tu, e usa <b>Copia riepilogo</b> per mandarle il conto su WhatsApp quando volete pareggiare.</p></div>`;
 
+  const num=x=>parseFloat((x||'').toString().replace(',','.'))||0;
   const add=el('#sp-add');
   if(add) add.onclick=()=>{
     const t=el('#sp-t').value.trim(), v=parseFloat((el('#sp-v').value||'').replace(',','.'));
     if(!t||!(v>0)){el('#sp-t').focus();return;}
+    let cG=0,cP=0;
+    if(el('#sp-k').value!=='rimb' && el('#sp-sp').value==='custom'){
+      cG=num(el('#sp-cg').value); cP=num(el('#sp-cp').value);
+      if(Math.abs((cG+cP)-v) > 0.011){
+        const w=el('#sp-warn'); w.style.display='block';
+        w.textContent=`Le quote fanno ${eur(cG+cP)}, ma la spesa è ${eur(v)}. Correggi, oppure lascia vuoto un campo e lo calcolo io.`;
+        return;
+      }
+    }
     const a=loadSp();
-    a.unshift({t:t,v:v,k:el('#sp-k').value,by:el('#sp-by').value,sp:el('#sp-sp').value,
+    a.unshift({t:t,v:v,k:el('#sp-k').value,by:el('#sp-by').value,sp:el('#sp-sp').value,cG:cG,cP:cP,
       d:new Date().toLocaleDateString('it-IT',{day:'numeric',month:'short'})});
     saveSp(a); renderSpese();
   };
+  const sel=el('#sp-sp'), cust=el('#sp-cust'), warn=el('#sp-warn');
+  const mostraCust=()=>{
+    const on = sel && sel.value==='custom' && el('#sp-k').value!=='rimb';
+    if(cust) cust.style.display = on ? 'flex' : 'none';
+    if(warn) warn.style.display='none';
+  };
+  if(sel) sel.onchange=mostraCust;
+  // scrivendo una quota, l'altra si completa con il resto
+  const completa=(scritto,altro)=>()=>{
+    const v=num(el('#sp-v').value), a=num(el(scritto).value);
+    if(v>0 && a>0 && a<=v) el(altro).value=(v-a).toFixed(2);
+    if(warn) warn.style.display='none';
+  };
+  if(el('#sp-cg')) el('#sp-cg').oninput=completa('#sp-cg','#sp-cp');
+  if(el('#sp-cp')) el('#sp-cp').oninput=completa('#sp-cp','#sp-cg');
+
   const kind=el('#sp-k');
   if(kind) kind.onchange=()=>{
     const rim = kind.value==='rimb';
@@ -847,6 +883,7 @@ function renderSpese(){
     el('#sp-by').innerHTML = Object.keys(NUCLEI).map(k=>
       `<option value="${k}">${rim ? 'Ha dato '+NUCLEI[k].s : 'Paga '+NUCLEI[k].s}</option>`).join('');
     el('#sp-add').textContent = rim ? 'Registra restituzione' : 'Aggiungi';
+    mostraCust();
   };
   document.querySelectorAll('.ex').forEach(b=>b.onclick=()=>{
     const a=loadSp(); a.splice(+b.dataset.i,1); saveSp(a); renderSpese();
@@ -873,7 +910,7 @@ el('#s-info').innerHTML=`<h3 class="blk">Da prenotare</h3>
  <h3 class="blk">Come funziona il programma</h3>
  <div class="box"><h4>Le regole che lo tengono in piedi</h4><p>Uscita mai prima delle <b>9:30</b> · tutti a nanna alle <b>22:00</b> · massimo <b>1h30 a tavola</b>, pranzi e cene · un solo pasto fuori al giorno, quasi sempre a pranzo · le cene fuori solo in locali a meno di 5 minuti da casa.</p></div>
  <div class="box"><h4>Versione dell'app</h4>
-   <p>Stai usando la <b id="appver">v15</b> — <span id="verwhat">lunedì col Balios, restituzioni di denaro</span>.<br>
+   <p>Stai usando la <b id="appver">v16</b> — <span id="verwhat">quote su misura nelle spese</span>.<br>
    Se una novità non compare, l'app sta ancora mostrando la copia salvata sul telefono: premi qui sotto.</p>
    <div class="card cact" style="background:none;padding:0;margin-top:10px">
      <a id="forceupd" href="#" style="border-color:var(--ac);color:var(--ac)">Scarica l'ultima versione</a>
