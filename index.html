@@ -372,20 +372,54 @@ const P=[
   box:[{t:"tip",h:"Quando conviene",x:"Se volete il parco avventura ma senza farne una giornata intera, aggiungendo un posto nuovo a dieci minuti da casa. È il compromesso fra le altre due."}]}
  ]},
 
-{d:"2026-08-13",dow:"Gio",n:13,t:"Castelli e Aosta romana",sub:"Giorno 6 · Fondovalle",loc:[["antey",8,10],["fenis",10,11],["aosta",11,15],["antey",15,22]],L0:"aosta",
- w:{i:"⛅",b:"0,5 mm in tutta la giornata",s:"Fondovalle asciutto, ma caldo: ad Aosta si toccano 33°",t:"23°/33°",l:"Aosta",c:"#e0a94a"},
- p:["🚗 Auto · 20 min","🛒 Balios","🍽️ Pranzo in trattoria"],
- kit:["Vestiti leggeri","Cappellini e crema","Acqua abbondante","K-way in borsa"],
- s:[
- {h:"08:30 – 09:20",x:"Sveglia e colazione."},
- {h:"09:30 · Partenza",x:"In auto per <b>Fénis</b>, <b>20 minuti</b>.",k:1,g:"45.7383,7.4906",gn:"Castello di Fénis"},
- {h:"10:00 – 11:15",x:"<b>Castello di Fénis, da fuori.</b> Doppia cinta di mura, torri e camminamenti: visto dal prato che lo circonda è un castello da libro illustrato, e Gabriele può correre mentre voi guardate. <b>Saltate la visita guidata</b> — sono 45 minuti di sale e pannelli. <i>Se piovesse, è lì che vi riparate.</i>"},
- {h:"11:30 – 12:00",x:"Spostamento ad <b>Aosta</b> centro, <b>25 minuti</b>.",g:"45.7372,7.3206",gn:"Aosta centro"},
- {h:"12:30 – 14:00",x:"<b>Pranzo in trattoria</b> — Osteria dell'Oca, il voto più alto della città, e fa anche pizze.",m:1},
- {h:"14:00 – 15:00",x:"<b>Aosta romana, all'aperto e di corsa</b>: la <b>Porta Pretoria</b> ci si passa sotto, il <b>Teatro Romano</b> ha una facciata alta 22 metri che si guarda col naso all'insù, l'<b>Arco d'Augusto</b> chiude la passeggiata. Sono rovine da attraversare, non vetrine: un'ora basta. Vie pedonali in ombra, gelato d'obbligo con 34°."},
- {h:"15:30 – 16:15",x:"Rientro ad Antey per sfuggire ai 34 gradi della città."},
- {h:"16:30 – 19:00",x:"<b>Pomeriggio libero in agriturismo.</b> È il sesto giorno e la mattina è stata piena: prati, ombra e niente auto. Se resta voglia di muoversi, la passeggiata lungo il fiume verso l'area sportiva è dieci minuti."},
- {h:"20:00 · 22:00",x:"Cena in appartamento."}]},
+{d:"2026-08-13",dow:"Gio",n:13,t:"Tre modi di restare in montagna",sub:"Giorno 6",
+ alts:[
+ {n:"Cheneil",t:"Cheneil, la conca senza auto",sub:"Giorno 6 · Natura, nella vostra valle",
+  w:{i:"⛅",b:"Asciutto fino alle 15",s:"0,2 mm solo alle 16: rientrate prima e non vi tocca",t:"15°/22°",l:"Cheneil",c:"#6cc48a"},
+  loc:[["antey",8,10],["cheneil",10,16],["antey",16,22]],L0:"cheneil",
+  p:["🚗 Auto · 30 min","🛗 Ascensore gratuito","🛒 Balios","🍽️ Pranzo in quota"],
+  kit:["Pile per tutti — a 2100 m sono 15° al mattino","Giacca antivento","Marsupio, per sicurezza","Cappellini e crema"],
+  s:[
+  {h:"08:30 – 09:20",x:"Sveglia e colazione."},
+  {h:"09:30 · Partenza",x:"Verso <b>Valtournenche</b>, poi indicazioni per la frazione <b>Cretaz</b> e su fino al parcheggio di <b>La Barma</b>, a 2000 m. <b>Circa 30 minuti.</b>",k:1,g:"45.9020,7.6100",gn:"Cheneil - La Barma"},
+  {h:"10:15 – 10:30",x:"<b>Ascensore inclinato</b> dal parcheggio: supera i <b>50 metri</b> che separano La Barma da Cheneil, è <b>gratuito e sempre aperto</b>. In alternativa c'è la mulattiera, ma con l'impianto non serve.",k:1},
+  {h:"10:30 – 13:00",x:"<b>Cheneil</b>, 2105 m: una conca dove <b>le auto non arrivano</b>, come Chamois ma più piccola e più selvatica. Prati aperti, poche baite, il <b>Cervino di fronte</b> senza niente in mezzo. Si cammina dove si vuole, non c'è un percorso obbligato."},
+  {h:"13:00 – 14:30",x:"<b>Pranzo in quota</b> all'Hotel Panorama al Bich, l'unica struttura della conca. <i>Telefonate la mattina: è piccolo.</i>",m:1},
+  {h:"14:30 – 15:30",x:"Ancora prati, poi discesa. <b>Entro le 16</b>: da quell'ora arriva una spruzzata."},
+  {h:"16:00 – 16:45",x:"Rientro ad Antey."},
+  {h:"20:00 · 22:00",x:"Cena in appartamento."}],
+  box:[{t:"warn",h:"Una telefonata prima di partire",x:"L'ascensore inclinato ha avuto un guasto nell'agosto <b>2024</b>, non quest'anno, ma conviene sincerarsi che sia in funzione: chiedete all'ufficio turistico di Valtournenche. Se fosse fermo, la salita a piedi è di 40 minuti su strada ripida, faticosa col passeggino."},
+   {t:"tip",h:"Perché questa",x:"È la risposta alla vostra richiesta: natura vera, nella vostra valle, senza macinare chilometri. E la formula di Chamois — impianto che fa la salita, prati in cima — che finora ha funzionato ogni volta."}]},
+
+ {n:"Misto",t:"Parco Avventura e i mulini",sub:"Giorno 6 · Mezza giornata ciascuno",
+  w:{i:"☀️",b:"Ad Antey asciutto fino alle 17",s:"Caldo a valle, 29°: i mulini stanno più freschi",t:"22°/29°",l:"Antey",c:"#6cc48a"},
+  loc:[["antey",8,13],["magdal",13,17],["antey",17,22]],L0:"antey",
+  p:["🚶 A piedi + 🚗 10 min","🛒 Balios + marsupio","🥪 Pranzo al sacco"],
+  kit:["Scarpe chiuse e pantaloni lunghi per Gabriele","Cambio completo","Borsa frigo e telo","Marsupio: il sentiero dei mulini potrebbe non reggere il passeggino"],
+  s:[
+  {h:"08:30 – 09:20",x:"Sveglia e colazione, sacco del pranzo pronto."},
+  {h:"09:30 – 12:30",x:"<b>Parco Avventura</b>, tre ore: i percorsi verdi e blu senza arrivare alla noia.",k:1,g:"45.8064,7.5867",gn:"Area Sportiva Antey"},
+  {h:"12:30 – 13:30",x:"<b>Pranzo al sacco</b> all'area picnic, poi si prende l'auto.",m:1},
+  {h:"14:00 – 16:00",x:"<b>La Magdeleine</b>, 10 minuti: il <b>percorso degli otto mulini</b> lungo il torrente, fra Brengon, Clou e Messelod. Alcuni <b>macinano ancora</b>. A 1644 m si sta più freschi che ad Antey.<br><i>Interni su prenotazione: <a class='tel' href='tel:+393337762807'>☎ 333 776 2807</a></i>",k:1,g:"45.8500,7.5900",gn:"La Magdeleine"},
+  {h:"16:00 – 19:45",x:"Rientro. <b>Dalle 16 può piovere a La Magdeleine</b>: non tirate oltre."},
+  {h:"20:00 · 22:00",x:"Cena in appartamento."}],
+  box:[{t:"tip",h:"Perché questa",x:"È quella che ieri avevate come terza opzione. Il parco in mezza dose, e un posto nuovo a dieci minuti da casa."}]},
+
+ {n:"Sentiero energia",t:"Il percorso dell'energia, da La Magdeleine",sub:"Giorno 6 · Camminata con i giochi",
+  w:{i:"⛅",b:"Asciutto fino alle 15",s:"In quota si sta sui 16-22°, molto meglio dei 29° di valle",t:"16°/22°",l:"La Magdeleine",c:"#6cc48a"},
+  loc:[["antey",8,10],["magdal",10,16],["antey",16,22]],L0:"magdal",
+  p:["🚗 Auto · 10 min","🥾 Marsupio consigliato","🍽️ Pranzo al sacco o in baita"],
+  kit:["Pile e giacca antivento","Marsupio per Bianca","Borsa frigo e telo","Acqua e snack"],
+  s:[
+  {h:"08:30 – 09:30",x:"Sveglia e colazione con calma."},
+  {h:"09:45 · Partenza",x:"In auto a <b>La Magdeleine</b>, 10 minuti, frazione <b>Vieu</b>.",k:1,g:"45.8500,7.5900",gn:"La Magdeleine"},
+  {h:"10:00 – 13:00",x:"<b>Il percorso dell'energia</b>, che collega La Magdeleine a <b>Chamois</b> seguendo il <b>ru Veuillen</b>, un canale d'irrigazione storico. Lungo il tracciato ci sono <b>pannelli e installazioni da toccare</b> sul tema dell'energia idroelettrica: fatte per i bambini, non per gli adulti.<br>Il giro intero sono 4 ore andata e ritorno con 100 m di dislivello, difficoltà turistica — ma <b>si fa il tratto che volete</b> e si torna indietro.",k:1},
+  {h:"13:00 – 14:30",x:"<b>Pranzo</b>: al sacco lungo il ru, oppure proseguendo fino a Chamois si mangia lì.",m:1},
+  {h:"14:30 – 16:00",x:"Ritorno con calma. <b>Rientrate entro le 16</b>, poi arriva la pioggia."},
+  {h:"20:00 · 22:00",x:"Cena in appartamento."}],
+  box:[{t:"tip",h:"Perché questa",x:"Natura in valle e in quota, con qualcosa da fare lungo la strada invece che solo da guardare. È l'unica delle tre che non ripete niente di già visto."},
+   {t:"warn",h:"Da verificare",x:"Non ho conferma che il sentiero regga il passeggino: portate il marsupio. In estate c'è anche un servizio di bike-sharing lungo il percorso."}]}
+ ]},
 
 {d:"2026-08-14",dow:"Ven",n:14,t:"Torgnon: Petit Monde e Summer Park",sub:"Giorno 7 · Sostituisce il Forte di Bard",loc:[["antey",8,10],["torgnon",10,15],["antey",15,22]],L0:"torgnon",
  w:{i:"⛅",b:"Mattina asciutta",s:"0,7 mm, ma solo dalle 15 in poi: rientro prima e non vi tocca",t:"18°/24°",l:"Torgnon",c:"#6cc48a"},
@@ -731,6 +765,7 @@ const LUOGHI={
  aosta:  {n:"Aosta",           c:[45.737,7.320]},
  torgnon:{n:"Torgnon",         c:[45.840,7.566]},
  ayas:   {n:"Champoluc",        c:[45.832,7.727]},
+ cheneil:{n:"Cheneil",          c:[45.902,7.610]},
  magdal: {n:"La Magdeleine",    c:[45.850,7.590]},
  milano: {n:"verso Milano",    c:[45.600,7.750]}
 };
@@ -1083,7 +1118,7 @@ el('#s-info').innerHTML=`<h3 class="blk">Da prenotare</h3>
  <h3 class="blk">Come funziona il programma</h3>
  <div class="box"><h4>Le regole che lo tengono in piedi</h4><p>Uscita mai prima delle <b>9:30</b> · tutti a nanna alle <b>22:00</b> · massimo <b>1h30 a tavola</b>, pranzi e cene · un solo pasto fuori al giorno, quasi sempre a pranzo · le cene fuori solo in locali a meno di 5 minuti da casa.</p></div>
  <div class="box"><h4>Versione dell'app</h4>
-   <p>Stai usando la <b id="appver">v29</b> — <span id="verwhat">le gole delle Busserailles martedì</span>.<br>
+   <p>Stai usando la <b id="appver">v30</b> — <span id="verwhat">tre opzioni di montagna per giovedì</span>.<br>
    Se una novità non compare, l'app sta ancora mostrando la copia salvata sul telefono: premi qui sotto.</p>
    <div class="card cact" style="background:none;padding:0;margin-top:10px">
      <a id="forceupd" href="#" style="border-color:var(--ac);color:var(--ac)">Scarica l'ultima versione</a>
