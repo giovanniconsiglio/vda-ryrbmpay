@@ -84,6 +84,16 @@ h2.dh{font-size:22px;line-height:1.15;letter-spacing:-.02em;margin:2px 0 3px}
 .hb{display:inline-block;width:calc(6.25% - 1px);height:16px;margin-right:1px;border-radius:2px;vertical-align:top;background:var(--card2)}
 .hb.l1{background:rgba(224,169,74,.45)} .hb.l2{background:var(--am)} .hb.l3{background:var(--rd)}
 .hlab{display:flex;justify-content:space-between;font-size:9.5px;color:var(--tx3);margin-top:3px;padding:0 1px}
+.rdot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:1px}
+.rdot.r-ok{background:var(--gr)} .rdot.r-med{background:var(--am)} .rdot.r-bad{background:var(--rd)}
+.altb.on .rdot{box-shadow:0 0 0 2px rgba(6,34,43,.35)}
+.rbox{border-radius:14px;padding:11px 13px;margin-bottom:12px;border-left:3px solid var(--rc)}
+.rbox.r-ok{--rc:var(--gr);background:rgba(108,196,138,.10)}
+.rbox.r-med{--rc:var(--am);background:rgba(224,169,74,.10)}
+.rbox.r-bad{--rc:var(--rd);background:rgba(224,123,106,.10)}
+.rbox .rh{font-size:11px;text-transform:uppercase;letter-spacing:.09em;font-weight:700;color:var(--rc);margin-bottom:4px}
+.rbox p{font-size:13px;line-height:1.4;color:var(--tx2)}
+.rbox p b{color:var(--tx)}
 .alts{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
 .altb{background:var(--card);border:1px solid var(--line);border-radius:999px;
  padding:7px 13px;font:inherit;font-size:12.5px;font-weight:600;color:var(--tx2);cursor:pointer}
@@ -324,7 +334,7 @@ const P=[
 
 {d:"2026-08-12",dow:"Mer",n:12,t:"Tre modi di passare la giornata",sub:"Giorno 5",
  alts:[
- {n:"Senza auto",t:"Parco Avventura e cavalli",sub:"Giorno 5 · Tutto a piedi da casa",
+ {n:"Senza auto",t:"Parco Avventura e cavalli",sub:"Giorno 5 · Tutto a piedi da casa",risk:{l:"ok",t:"Tutto a piedi da casa: ai primi tuoni si rientra in 15 minuti. Il rischio è praticamente nullo."},
   w:{i:"☀️",b:"Asciutto tutto il giorno",s:"0,0 mm ad Antey: la giornata più sicura della settimana",t:"21°/28°",l:"Antey",c:"#6cc48a"},
   loc:[["antey",8,22]],L0:"antey",
   p:["🚶 A piedi","🛒 Balios","🥪 Pranzo al sacco"],
@@ -340,7 +350,7 @@ const P=[
   {h:"20:00 – 21:30",x:"<b>Cena fuori</b> — Pizza & Steak, 4,8 su 510 recensioni.",m:1}],
   box:[{t:"tip",h:"Quando conviene",x:"Se volete una giornata senza auto e senza orari, o se Bianca ha dormito male. Ai primi tuoni si rientra in 15 minuti."}]},
 
- {n:"Val d'Ayas",t:"Champoluc e la funivia del Crest",sub:"Giorno 5 · Una valle nuova",
+ {n:"Val d'Ayas",t:"Champoluc e la funivia del Crest",sub:"Giorno 5 · Una valle nuova",risk:{l:"med",t:"Asciutto fino alle 16, ma alle 17 è previsto un temporale da 11,7 mm in un'ora. Scendete con la funivia entro le 16:30."},
   w:{i:"⛅",b:"0,1 mm in tutta la giornata",s:"Dati affidabili: qui la griglia del modello cade vicino alla quota vera",t:"18°/23°",l:"Champoluc",c:"#6cc48a"},
   loc:[["antey",8,10],["ayas",10,17],["antey",17,22]],L0:"ayas",
   p:["🚗 Auto · 55 min","🚡 Funivia · 10 € A/R","🛒 Balios","🍽️ Pranzo in quota"],
@@ -356,7 +366,7 @@ const P=[
   {h:"20:00 – 21:30",x:"<b>Cena fuori</b> — Pizza & Steak, 4,8 su 510 recensioni.",m:1}],
   box:[{t:"tip",h:"Quando conviene",x:"Se volete una valle nuova e la formula che ha funzionato domenica: funivia, prati, niente fatica. È l'unica alternativa che vi porta davanti al <b>Monte Rosa</b>."}]},
 
- {n:"Misto",t:"Parco Avventura e i mulini",sub:"Giorno 5 · Mezza giornata ciascuno",
+ {n:"Misto",t:"Parco Avventura e i mulini",sub:"Giorno 5 · Mezza giornata ciascuno",risk:{l:"ok",t:"Antey e La Magdeleine restano asciutte tutto il giorno. Nessun vincolo d'orario."},
   w:{i:"☀️",b:"Asciutto sia sotto sia sopra",s:"0,0 mm ad Antey, 0,1 a La Magdeleine",t:"19°/28°",l:"Antey e Magdeleine",c:"#6cc48a"},
   loc:[["antey",8,13],["magdal",13,18],["antey",18,22]],L0:"antey",
   p:["🚶 A piedi + 🚗 10 min","🛒 Balios + marsupio","🥪 Pranzo al sacco"],
@@ -374,7 +384,7 @@ const P=[
 
 {d:"2026-08-13",dow:"Gio",n:13,t:"Tre modi di restare in montagna",sub:"Giorno 6",
  alts:[
- {n:"Cheneil",t:"Cheneil, la conca senza auto",sub:"Giorno 6 · Natura, nella vostra valle",
+ {n:"Cheneil",t:"Cheneil, la conca senza auto",sub:"Giorno 6 · Natura, nella vostra valle",risk:{l:"ok",t:"Zero millimetri dalle 9 alle 19: è l'unica località della zona senza una goccia in tutta la giornata. Resta l'incognita dell'ascensore, da verificare per telefono."},
   w:{i:"⛅",b:"Asciutto fino alle 15",s:"0,2 mm solo alle 16: rientrate prima e non vi tocca",t:"15°/22°",l:"Cheneil",c:"#6cc48a"},
   loc:[["antey",8,10],["cheneil",10,16],["antey",16,22]],L0:"cheneil",
   p:["🚗 Auto · 30 min","🛗 Ascensore gratuito","🛒 Balios","🍽️ Pranzo in quota"],
@@ -391,7 +401,7 @@ const P=[
   box:[{t:"warn",h:"Una telefonata prima di partire",x:"L'ascensore inclinato ha avuto un guasto nell'agosto <b>2024</b>, non quest'anno, ma conviene sincerarsi che sia in funzione: chiedete all'ufficio turistico di Valtournenche. Se fosse fermo, la salita a piedi è di 40 minuti su strada ripida, faticosa col passeggino."},
    {t:"tip",h:"Perché questa",x:"È la risposta alla vostra richiesta: natura vera, nella vostra valle, senza macinare chilometri. E la formula di Chamois — impianto che fa la salita, prati in cima — che finora ha funzionato ogni volta."}]},
 
- {n:"Misto",t:"Parco Avventura e i mulini",sub:"Giorno 6 · Mezza giornata ciascuno",
+ {n:"Misto",t:"Parco Avventura e i mulini",sub:"Giorno 6 · Mezza giornata ciascuno",risk:{l:"med",t:"Asciutto fino alle 14, poi ad Antey 2 mm alle 16 e un temporale da 4,8 mm alle 17. A La Magdeleine piove dalle 16: rientrate per allora."},
   w:{i:"☀️",b:"Ad Antey asciutto fino alle 17",s:"Caldo a valle, 29°: i mulini stanno più freschi",t:"22°/29°",l:"Antey",c:"#6cc48a"},
   loc:[["antey",8,13],["magdal",13,17],["antey",17,22]],L0:"antey",
   p:["🚶 A piedi + 🚗 10 min","🛒 Balios + marsupio","🥪 Pranzo al sacco"],
@@ -405,7 +415,23 @@ const P=[
   {h:"20:00 · 22:00",x:"Cena in appartamento."}],
   box:[{t:"tip",h:"Perché questa",x:"È quella che ieri avevate come terza opzione. Il parco in mezza dose, e un posto nuovo a dieci minuti da casa."}]},
 
- {n:"Sentiero energia",t:"Il percorso dell'energia, da La Magdeleine",sub:"Giorno 6 · Camminata con i giochi",
+ {n:"Torgnon",t:"Torgnon: Petit Monde e Summer Park",sub:"Giorno 6 · Da valutare la mattina stessa",
+  risk:{l:"bad",t:"Asciutto fino alle 14, poi 3,1 mm alle 15 e un <b>temporale da 5,4 mm alle 16</b>. Petit Monde sono 40 minuti a piedi all'andata: se parte l'acquazzone mentre siete al villaggio, il rientro è tutto sotto la pioggia. Fattibile solo rientrando entro le 14:30."},
+  w:{i:"⛈️",b:"Temporale alle 16",s:"Mattina asciutta, pomeriggio compromesso",t:"17°/23°",l:"Torgnon",c:"#e07b6a"},
+  loc:[["antey",8,10],["torgnon",10,15],["antey",15,22]],L0:"torgnon",
+  p:["🚗 Auto · 15 min","🛒 Balios","🍽️ Pranzo a Chantorné"],
+  kit:["Impermeabili — oggi servono davvero","Pile","Scarpe comode","Borsa termica per la Fontina"],
+  s:[
+  {h:"08:30 – 09:00",x:"Sveglia e colazione <b>presto</b>: oggi l'orario non è elastico."},
+  {h:"09:15 · Partenza",x:"In auto per <b>Torgnon</b>, 15 minuti. Si parcheggia in centro paese.",k:1,g:"45.8397,7.5658",gn:"Torgnon centro"},
+  {h:"09:45 – 11:45",x:"<b>Petit Monde</b>: rascard in larice del 1463-1600, il mulino, la cascata. <b>40 minuti a piedi</b> dal centro su strada poderale, accessibile col passeggino.",k:1},
+  {h:"12:00 – 13:30",x:"<b>Pranzo a Chantorné</b> — La Montanara, self-service, o Des Troncs con la terrazza.",m:1},
+  {h:"13:30 – 14:30",x:"<b>Summer Park</b>, un'ora sola: tubing da 130 metri e torre con 29 giochi. <b>Alle 14:30 si smonta</b>, senza discussioni.",k:1},
+  {h:"14:45 – 15:15",x:"<b>Rientro ad Antey prima del temporale.</b>",k:1},
+  {h:"20:00 · 22:00",x:"Cena in appartamento."}],
+  box:[{t:"warn",h:"Il rischio, in chiaro",x:"È l'unica delle quattro con un <b>temporale certo nel pomeriggio</b>. Funziona solo se accettate una giornata compressa e il rientro alle 14:45. Se Bianca dorme male o partite tardi, cambiate variante."}]},
+
+ {n:"Sentiero energia",t:"Il percorso dell'energia, da La Magdeleine",sub:"Giorno 6 · Camminata con i giochi",risk:{l:"med",t:"Asciutto fino alle 15, poi pioggia. Il percorso è lungo e il rientro va calcolato: girate la boa entro le 13:30."},
   w:{i:"⛅",b:"Asciutto fino alle 15",s:"In quota si sta sui 16-22°, molto meglio dei 29° di valle",t:"16°/22°",l:"La Magdeleine",c:"#6cc48a"},
   loc:[["antey",8,10],["magdal",10,16],["antey",16,22]],L0:"magdal",
   p:["🚗 Auto · 10 min","🥾 Marsupio consigliato","🍽️ Pranzo al sacco o in baita"],
@@ -421,7 +447,27 @@ const P=[
    {t:"warn",h:"Da verificare",x:"Non ho conferma che il sentiero regga il passeggino: portate il marsupio. In estate c'è anche un servizio di bike-sharing lungo il percorso."}]}
  ]},
 
-{d:"2026-08-14",dow:"Ven",n:14,t:"Torgnon: Petit Monde e Summer Park",sub:"Giorno 7 · Sostituisce il Forte di Bard",loc:[["antey",8,10],["torgnon",10,15],["antey",15,22]],L0:"torgnon",
+{d:"2026-08-14",dow:"Ven",n:14,t:"Ultimo giorno pieno",sub:"Giorno 7",
+ alts:[
+ {n:"Parco avventura",t:"Parco Avventura e valigie",sub:"Giorno 7 · La mattina è pulita",
+  risk:{l:"ok",t:"Ad Antey <b>zero millimetri dalle 9 alle 14</b>. Dalle 15 piove leggero, 2,4 mm in cinque ore — ma a quell'ora siete al chiuso a fare le valigie. È l'opzione senza rischi."},
+  w:{i:"⛅",b:"Mattina asciutta, pioggia dalle 15",s:"2,4 mm distribuiti nel pomeriggio: pioggia leggera, non rovesci",t:"21°/28°",l:"Antey",c:"#6cc48a"},
+  loc:[["antey",8,22]],L0:"antey",
+  p:["🚶 A piedi","🛒 Balios","🥪 Pranzo al sacco"],
+  kit:["Scarpe chiuse e pantaloni lunghi per Gabriele","Cambio completo","Borsa frigo e telo","K-way per il rientro"],
+  s:[
+  {h:"08:30 – 09:20",x:"Sveglia e colazione, sacco del pranzo pronto."},
+  {h:"09:30 · Partenza",x:"A piedi all'<b>Area Sportiva di Antey</b>, 20 minuti lungo il fiume.",k:1,g:"45.8064,7.5867",gn:"Area Sportiva Antey"},
+  {h:"10:00 – 13:00",x:"<b>Parco Avventura</b>, tre ore piene nella finestra asciutta. Gabriele sui percorsi verdi e blu, l'altro adulto all'ombra con Bianca.",k:1},
+  {h:"13:00 – 14:00",x:"<b>Pranzo al sacco</b> all'area picnic.",m:1},
+  {h:"14:00 – 15:00",x:"Rientro con calma: da qui comincia a piovere, ma piano."},
+  {h:"15:30 – 19:00",x:"<b>Valigie e carico auto</b>: smontate le ruote del Balios, o domani non si parte alle 11:30.",k:1},
+  {h:"20:00 · 22:00",x:"Ultima cena in appartamento, svuota-frigo."}],
+  box:[{t:"tip",h:"Perché è la scelta prudente",x:"L'unica giornata in cui la pioggia del pomeriggio non vi costa niente, perché il pomeriggio serve comunque per le valigie."}]},
+
+ {n:"Torgnon",t:"Torgnon: Petit Monde e Summer Park",sub:"Giorno 7 · Sostituisce il Forte di Bard",
+  risk:{l:"bad",t:"A Torgnon comincia a gocciolare <b>già da mezzogiorno</b> e la giornata chiude con <b>6,9 mm</b>, il picco di 3,4 alle 17. Petit Monde sono 40 minuti a piedi all'andata: partireste col cielo che si chiude. E il pomeriggio vi serve per le valigie."},
+  loc:[["antey",8,10],["torgnon",10,15],["antey",15,22]],L0:"torgnon",
  w:{i:"⛅",b:"Mattina asciutta",s:"0,7 mm, ma solo dalle 15 in poi: rientro prima e non vi tocca",t:"18°/24°",l:"Torgnon",c:"#6cc48a"},
  p:["🚗 Auto · 15 min","🛒 Balios","🍽️ Pranzo a Chantorné"],
  kit:["Pile e giacca antivento","Scarpe comode","Cappellini e crema","Cambio per Gabriele: il tubing è su tappeto, ma si rotola","Borsa termica per la Fontina"],
@@ -436,7 +482,8 @@ const P=[
  {h:"15:00 – 15:30",x:"<b>Rientro ad Antey</b>: da qui in poi comincia a piovere, e voi avete le valigie da fare."},
  {h:"17:00 – 19:00",x:"<b>Valigie e carico auto</b>: smontate le ruote del Balios stasera, o domani non si parte alle 11:30.",k:1},
  {h:"20:00 · 22:00",x:"Ultima cena in appartamento, svuota-frigo."}],
- box:[{t:"tip",h:"Perché non più il Forte di Bard",x:"Era stato scelto per una pioggia che non ci sarà: a Bard venerdì è asciutto. E <b>Le Alpi dei Ragazzi</b> è tarato sulla primaria dalla terza in su — a 6 anni Gabriele ci sarebbe stato sotto. <b>Ricordatevi di disdire</b> allo 0125 833818."}]},
+ box:[{t:"tip",h:"Perché non più il Forte di Bard",x:"Era stato scelto per una pioggia che non ci sarà: a Bard venerdì è asciutto. E <b>Le Alpi dei Ragazzi</b> è tarato sulla primaria dalla terza in su — a 6 anni Gabriele ci sarebbe stato sotto. <b>Ricordatevi di disdire</b> allo 0125 833818."}]}
+ ]},
 
 {d:"2026-08-15",dow:"Sab",n:15,t:"Saluti e partenza",sub:"Giorno 8 · Ferragosto",loc:[["antey",8,12],["milano",12,15]],L0:"antey",
  w:{i:"⛅",b:"0,5 mm fino alle 18",s:"La mattina regge: la passeggiata si può fare",t:"19°/27°",l:"Antey",c:"#e0a94a"},
@@ -682,10 +729,13 @@ function day(){
   el('#s-oggi').innerHTML=`
    <h2 class="dh">${d.t}</h2><div class="dsub">${d.sub}</div>
    ${D.alts?`<div class="alts">${D.alts.map((a,i)=>
-      `<button class="altb${i===altIdx(D)?' on':''}" data-a="${i}">${a.n}</button>`).join('')}</div>`:''}
+      `<button class="altb${i===altIdx(D)?' on':''}" data-a="${i}">${a.risk?`<i class="rdot r-${a.risk.l}"></i>`:''}${a.n}</button>`).join('')}</div>`:''}
    <div class="wx" style="--w:${d.w.c}"><span class="ic">${d.w.i}</span>
      <span class="t"><b>${d.w.b}</b><span>${d.w.s}</span></span>
      <span class="tp">${d.w.t}<small>${d.w.l}</small></span></div>
+   ${d.risk?`<div class="rbox r-${d.risk.l}">
+       <div class="rh">${d.risk.l==='ok'?'Scelta sicura':(d.risk.l==='med'?'Rischio da gestire':'A rischio')}</div>
+       <p>${d.risk.t}</p></div>`:''}
    ${(()=>{
      if(!d.loc||!Object.keys(WX).length) return '';
      const righe=d.loc.map(([k,da,a])=>{
@@ -1118,7 +1168,7 @@ el('#s-info').innerHTML=`<h3 class="blk">Da prenotare</h3>
  <h3 class="blk">Come funziona il programma</h3>
  <div class="box"><h4>Le regole che lo tengono in piedi</h4><p>Uscita mai prima delle <b>9:30</b> · tutti a nanna alle <b>22:00</b> · massimo <b>1h30 a tavola</b>, pranzi e cene · un solo pasto fuori al giorno, quasi sempre a pranzo · le cene fuori solo in locali a meno di 5 minuti da casa.</p></div>
  <div class="box"><h4>Versione dell'app</h4>
-   <p>Stai usando la <b id="appver">v30</b> — <span id="verwhat">tre opzioni di montagna per giovedì</span>.<br>
+   <p>Stai usando la <b id="appver">v31</b> — <span id="verwhat">opzioni con livello di rischio meteo</span>.<br>
    Se una novità non compare, l'app sta ancora mostrando la copia salvata sul telefono: premi qui sotto.</p>
    <div class="card cact" style="background:none;padding:0;margin-top:10px">
      <a id="forceupd" href="#" style="border-color:var(--ac);color:var(--ac)">Scarica l'ultima versione</a>
