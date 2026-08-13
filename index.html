@@ -113,6 +113,7 @@ h2.dh{font-size:22px;line-height:1.15;letter-spacing:-.02em;margin:2px 0 3px}
 .wtag{display:inline-block;margin-left:7px;font-size:10px;font-weight:600;letter-spacing:0;
  text-transform:none;background:var(--card2);color:var(--tx3);border-radius:5px;padding:2px 6px;vertical-align:1px}
 .wtag.wet{color:var(--am)}
+.wtag.lite{border:1px dashed var(--am)}
 .pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
 .pill{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:12px;color:var(--tx2)}
 .pill b{color:var(--tx);font-weight:600}
@@ -734,6 +735,17 @@ function day(){
    <div class="wx" style="--w:${d.w.c}"><span class="ic">${d.w.i}</span>
      <span class="t"><b>${d.w.b}</b><span>${d.w.s}</span></span>
      <span class="tp">${d.w.t}<small>${d.w.l}</small></span></div>
+   ${(()=>{
+     if(!d.loc||!Object.keys(WX).length) return '';
+     const contese=d.loc.filter(([k,da,a])=>{const f=fascia(k,d.d,da,a); return f&&f.lite;});
+     if(!contese.length) return '';
+     const dove=contese.map(([k])=>(LUOGHI[k]||{}).n).join(', ');
+     const peggio=Math.max(...contese.map(([k,da,a])=>(fascia(k,d.d,da,a)||{}).mmMax||0));
+     return `<div class="rbox r-med"><div class="rh">I modelli non sono d'accordo</div>
+      <p>Su <b>${dove}</b> le previsioni divergono: la mediana dice poco o niente, ma qualche modello
+      arriva a <b>${peggio.toFixed(1).replace('.',',')} mm</b>. In montagna capita quando un modello ad alta
+      risoluzione piazza un temporale in un punto preciso. Tenete d'occhio il cielo, non il numero.</p></div>`;
+   })()}
    ${d.risk?`<div class="rbox r-${d.risk.l}">
        <div class="rh">${d.risk.l==='ok'?'Scelta sicura':(d.risk.l==='med'?'Rischio da gestire':'A rischio')}</div>
        <p>${d.risk.t}</p></div>`:''}
@@ -743,9 +755,10 @@ function day(){
        const f=fascia(k,d.d,da,a); if(!f) return '';
        const ic = f.mm>=1?'🌧️' : (f.piove.length?'🌦️' : (f.tmax>=28?'☀️':'⛅'));
        const col = f.mm>=1?'var(--rd)' : (f.piove.length?'var(--am)':'var(--gr)');
-       const q = f.piove.length
+       const q = (f.piove.length
           ? `${f.mm.toFixed(1).replace('.',',')} mm · piove alle ${f.piove.slice(0,3).join(', ')}`
-          : 'asciutto';
+          : 'asciutto')
+          + (f.lite ? ' · modelli discordi' : '');
        return `<div class="lrow" style="--lc:${col}">
          <span class="li">${ic}</span>
          <span class="ln"><b>${(LUOGHI[k]||{}).n||k}</b><span>${String(da).padStart(2,'0')}–${String(a).padStart(2,'0')} · ${q}</span></span>
@@ -775,7 +788,7 @@ function day(){
          const fa=d.loc.find(([k,da,a])=>h0>=da && h0<a);
          if(fa){
            const f=fascia(fa[0],d.d,h0,Math.min(h0+2,fa[2]));
-           if(f) wxtag=`<span class="wtag${f.piove.length?' wet':''}">${(LUOGHI[fa[0]]||{}).n} · ${Math.round(f.tmax)}° · ${f.piove.length?f.mm.toFixed(1).replace('.',',')+' mm':'asciutto'}</span>`;
+           if(f) wxtag=`<span class="wtag${f.piove.length?' wet':''}${f.lite?' lite':''}">${(LUOGHI[fa[0]]||{}).n} · ${Math.round(f.tmax)}° · ${f.piove.length?f.mm.toFixed(1).replace('.',',')+' mm':'asciutto'}${f.lite?' ?':''}</span>`;
          }
        }
        return `<div class="step${s.k?' key':''}${s.m?' meal':''}"><span class="dot"></span><span class="sb">
@@ -843,13 +856,24 @@ function wxColor(mm,pr){
  return "var(--gr)";
 }
 
+// Cinque modelli invece di uno: quello automatico, sulle Alpi, sceglie ICON-D2,
+// che risolve i singoli temporali e a volte li sovrastima di dieci volte.
+const MODELLI=["ecmwf_ifs025","icon_eu","icon_d2","arome_france_hd","gfs_seamless"];
 const WXURL=(()=>{
  const la=LKEYS.map(k=>LUOGHI[k].c[0]).join(','), lo=LKEYS.map(k=>LUOGHI[k].c[1]).join(',');
  return `https://api.open-meteo.com/v1/forecast?latitude=${la}&longitude=${lo}`
-  +`&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max`
-  +`&hourly=precipitation,precipitation_probability,temperature_2m`
+  +`&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum`
+  +`&hourly=precipitation,temperature_2m`
+  +`&models=${MODELLI.join(',')}`
   +`&timezone=Europe%2FRome&start_date=2026-08-08&end_date=2026-08-15`;
 })();
+
+function mediana(v){
+ const a=v.filter(x=>x!==null&&x!==undefined).sort((x,y)=>x-y);
+ if(!a.length) return null;
+ const m=Math.floor(a.length/2);
+ return a.length%2 ? a[m] : (a[m-1]+a[m])/2;
+}
 
 // dalle ore 7 alle 22: quando piove davvero
 function hourly(loc,date){
@@ -881,10 +905,20 @@ function indicizza(data){
    const loc=arr[i]; if(!loc) return;
    WX[k]={};
    if(loc.hourly){
-     loc.hourly.time.forEach((t,j)=>{
+     const H=loc.hourly;
+     const campiMM=MODELLI.map(m=>`precipitation_${m}`).filter(c=>H[c]);
+     const campiT =MODELLI.map(m=>`temperature_2m_${m}`).filter(c=>H[c]);
+     H.time.forEach((t,j)=>{
        const g=t.slice(0,10), h=+t.slice(11,13);
-       (WX[k][g] = WX[k][g] || {ore:{}}).ore[h] =
-         {mm: loc.hourly.precipitation[j]||0, t: loc.hourly.temperature_2m[j]};
+       const vals=campiMM.map(c=>H[c][j]).filter(x=>x!==null&&x!==undefined);
+       const mm=mediana(vals)||0;
+       const max=vals.length?Math.max(...vals):0;
+       (WX[k][g] = WX[k][g] || {ore:{}}).ore[h] = {
+         mm: mm, t: mediana(campiT.map(c=>H[c][j])),
+         max: max, n: vals.length,
+         // disaccordo: qualche modello vede pioggia seria dove la mediana non la vede
+         lite: (max>=2 && mm<max/3)
+       };
      });
    }
    if(loc.daily){
@@ -910,7 +944,9 @@ function fascia(luogo,data,da,a){
    if(o.t<tmin) tmin=o.t; if(o.t>tmax) tmax=o.t;
  }
  if(!ore) return null;
- return {mm:mm, tmin:tmin, tmax:tmax, piove:piove,
+ let lite=false, mmMax=0;
+ for(let h=da; h<a; h++){ const o=g.ore[h]; if(o){ if(o.lite) lite=true; mmMax+=o.max||0; } }
+ return {mm:mm, tmin:tmin, tmax:tmax, piove:piove, lite:lite, mmMax:mmMax,
          asciutto:piove.length===0, da:da, a:a};
 }
 
@@ -925,12 +961,14 @@ function applyWx(data,when){
    const d = D.alts ? D.alts[altIdx(D)] : D;
    const li = LKEYS.indexOf(d.L0||'antey');
    const loc = arr[li>=0?li:0]; if(!loc||!loc.daily) return;
-   const k = loc.daily.time.indexOf(D.d); if(k<0) return;
-   const w = wmo(loc.daily.weather_code[k]);
-   const mx = Math.round(loc.daily.temperature_2m_max[k]);
-   const mn = Math.round(loc.daily.temperature_2m_min[k]);
-   const mm = loc.daily.precipitation_sum[k];
-   const pr = loc.daily.precipitation_probability_max[k];
+   const gg = (WX[d.L0||'antey']||{})[D.d];
+   if(!gg||!gg.ore) return;
+   const ore=Object.values(gg.ore);
+   const mm = ore.reduce((a,o)=>a+o.mm,0);
+   const temps = ore.map(o=>o.t).filter(x=>x!==null);
+   const mx = Math.round(Math.max(...temps)), mn = Math.round(Math.min(...temps));
+   const w = mm>=5?wmo(80):(mm>=1?wmo(51):(mm>=0.2?wmo(2):wmo(1)));
+   const pr = Math.round(100*ore.filter(o=>o.mm>=0.2).length/ore.length);
    d.w = {i:w.i, b:`${w.b}, ${mm.toFixed(1).replace('.',',')} mm`,
           s:`Probabilità di pioggia ${pr}%`,
           t:`${mn}°/${mx}°`, l:(LUOGHI[d.L0]||{}).n||'Antey', c:wxColor(mm,pr)};
@@ -959,8 +997,10 @@ function renderMeteo(){
    <p>${fresh}. L'app le riscarica da sola a ogni apertura con rete, per la località dove siete quel giorno — non per il fondovalle.</p>
    <div style="margin-top:10px"><button class="mapbtn" id="wxnow">${MAPSVG} Aggiorna adesso</button></div></div>
   <div class="box kit"><h4>A quale posto si riferisce</h4><p>Ogni riga qui sopra è la <b>località principale di quel giorno</b>, non il fondovalle: Chamois domenica, Valsavarenche lunedì, il Lago Blu martedì, Torgnon venerdì. Nella scheda del giorno trovi il dettaglio <b>per singola tappa e fascia oraria</b>, che è quello che serve per decidere.</p></div>
+  <div class="box"><h4>Come sono calcolati</h4>
+   <p>Ogni valore è la <b>mediana di cinque modelli</b>: ECMWF, ICON-EU, ICON-D2, AROME France e GFS. Non è pignoleria: il 14 agosto, per Torgnon, ICON-D2 da solo prevedeva <b>22,7 mm in un'ora</b> mentre AROME e MeteoFrance ne davano <b>zero</b> — e l'impostazione automatica di open-meteo, sulle Alpi, sceglie proprio ICON-D2. Quando i modelli litigano ora ve lo diciamo, invece di nascondere l'incertezza dietro una cifra sola.</p></div>
   <div class="box"><h4>Verifica su un'altra fonte</h4>
-   <p>Questi numeri vengono dal modello <b>best-match</b> di open-meteo. Sull'entità della pioggia i modelli divergono parecchio: per domenica a Chamois vanno da 1,4 mm (ECMWF) a 14,1 mm (GFS). Sulla <b>collocazione oraria</b> invece concordano, ed è quella che decide se la gita si fa. Confrontate con 3B Meteo quando qualcosa non torna.</p>
+   <p>Il confronto con 3B Meteo resta utile. Sull'entità della pioggia i modelli divergono parecchio: per domenica a Chamois vanno da 1,4 mm (ECMWF) a 14,1 mm (GFS). Sulla <b>collocazione oraria</b> invece concordano, ed è quella che decide se la gita si fa. Confrontate con 3B Meteo quando qualcosa non torna.</p>
    <div class="mlinks" style="margin-top:10px">
      ${P.map((d,i)=>`<a class="b" href="https://www.3bmeteo.com/meteo/${WX3B[i]}" target="_blank" rel="noopener">${d.dow} ${d.n} · ${(LUOGHI[d.L0]||{}).n||"Antey"}</a>`).join('')}
    </div></div>
@@ -1169,7 +1209,7 @@ el('#s-info').innerHTML=`<h3 class="blk">Da prenotare</h3>
  <h3 class="blk">Come funziona il programma</h3>
  <div class="box"><h4>Le regole che lo tengono in piedi</h4><p>Uscita mai prima delle <b>9:30</b> · tutti a nanna alle <b>22:00</b> · massimo <b>1h30 a tavola</b>, pranzi e cene · un solo pasto fuori al giorno, quasi sempre a pranzo · le cene fuori solo in locali a meno di 5 minuti da casa.</p></div>
  <div class="box"><h4>Versione dell'app</h4>
-   <p>Stai usando la <b id="appver">v32</b> — <span id="verwhat">opzioni con livello di rischio meteo</span>.<br>
+   <p>Stai usando la <b id="appver">v33</b> — <span id="verwhat">meteo sulla mediana di cinque modelli</span>.<br>
    Se una novità non compare, l'app sta ancora mostrando la copia salvata sul telefono: premi qui sotto.</p>
    <div class="card cact" style="background:none;padding:0;margin-top:10px">
      <a id="forceupd" href="#" style="border-color:var(--ac);color:var(--ac)">Scarica l'ultima versione</a>
