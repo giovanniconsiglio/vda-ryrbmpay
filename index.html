@@ -862,7 +862,6 @@ const MODELLI=["ecmwf_ifs025","icon_eu","icon_d2","arome_france_hd","gfs_seamles
 const WXURL=(()=>{
  const la=LKEYS.map(k=>LUOGHI[k].c[0]).join(','), lo=LKEYS.map(k=>LUOGHI[k].c[1]).join(',');
  return `https://api.open-meteo.com/v1/forecast?latitude=${la}&longitude=${lo}`
-  +`&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum`
   +`&hourly=precipitation,temperature_2m`
   +`&models=${MODELLI.join(',')}`
   +`&timezone=Europe%2FRome&start_date=2026-08-08&end_date=2026-08-15`;
@@ -921,15 +920,8 @@ function indicizza(data){
        };
      });
    }
-   if(loc.daily){
-     loc.daily.time.forEach((g,j)=>{
-       WX[k][g]=WX[k][g]||{ore:{}};
-       WX[k][g].code=loc.daily.weather_code[j];
-       WX[k][g].max=loc.daily.temperature_2m_max[j];
-       WX[k][g].min=loc.daily.temperature_2m_min[j];
-       WX[k][g].mm=loc.daily.precipitation_sum[j];
-     });
-   }
+   // niente blocco "daily": con più modelli i campi prendono il suffisso
+   // del modello e il riepilogo si ricava comunque dalle ore.
  });
 }
 
@@ -960,7 +952,7 @@ function applyWx(data,when){
  P.forEach((D,i)=>{
    const d = D.alts ? D.alts[altIdx(D)] : D;
    const li = LKEYS.indexOf(d.L0||'antey');
-   const loc = arr[li>=0?li:0]; if(!loc||!loc.daily) return;
+   const loc = arr[li>=0?li:0]; if(!loc) return;
    const gg = (WX[d.L0||'antey']||{})[D.d];
    if(!gg||!gg.ore) return;
    const ore=Object.values(gg.ore);
@@ -1209,7 +1201,7 @@ el('#s-info').innerHTML=`<h3 class="blk">Da prenotare</h3>
  <h3 class="blk">Come funziona il programma</h3>
  <div class="box"><h4>Le regole che lo tengono in piedi</h4><p>Uscita mai prima delle <b>9:30</b> · tutti a nanna alle <b>22:00</b> · massimo <b>1h30 a tavola</b>, pranzi e cene · un solo pasto fuori al giorno, quasi sempre a pranzo · le cene fuori solo in locali a meno di 5 minuti da casa.</p></div>
  <div class="box"><h4>Versione dell'app</h4>
-   <p>Stai usando la <b id="appver">v33</b> — <span id="verwhat">meteo sulla mediana di cinque modelli</span>.<br>
+   <p>Stai usando la <b id="appver">v34</b> — <span id="verwhat">meteo sulla mediana di cinque modelli</span>.<br>
    Se una novità non compare, l'app sta ancora mostrando la copia salvata sul telefono: premi qui sotto.</p>
    <div class="card cact" style="background:none;padding:0;margin-top:10px">
      <a id="forceupd" href="#" style="border-color:var(--ac);color:var(--ac)">Scarica l'ultima versione</a>
