@@ -487,16 +487,23 @@ const P=[
  box:[{t:"tip",h:"Perché non più il Forte di Bard",x:"Era stato scelto per una pioggia che non ci sarà: a Bard venerdì è asciutto. E <b>Le Alpi dei Ragazzi</b> è tarato sulla primaria dalla terza in su — a 6 anni Gabriele ci sarebbe stato sotto. <b>Ricordatevi di disdire</b> allo 0125 833818."}]}
  ]},
 
-{d:"2026-08-15",dow:"Sab",n:15,t:"Saluti e partenza",sub:"Giorno 8 · Ferragosto",loc:[["antey",8,12],["milano",12,15]],L0:"antey",
- w:{i:"⛅",b:"0,5 mm fino alle 18",s:"La mattina regge: la passeggiata si può fare",t:"19°/27°",l:"Antey",c:"#e0a94a"},
- p:["🚗 Auto · 2h15","🛒 Balios smontato","🥪 Pranzo al sacco"],
- kit:["Impermeabili a portata","Snack e acqua per il viaggio","Caricabatterie in abitacolo"],
+{d:"2026-08-15",dow:"Sab",n:15,t:"Rientro, con sosta a Bard",sub:"Giorno 8 · Ferragosto",
+ w:{i:"⛅",b:"Asciutto per tutto il viaggio",s:"Nessuna pioggia fino alle 17: la strada è pulita",t:"21°/31°",l:"lungo il percorso",c:"#6cc48a"},
+ loc:[["antey",8,12],["bard",12,14],["milano",14,17]],L0:"bard",
+ p:["🚗 Auto · 185 km · 2h15 + sosta","🛒 Balios smontato","🍽️ Pranzo a Bard"],
+ kit:["Snack e acqua per il viaggio","Caricabatterie in abitacolo","Qualcosa da fare per Gabriele in auto","Contanti per il pranzo"],
  s:[
  {h:"08:30 – 09:30",x:"Sveglia, colazione di Ferragosto, ultimi bagagli."},
- {h:"09:30 – 10:30",x:"Ultima passeggiata tra le frazioni di <b>Lillaz e Nuarsaz</b>, <b>circa un'ora</b> fra vecchie case in pietra e fontane. Il meteo del mattino regge."},
- {h:"10:30 – 11:30",x:"Carico auto, saluti, check-out."},
- {h:"11:30 – 12:00",x:"<b>Partenza.</b> Anticipata per stare davanti al traffico di rientro di Ferragosto.",k:1},
- {h:"~14:15",x:"Arrivo a Milano. Pranzo al sacco lungo il percorso.",m:1}]}
+ {h:"09:30 – 10:30",x:"Ultima passeggiata tra le frazioni di <b>Lillaz e Nuarsaz</b>, circa un'ora fra case in pietra e fontane. Stamattina è asciutto: si può fare con calma."},
+ {h:"10:30 – 11:30",x:"Carico auto, saluti e check-out. <i>Le ruote del Balios le avete già smontate ieri sera.</i>"},
+ {h:"11:30 · Partenza",x:"Antey → Châtillon → A5. <b>45 minuti</b> fino all'uscita di Verrès.",k:1},
+ {h:"12:15 – 14:00",x:"<b>Sosta pranzo a Bard.</b> Ci si ferma al parcheggio del Forte e si mangia nel borgo.<br><b>Casa Ciuca</b>, enoteca con cucina, 4,8 su 1.111 recensioni — <a class='tel' href='tel:+390125803382'>☎ 0125 803382</a> o <a class='tel' href='tel:+393334446006'>333 444 6006</a>.<br>Oppure <b>Del Mulino</b> a Hône, 4,8 su 749, con terrazza vista fortezza e parcheggio proprio.",m:1,k:1,g:"45.6053,7.7458",gn:"Bard"},
+ {h:"14:00 – 14:30",x:"<i>Se avanza voglia:</i> il <b>borgo medievale</b> è una sola via lastricata di case del Quattrocento, si percorre in mezz'ora. Il Forte lo vedete dal basso, senza entrare."},
+ {h:"14:30 · Ripartenza",x:"Bard → Milano, <b>circa due ore</b> per l'A5 e poi la A4.",k:1},
+ {h:"~16:30",x:"Arrivo a Milano. <b>A Milano ci sono 35°</b>: dopo una settimana a 20, il rientro si sente."}],
+ box:[{t:"warn",h:"Prenotate oggi",x:"Domani è <b>Ferragosto</b>: alle 12:30 in un borgo turistico senza tavolo prenotato si mangia dove capita, o non si mangia. Una telefonata adesso risolve."},
+  {t:"tip",h:"Perché fermarsi proprio a Bard",x:"È l'unico posto sulla strada del rientro — a est di Châtillon, cioè nella direzione in cui state già andando. Aosta sarebbe stata dalla parte opposta: 70 km e un'ora in più."}]}
+
 ];
 
 const WEEK=[
@@ -831,6 +838,7 @@ const LUOGHI={
  ayas:   {n:"Champoluc",        c:[45.832,7.727]},
  cheneil:{n:"Cheneil",          c:[45.902,7.610]},
  magdal: {n:"La Magdeleine",    c:[45.850,7.590]},
+ bard:   {n:"Bard",             c:[45.605,7.746]},
  milano: {n:"verso Milano",    c:[45.600,7.750]}
 };
 const LKEYS=Object.keys(LUOGHI);
@@ -1201,7 +1209,7 @@ el('#s-info').innerHTML=`<h3 class="blk">Da prenotare</h3>
  <h3 class="blk">Come funziona il programma</h3>
  <div class="box"><h4>Le regole che lo tengono in piedi</h4><p>Uscita mai prima delle <b>9:30</b> · tutti a nanna alle <b>22:00</b> · massimo <b>1h30 a tavola</b>, pranzi e cene · un solo pasto fuori al giorno, quasi sempre a pranzo · le cene fuori solo in locali a meno di 5 minuti da casa.</p></div>
  <div class="box"><h4>Versione dell'app</h4>
-   <p>Stai usando la <b id="appver">v34</b> — <span id="verwhat">meteo sulla mediana di cinque modelli</span>.<br>
+   <p>Stai usando la <b id="appver">v35</b> — <span id="verwhat">sabato con la sosta a Bard</span>.<br>
    Se una novità non compare, l'app sta ancora mostrando la copia salvata sul telefono: premi qui sotto.</p>
    <div class="card cact" style="background:none;padding:0;margin-top:10px">
      <a id="forceupd" href="#" style="border-color:var(--ac);color:var(--ac)">Scarica l'ultima versione</a>
