@@ -1,4 +1,4 @@
-const CACHE = 'vda-v36';
+const CACHE = 'vda-v37';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {

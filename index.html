@@ -581,7 +581,21 @@ const TAVOLA=[
   {n:"Des Troncs",t:"Con la terrazza",q:"Des Troncs Torgnon ristorante Chantorné",
    x:"Sempre a Chantorné, cucina casalinga e una <b>grande terrazza</b>: la scelta se volete sedervi al sole prima che il cielo si chiuda alle 15."},
   {n:"Les Montagnards",t:"La più caratteristica",q:"Les Montagnards Torgnon baita ristorante",
-   x:"Storica baita alpina: bourguignonne, pierrade e raclette, cioè piatti da tavolata lunga. Bella ma lenta — tenetela solo se rinunciate al Summer Park."}]}
+   x:"Storica baita alpina: bourguignonne, pierrade e raclette, cioè piatti da tavolata lunga. Bella ma lenta — tenetela solo se rinunciate al Summer Park."}]},
+
+ {d:"Sabato 15",m:"Pranzo",z:"Bard, sulla via di casa · 12:45",o:[
+  {n:"Casa Ciuca",t:"La scelta",r:"4.8",rn:"1.111 Google",tel:"+390125803382",
+   ta:"https://www.tripadvisor.com/Restaurant_Review-g1162417-d7002089-Reviews-Casa_Ciuca-Bard_Valle_d_Aosta.html",
+   tar:"4,1",q:"Casa Ciuca Bard enoteca",g:"45.6053,7.7458",
+   x:"Enoteca con cucina in via Vittorio Emanuele 24, dentro il borgo medievale e a pochi passi dal parcheggio del Forte. Menu stagionale e volutamente corto, 20-40 euro. Da fuori sembra minuscola, dentro i posti non mancano.",
+   w:"Terza di nove a Bard su TripAdvisor. Prenotate: domani è Ferragosto"},
+  {n:"Del Mulino",t:"Con i bambini",r:"4.8",rn:"749 Google",
+   ta:"https://www.tripadvisor.com/Restaurant_Review-g2046571-d4101701-Reviews-Ristorante_Pizzeria_del_Mulino-Hone_Valle_d_Aosta.html",
+   tar:"4,0",q:"Ristorante Pizzeria del Mulino Hone",g:"45.6100,7.7420",
+   x:"A Hône, <b>cinque minuti a piedi dal Forte attraverso il ponte romano</b>. Forno a legna, 75 coperti più 30 all'aperto, grande terrazza — e una <b>sala giochi</b>, che con Gabriele dopo due ore di auto vale più di una stella.",
+   w:"Ha anche il parcheggio proprio, se preferite non lasciare l'auto al Forte"},
+  {n:"Al sacco",t:"Senza vincoli",q:"area picnic Bard Hone Valle d'Aosta",
+   x:"Domani è asciutto ovunque: un panino comprato prima di partire e un'area verde risolvono senza prenotazioni e senza attese di Ferragosto. La soluzione se volete arrivare a casa presto."}]}
 ];
 
 const BOOK=[
@@ -1058,7 +1072,7 @@ el('#s-tavola').innerHTML=`<h3 class="blk">Dove mangiare — tre scelte per past
        ${o.tel?`<a class="g" href="tel:${o.tel}">${TELSVG} Chiama</a>`:''}
        <a class="b" href="${o.g?gmap(o.g,o.n):gsearch(o.q)}" target="_blank" rel="noopener">${NAVSVG} Naviga</a>
        <a href="${gsearch(o.q)}" target="_blank" rel="noopener">${TA_SVG} Recensioni Google</a>
-       <a href="${tasearch(o.q)}" target="_blank" rel="noopener">${TA_SVG} TripAdvisor</a>
+       <a href="${o.ta||tasearch(o.q)}" target="_blank" rel="noopener">${TA_SVG} TripAdvisor${o.tar?' '+o.tar:''}</a>
      </div>
    </div>`).join('')}
  `).join('')}
@@ -1210,7 +1224,7 @@ el('#s-info').innerHTML=`<h3 class="blk">Da prenotare</h3>
  <h3 class="blk">Come funziona il programma</h3>
  <div class="box"><h4>Le regole che lo tengono in piedi</h4><p>Uscita mai prima delle <b>9:30</b> · tutti a nanna alle <b>22:00</b> · massimo <b>1h30 a tavola</b>, pranzi e cene · un solo pasto fuori al giorno, quasi sempre a pranzo · le cene fuori solo in locali a meno di 5 minuti da casa.</p></div>
  <div class="box"><h4>Versione dell'app</h4>
-   <p>Stai usando la <b id="appver">v36</b> — <span id="verwhat">sabato con Lago di Villa e Bard</span>.<br>
+   <p>Stai usando la <b id="appver">v37</b> — <span id="verwhat">ristoranti di sabato con i link TripAdvisor</span>.<br>
    Se una novità non compare, l'app sta ancora mostrando la copia salvata sul telefono: premi qui sotto.</p>
    <div class="card cact" style="background:none;padding:0;margin-top:10px">
      <a id="forceupd" href="#" style="border-color:var(--ac);color:var(--ac)">Scarica l'ultima versione</a>
